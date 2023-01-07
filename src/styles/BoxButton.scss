@@ -1,0 +1,54 @@
+@import '../App.scss';
+
+.container__box {
+    width: 160px;
+    height: 160px;
+    background: $primary-color;
+    padding: 1rem 0;
+
+    border-radius: 0.5rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    cursor: pointer;
+
+    &:hover {
+        animation-name: shake;
+        animation-duration: 1s;
+    }
+
+    img {
+        width: 48px;
+        height: 48px;
+    }
+
+    img.svg {
+        background: #fff;
+        border-radius: 0.25rem;
+    }
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(0.5rem);
+    }
+
+    50% {
+        transform: translateX(0);
+    }
+
+    75% {
+        transform: translateX(0.5rem);
+    }
+
+    100% {
+        transform: translateX(0)
+    }
+}

@@ -1,0 +1,67 @@
+$box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+$layout-breakpoint-medium: 850px;
+$primary-color: #333A56;
+
+.App {
+    height: 100%;
+    width: 100%;
+
+    section {
+        width: 100%;
+        margin-top: 3rem;
+
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.container_select {
+    position: relative;
+
+    .select__box {
+        padding: 12px 14px;
+        border: 1px solid $primary-color;
+        border-radius: 4px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        cursor: pointer;
+
+        transition: all .3s ease;
+
+        &:hover {
+            border: 2px solid $primary-color;
+            padding: 11px 13px;
+        }
+    }
+
+    .select__options {
+        position: absolute;
+        top: 2.5rem;
+        left: 2px;
+        background-color: $primary-color;
+        padding: 12px 0;
+        width: 104px;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 8px;
+        box-shadow: $box-shadow;
+        z-index: 99;
+
+        li {
+            color: #fff;
+            cursor: pointer;
+            padding: 0.3rem 1.2rem;
+
+            &:hover {
+                background: #fff;
+                color: $primary-color;
+            }
+        }
+    }
+}
+

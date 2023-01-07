@@ -1,0 +1,22 @@
+* {
+    padding: 0;
+    margin: 0;
+
+    box-sizing: border-box;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: #333A56;
+}
+
+html,
+body {
+    height: 100vh;
+    width: 100vw;
+
+    overflow-x: hidden;
+}
+
+ul {
+    list-style-type: none;
+}
