@@ -1,28 +1,45 @@
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { BiDotsVerticalRounded, BiEdit, BiLogOut, BiX, BiArrowBack } from "react-icons/bi";
 
 import { Select } from '../ui/index';
 
+import { routes as navBar } from '../services/routes';
+
 import '../styles/Header.scss';
 
-function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [pageTitle, setPageTitle] = useState('Tela Inicial');
+type HeaderProps = {
+  pageTitle: string;
+  setPageTitle: (string: string) => void;
+}
 
-  const navBar = ['Tela Inicial', 'Planilhas', 'Folhas de Ponto', 'Calendário Letivo', 'Configurações'];
-  const navBarElements = navBar.map(title => (
-    <li
-      key={title}
-      onClick={() => handlePageNavigation(title)}
-      className={pageTitle == title ? 'selected' : ''}
-    >
-      {pageTitle == title ?
-        <strong>{title.toUpperCase()}</strong> :
-        <span>{title.toUpperCase()}</span>
-      }
-      <div className='highlight'></div>
-    </li>
-  ));
+function Header({ pageTitle, setPageTitle }: HeaderProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const navigation = useNavigate();
+
+  const navBarElements = navBar.map(route => {
+    if (!route.navbar) return;
+
+    return (
+      <li
+        key={route.path}
+        onClick={() => handlePageNavigation(route.title)}
+        className={pageTitle == route.title ? 'selected' : ''}
+      >
+        {pageTitle == route.title ?
+          <strong>{route.title.toUpperCase()}</strong> :
+          <Link to={route.path}>
+            <span>
+              {route.title.toUpperCase()}
+            </span>
+          </Link>
+        }
+        <div className='highlight'></div>
+      </li>
+
+    );
+  })
 
   const bottomMenuOptions = [
     {
@@ -53,6 +70,10 @@ function Header() {
     setPageTitle(pageTitle);
   }
 
+  function goBackNavigation() {
+    navigation(-1);
+  }
+
   return (
     <div className="container_header">
       <div className="header__info">
@@ -66,8 +87,8 @@ function Header() {
         </div>
       </div>
       <nav className="header__nav">
-        {pageTitle != 'Tela Inicial' && (
-          <div className="header__go_back">
+        {pageTitle != 'tela inicial' && (
+          <div className="header__go_back" onClick={goBackNavigation}>
             <BiArrowBack fill="#fff" className='go_back__icon' />
             <span>Voltar</span>
           </div>
