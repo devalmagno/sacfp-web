@@ -1,8 +1,10 @@
-import React from 'react'
+import { Section } from "../components"
 
 function Settings() {
   return (
-    <div>Settings</div>
+    <Section>
+      <div>Settings</div>
+    </Section>
   )
 }
 

@@ -1,8 +1,10 @@
-import React from 'react'
+import { Section } from '../components'
 
 function Calendar() {
   return (
-    <div>Calendar</div>
+    <Section>
+      <div>Calendar</div>
+    </Section>
   )
 }
 

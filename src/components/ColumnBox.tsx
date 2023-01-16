@@ -14,6 +14,7 @@ function ColumnBox() {
 
     return (
       <BoxButton
+        key={box.path}
         title={title}
         icon={box.icon}
         background={background}
