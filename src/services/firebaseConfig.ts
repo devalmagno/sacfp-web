@@ -1,10 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from '@firebase/firestore';
-// import { config } from 'dotenv';
-// config();
 
 const firebaseConfig = {
-  apiKey: process.env.APIKEY,
+  apiKey: import.meta.env.APIKEY,
   authDomain: "folha-de-ponto-5d9d4.firebaseapp.com",
   projectId: "folha-de-ponto-5d9d4",
   storageBucket: "folha-de-ponto-5d9d4.appspot.com",
