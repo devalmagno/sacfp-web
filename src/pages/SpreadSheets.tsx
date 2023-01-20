@@ -1,12 +1,12 @@
 import { BiData, BiEdit } from 'react-icons/bi';
 
-import { Section } from '../components'
 import { BoxButton } from '../ui';
 
 import { routes } from '../services/routes';
 import { toCapitalize } from '../utils';
 
 import '../styles/ColumnBox.scss';
+import Search from '../ui/Search';
 
 function SpreadSheets() {
   const uploudData = () => {
@@ -18,14 +18,14 @@ function SpreadSheets() {
       icon: <BiData fill="#fff" size={48} />,
       background: '#333A56',
       color: '#fff',
-      func: uploudData,    
+      func: uploudData,
     },
     {
       title: routes[2].title,
       icon: routes[2].icon,
       background: '#fff',
       color: '#333A56',
-      path: routes[2].path,
+      path: `../${routes[2].path}`,
     }
   ];
 
@@ -44,11 +44,12 @@ function SpreadSheets() {
   });
 
   return (
-    <Section>
+    <section>
       <div className="container">
         {boxButtonsElements}
       </div>
-    </Section>
+      <Search />
+    </section>
   )
 }
 

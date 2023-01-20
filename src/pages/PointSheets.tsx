@@ -1,12 +1,8 @@
-import React from 'react'
-
-import { Section } from '../components'
-
 function PointSheets() {
   return (
-    <Section>
+    <section>
       <div>PointSheets</div>
-    </Section>
+    </section>
   )
 }
 

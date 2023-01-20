@@ -2,9 +2,9 @@ import { Section } from '../components'
 
 function Calendar() {
   return (
-    <Section>
+    <section>
       <div>Calendar</div>
-    </Section>
+    </section>
   )
 }
 

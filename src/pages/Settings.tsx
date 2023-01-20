@@ -1,10 +1,8 @@
-import { Section } from "../components"
-
 function Settings() {
   return (
-    <Section>
+    <section>
       <div>Settings</div>
-    </Section>
+    </section>
   )
 }
 

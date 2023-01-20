@@ -37,9 +37,9 @@ function Home() {
       />
       {
         isHome ?
-          <Section>
+          <section>
             <ColumnBox />
-          </Section> :
+          </section> :
           <Outlet />
       }
 

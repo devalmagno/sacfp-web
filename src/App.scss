@@ -1,9 +1,13 @@
 $box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+$box-shadow-hover: rgba(0, 0, 0, 0.4) 0px 5px 15px;
 
 $layout-breakpoint-medium: 850px;
+$layout-breakpoint-midlow: 525px;
 $layout-breakpoint-low: 435px;
 
 $primary-color: #333A56;
+$subtitle-color: #B79EA7;
+$subtitle-dark-color: #46343B;
 
 .App {
     height: 100%;
@@ -14,7 +18,10 @@ $primary-color: #333A56;
         margin-top: 3rem;
 
         display: flex;
+        flex-direction: column;
         justify-content: center;
+        align-items: center;
+        row-gap: 2rem;
     }
 
     a {
