@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useNavigate, Location, Router } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { BiDotsVerticalRounded, BiEdit, BiLogOut, BiX, BiArrowBack } from "react-icons/bi";
 
 import { Select } from '../ui/index';
@@ -7,14 +7,16 @@ import { Select } from '../ui/index';
 import { routes as navBar } from '../services/routes';
 
 import '../styles/Header.scss';
+import { useSemesterContext } from '../contexts';
 
 type HeaderProps = {
   pageTitle: string;
   setPageTitle: (string: string) => void;
 }
 
-function Header({ pageTitle, setPageTitle }: HeaderProps) {
+function Header(props: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const semesterContext = useSemesterContext();
 
   const navigation = useNavigate();
 
@@ -25,9 +27,9 @@ function Header({ pageTitle, setPageTitle }: HeaderProps) {
       <li
         key={route.path}
         onClick={() => handlePageNavigation(route.title)}
-        className={pageTitle == route.title ? 'selected' : ''}
+        className={props.pageTitle == route.title ? 'selected' : ''}
       >
-        {pageTitle == route.title ?
+        {props.pageTitle == route.title ?
           <strong>{route.title.toUpperCase()}</strong> :
           <Link to={route.path}>
             <span>
@@ -66,7 +68,7 @@ function Header({ pageTitle, setPageTitle }: HeaderProps) {
   }
 
   function handlePageNavigation(pageTitle: string) {
-    setPageTitle(pageTitle);
+    props.setPageTitle(pageTitle);
   }
 
   function goBackNavigation() {
@@ -87,7 +89,7 @@ function Header({ pageTitle, setPageTitle }: HeaderProps) {
         </div>
       </div>
       <nav className="header__nav">
-        {pageTitle != 'tela inicial' && (
+        {props.pageTitle != 'tela inicial' && (
           <div className="header__go_back" onClick={goBackNavigation}>
             <BiArrowBack fill="#fff" className='go_back__icon' />
             <span>Voltar</span>

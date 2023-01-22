@@ -1,0 +1,52 @@
+@import '../App.scss';
+
+.container--teacher {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+
+    .container--info {
+        position: relative;
+
+        display: flex;
+        flex-direction: column;
+        row-gap: 8px;
+        // padding-top: 1rem;
+
+        .info-title {
+            position: absolute;
+            top: -12px;
+
+            padding-right: 8px;
+            background: #fff;
+
+            z-index: 1;
+
+            strong {
+                font-size: 12.8px;
+            }
+        }
+
+        .top-line {
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background: $line-row;
+            border-radius: 1px;
+
+            z-index: 0;
+        }
+
+        .info--row {
+            display: flex;
+            column-gap: 10px;
+            padding: 0 8px;
+
+            margin-top: 1.5rem;
+        }
+    }
+
+    .teacher {
+        margin-top: 10px;
+    }
+}

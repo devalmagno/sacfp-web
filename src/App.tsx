@@ -1,12 +1,13 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { 
-    Calendar, 
-    Home, 
-    PointSheets, 
-    Settings, 
-    SpreadSheets 
+import {
+  Calendar,
+  Home,
+  PointSheets,
+  Settings,
+  SpreadSheets
 } from './pages';
+import { Teacher } from './slugs';
 
 import './App.scss'
 
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: '/settings',
         element: <Settings />,
+      },
+      {
+        path: 'spreadsheets/:id',
+        element: <Teacher />
       }
     ]
   }
