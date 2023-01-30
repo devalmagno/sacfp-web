@@ -15,7 +15,7 @@ export type Pointsheet = {
   semester?: string;
 }
 
-type Schedules = {
+export type Schedules = {
   day: string;
-  times: string[]
+  times: number[]
 }

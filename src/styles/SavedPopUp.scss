@@ -1,0 +1,88 @@
+@import '../App.scss';
+
+.sucess--container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    // column-gap: 0.5rem;
+
+    height: 4.5rem;
+    width: 22rem;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: $box-shadow;
+    overflow: hidden;
+
+    .box--icon {
+        width: 5rem;
+        height: 100%;
+
+        background: $green-sucess;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sucess--text {
+        position: relative;
+
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+
+        h4,
+        span {
+            margin-left: 1rem;
+        }
+
+        h4 {
+            font-size: 15.8px;
+        }
+
+        span {
+            color: $disabled-color;
+            font-size: 13px;
+        }
+
+        .progress-bar {
+            height: 3px;
+            background: $green-sucess;
+
+            position: absolute;
+            bottom: 0;
+
+            animation: progres 2s infinite linear;
+        }
+    }
+}
+
+@keyframes progres {
+    0% {
+        width: 0%;
+    }
+
+    25% {
+        width: 50%;
+    }
+
+    50% {
+        width: 75%;
+    }
+
+    75% {
+        width: 85%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}

@@ -15,9 +15,15 @@
 
         transition: all .3s ease;
 
+        border: 0;
+
         &:valid {
-            border: 2px solid $primary-color;
             font-weight: 500;
+        }
+
+        &:focus,
+        &:valid {
+            border: 2px solid $primary-color !important;
         }
 
         &:disabled {
@@ -44,7 +50,8 @@
         user-select: none;
     }
 
-    input:enabled~label {
+    input:enabled~label,
+    input:focus~label {
         top: -9px;
         left: 14px;
     }
@@ -56,5 +63,32 @@
         padding: 0;
         background: $disabled-background;
         color: $disabled-color;
+    }
+
+    input:not(:valid):not(:disabled):not(:focus)~label {
+        top: 10px;
+        color: $disabled-color;
+        cursor: text;
+    }
+
+    .sufix {
+        opacity: 0;
+
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $disabled-color;
+    }
+
+    input:valid~.sufix,
+    input:focus~.sufix {
+        opacity: 1;
+    }
+}
+
+@media (max-width: $layout-breakpoint-highmid) {
+    .container--input {
+        width: auto !important;
     }
 }

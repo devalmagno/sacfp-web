@@ -1,5 +1,6 @@
 export default function toCapitalize(text: string) {
-    const capitalizedText = `${text[0].toUpperCase()}${text.substring(1)}`;
+    const lowerCaseText = text.toLowerCase();
+    const capitalizedText = `${lowerCaseText[0].toUpperCase()}${lowerCaseText.substring(1)}`;
 
     return capitalizedText;
 }

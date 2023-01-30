@@ -3,6 +3,8 @@ import BoxButton from './BoxButton';
 import Search from './Search';
 import Button from './Button';
 import Input from './Input';
+import CustomSelect from './CustomSelect';
+import SavedPopUp from './SavedPopUp';
 
 export {
     BoxButton,
@@ -10,4 +12,6 @@ export {
     Search,
     Button,
     Input,
+    CustomSelect,
+    SavedPopUp,
 };
