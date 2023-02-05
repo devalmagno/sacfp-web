@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { BiEdit, BiPlusCircle, BiSave, BiXCircle } from 'react-icons/bi';
 
@@ -11,10 +11,18 @@ import { SheetRow, AddSheetRow } from '../components';
 import { toCapitalize } from '../utils';
 import { doc, updateDoc } from '@firebase/firestore';
 import { db } from '../services/firebaseConfig';
+import { useDataContext } from '../contexts';
+
+type RouteProps = {
+    teacher: TeacherType;
+}
 
 function Teacher() {
     const route = useLocation();
-    const teacherProp: TeacherType = route.state.teacher;
+    const { teacher: teacherProp }: RouteProps = route.state;
+    
+    const { setTeachers } = useDataContext();
+
     const [teacher, setTeacher] = useState(teacherProp);
     const [name, setName] = useState(teacher.name);
     const [masp, setMasp] = useState(teacher.masp);
@@ -63,7 +71,17 @@ function Teacher() {
         };
 
         await updateDoc(teacherDoc, updatedTeacher);
+        setTeachers(_prevState => {
+            const teachersList = _prevState;
+            const index = teachersList.indexOf(teacher);
+            teachersList[index].name = updatedTeacher.name;
+            teachersList[index].masp = updatedTeacher.masp;
+
+            return teachersList;
+        });
+
         setTeacher(updatedTeacher);
+
         toggleDisabled();
         setShowSucessPopUp(true);
     }

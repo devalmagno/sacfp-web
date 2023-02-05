@@ -19,3 +19,18 @@ export type Schedules = {
   day: string;
   times: number[]
 }
+
+export type Calendar = {
+  id: string;
+  semester: string;
+  end_date: string;
+  start_date: string; 
+  activity_dates?: Activity_dates[];
+}
+
+export type Activity_dates = {
+  date: string;
+  description: string;
+  reference_day: string;
+  type: string;
+}

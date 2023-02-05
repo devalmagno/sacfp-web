@@ -9,6 +9,10 @@ import {
 } from './pages';
 import { Teacher } from './slugs';
 
+import {
+  DataContextComponent
+} from './contexts';
+
 import './App.scss'
 
 const router = createBrowserRouter([
@@ -42,9 +46,11 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div className="App">
-      <RouterProvider router={router} />
-    </div>
+    <DataContextComponent>
+      <div className="App">
+        <RouterProvider router={router} />
+      </div>
+    </DataContextComponent>
   )
 }
 

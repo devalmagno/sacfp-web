@@ -51,7 +51,8 @@
     }
 
     input:enabled~label,
-    input:focus~label {
+    input:focus~label,
+    input:valid~label {
         top: -9px;
         left: 14px;
     }
@@ -84,6 +85,10 @@
     input:valid~.sufix,
     input:focus~.sufix {
         opacity: 1;
+    }
+
+    input:focus~label {
+        color: black;
     }
 }
 

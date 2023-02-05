@@ -5,10 +5,10 @@ import '../styles/Input.scss';
 type InputProps = {
     value: string | number;
     label: string;
-    width: number;
+    width?: number;
     isDisabled: boolean;
     fontSize?: number;
-    setValue: Dispatch<SetStateAction<any>>
+    setValue: (value: any) => void;
     sufix?: string;
 }
 
@@ -45,6 +45,7 @@ function Input(props: InputProps) {
                 value={props.value}
                 onChange={handleChange}
                 disabled={props.isDisabled}
+                autoComplete='off'
                 style={inputStyle}
                 ref={inputElement}
                 required

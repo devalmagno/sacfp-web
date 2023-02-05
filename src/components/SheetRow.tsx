@@ -10,6 +10,7 @@ import { Pointsheet, Schedules, Teacher } from '../types/DataTypes';
 
 import '../styles/Teacher.scss';
 import '../styles/SheetRow.scss';
+import { useDataContext } from '../contexts';
 
 type SheetRowProps = {
     sheet: Pointsheet;
@@ -18,6 +19,8 @@ type SheetRowProps = {
 }
 
 function SheetRow(props: SheetRowProps) {
+    const { setTeachers } = useDataContext();
+
     const [isDisabled, setIsDisabled] = useState(true);
     const [course, setCourse] = useState(props.sheet.course);
     const [period, setPeriod] = useState(props.sheet.period.split(' ')[0].split('º')[0]);
@@ -64,6 +67,15 @@ function SheetRow(props: SheetRowProps) {
         };
 
         await updateDoc(teacherDoc, updatedTeacher);
+
+        setTeachers(_prevState => {
+            const teachersList = _prevState;
+            const indexTeacher = teachersList.indexOf(props.teacher);
+            teachersList[indexTeacher].pointsheets = updatedSheets;
+
+            return _prevState;
+        });
+
         toggleIsDisabled();
         setShowSucessPopUp(true);
     }
@@ -81,6 +93,15 @@ function SheetRow(props: SheetRowProps) {
 
         await updateDoc(teacherDoc, updatedTeacher);
         props.setTeacher(updatedTeacher);
+
+        setTeachers(_prevState => {
+            const teachersList = _prevState;
+            const indexTeacher = teachersList.indexOf(props.teacher);
+            teachersList[indexTeacher].pointsheets = updatedSheets;
+
+            return teachersList;
+        });
+
         toggleIsDisabled();
         setShowSucessPopUp(true);
     }

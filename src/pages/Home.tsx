@@ -4,10 +4,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { routes } from '../services/routes';
 
 import { ColumnBox, Header } from '../components';
-import {
-  SemesterContextComponent,
-  DataContextComponent
-} from '../contexts';
+
 
 function Home() {
   const [pageTitle, setPageTitle] = useState('tela inicial');
@@ -22,21 +19,19 @@ function Home() {
   }, [router.pathname]);
 
   return (
-    <SemesterContextComponent>
-      <DataContextComponent>
-        <Header
-          pageTitle={pageTitle}
-          setPageTitle={setPageTitle}
-        />
-        {
-          isHome ?
-            <section>
-              <ColumnBox />
-            </section> :
-            <Outlet />
-        }
-      </DataContextComponent>
-    </SemesterContextComponent>
+    <>
+      <Header
+        pageTitle={pageTitle}
+        setPageTitle={setPageTitle}
+      />
+      {
+        isHome ?
+          <section>
+            <ColumnBox />
+          </section> :
+          <Outlet />
+      }
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { BiDotsVerticalRounded, BiEdit, BiLogOut, BiX, BiArrowBack } from "react-icons/bi";
 
@@ -7,7 +7,7 @@ import { Select } from '../ui/index';
 import { routes as navBar } from '../services/routes';
 
 import '../styles/Header.scss';
-import { useSemesterContext } from '../contexts';
+import { useDataContext } from '../contexts';
 
 type HeaderProps = {
   pageTitle: string;
@@ -16,7 +16,6 @@ type HeaderProps = {
 
 function Header(props: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const semesterContext = useSemesterContext();
 
   const navigation = useNavigate();
 

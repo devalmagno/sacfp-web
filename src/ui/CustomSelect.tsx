@@ -49,7 +49,7 @@ function CustomSelect(props: CustomSelectProps) {
     }, [props.isDisabled])
 
     return (
-        <div className='container--custom-select'>
+        <div className='container--custom-select' tabIndex={0}>
             <div
                 id="custom--select"
                 className={containerClassName}

@@ -7,7 +7,7 @@ import { BoxButton, Button, Search } from '../ui';
 import { routes } from '../services/routes';
 import { db } from '../services/firebaseConfig';
 import { alphabeticalSort, toCapitalize } from '../utils';
-import { useSemesterContext, useDataContext } from '../contexts';
+import { useDataContext } from '../contexts';
 
 import { Teacher } from '../types/DataTypes';
 
@@ -19,8 +19,7 @@ function SpreadSheets() {
   const [sgd3Info, setSGD3Info] = useState<Teacher[]>([]);
   const [isDataUplouded, setIsDataUplouded] = useState(false);
   const inputElement = useRef<HTMLInputElement | null>(null);
-  const semesterContext = useSemesterContext();
-  const { teachers, setTeachers } = useDataContext();
+  const { teachers, setTeachers, semester } = useDataContext();
   const [teachersList, setTeachersList] = useState<Teacher[]>(teachers.sort((a, b) => alphabeticalSort(a.name, b.name)));
   // const [showOutlet, setShowOutlet] = useState(false);
 
@@ -106,7 +105,7 @@ function SpreadSheets() {
         return {
           ...sheet,
           schedules: [],
-          semester: semesterContext.semester,
+          semester,
         };
       });
 

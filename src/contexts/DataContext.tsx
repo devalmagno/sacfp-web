@@ -1,13 +1,19 @@
 import React, { Dispatch, ReactNode, SetStateAction, createContext, useContext, useEffect, useState } from "react";
 import { collection, getDocs } from "@firebase/firestore";
 
-import { Teacher } from '../types/DataTypes';
+import { Calendar, Teacher } from '../types/DataTypes';
 
 import { db } from "../services/firebaseConfig";
 
 type dataContext = {
+    semester: string;
+    setSemester: Dispatch<SetStateAction<string>>;
+
     teachers: Teacher[];
     setTeachers: Dispatch<SetStateAction<Teacher[]>>;
+
+    calendar: Calendar;
+    setCalendar: Dispatch<SetStateAction<Calendar>>;
 }
 
 type Props = {
@@ -29,8 +35,13 @@ export const useDataContext = () => {
 
 export function DataContextComponent(props: Props) {
     const [teachers, setTeachers] = useState<Teacher[]>([]);
+    const [calendarList, setCalendarList] = useState<Calendar[]>([]);
+
+    const [semester, setSemester] = useState("01/2023");
+    const [calendar, setCalendar] = useState<Calendar>(calendarList[0]);
 
     const teachersCollectionRef = collection(db, "teachers");
+    const calendarCollectionRef = collection(db, "semesters");
 
     useEffect(() => {
         const getTeachers = async () => {
@@ -39,14 +50,32 @@ export function DataContextComponent(props: Props) {
             setTeachers(teachersArray);
         }
 
+        const getCalendarList = async () => {
+            const data = await getDocs(calendarCollectionRef);
+            const calendarsArray = data.docs.map(doc => ({ ...doc.data(), id: doc.id } as Calendar));
+            setCalendarList(calendarsArray);
+        }
+
+        console.log('fazendo fetch 1')
+
         getTeachers();
+        getCalendarList();
     }, []);
+
+    useEffect(() => {
+        const currentCalendar = calendarList.filter(calendar => calendar.semester === semester);
+        setCalendar(currentCalendar[0])
+    }, [calendarList, semester]);
 
     return (
         <DataContext.Provider
             value={{
                 teachers,
-                setTeachers
+                setTeachers,
+                calendar,
+                setCalendar,
+                semester,
+                setSemester,
             }}
         >
             {props.children}

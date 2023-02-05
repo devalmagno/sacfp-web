@@ -1,0 +1,145 @@
+@import '../App.scss';
+
+.calendar--display {
+    position: relative;
+
+    width: 80%;
+    height: 99%;
+    background: $primary-color;
+    border-radius: 4px;
+    padding: 1rem;
+
+    margin-top: 1.5rem;
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.6rem;
+
+    h4 {
+        color: #fff;
+    }
+
+    .month--container {
+        display: flex;
+        flex-direction: column;
+        row-gap: 0.1rem;
+
+        span {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .date--container {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+
+            .date--box {
+                padding: 0.3rem 0.4rem;
+                border-radius: 8px;
+
+                cursor: pointer;
+
+                transition: all .3s ease;
+
+                span {
+                    color: #fff;
+                    font-size: 13.8px;
+                }
+
+                &.recess,
+                &.holiday {
+                    background: #FFC000;
+
+                    span {
+                        color: $primary-color;
+                    }
+                }
+
+                &.school_saturday {
+                    background: #C10100;
+                }
+
+                &.fepeg {
+                    background: #7131A0;
+                }
+
+                &.other {
+                    background: #fff;
+
+                    span {
+                        color: $primary-color;
+                    }
+                }
+
+                &:hover {
+                    transform: scale(1.09);
+                    box-shadow: $box-shadow;
+                }
+            }
+        }
+    }
+
+    .date-info--container {
+        position: absolute;
+        bottom: 7rem;
+
+        .info {
+            display: flex;
+            flex-direction: column;
+
+            strong {
+                color: #fff;
+                font-size: 13.8px;
+            }
+
+            span {
+                color: #fff;
+                font-size: 13.8px;
+            }
+        }
+    }
+
+    .color--info {
+        display: flex;
+        flex-direction: column;
+        row-gap: 0.5rem;
+
+        position: absolute;
+        bottom: 1rem;
+
+        .color--container {
+            display: flex;
+            align-items: center;
+            column-gap: 0.5rem;
+
+            span {
+                color: #fff;
+                font-size: 13px;
+            }
+
+            .color--box {
+                width: 1rem;
+                height: 1rem;
+                border-radius: 4px;
+
+                &.yellow {
+                    background: #FFC000;
+                }
+
+                &.red {
+                    background: #C10100;
+                }
+
+                &.purple {
+                    background: #7131A0;
+                }
+
+                &.white {
+                    background: #fff;
+                }
+            }
+        }
+    }
+
+}

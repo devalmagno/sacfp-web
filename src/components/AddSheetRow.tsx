@@ -10,6 +10,7 @@ import { db } from '../services/firebaseConfig';
 
 import '../styles/Teacher.scss';
 import '../styles/SheetRow.scss';
+import { useDataContext } from '../contexts';
 
 type AddSheetRow = {
     teacher: Teacher;
@@ -17,6 +18,8 @@ type AddSheetRow = {
 }
 
 function AddSheetRow(props: AddSheetRow) {
+    const { setTeachers } = useDataContext();
+
     const [course, setCourse] = useState('');
     const [period, setPeriod] = useState('');
     const [discipline, setDiscipline] = useState('');
@@ -56,11 +59,20 @@ function AddSheetRow(props: AddSheetRow) {
         };
 
         await updateDoc(teacherDoc, updatedTeacher);
+
+        setTeachers(_prevState => {
+            const teachersList = _prevState;
+            const indexTeacher = teachersList.indexOf(props.teacher);
+            teachersList[indexTeacher].pointsheets = updatedSheets;
+
+            return teachersList;
+        });
+
         setShowSucessPopUp(true);
 
         setTimeout(() => {
             props.setShow();
-        }, 3500);
+        }, 2500);
     }
 
     return (

@@ -1,0 +1,49 @@
+@import '../App.scss';
+
+.container--form-date {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+
+    .type--selector {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        row-gap: 1rem;
+
+        .form--date {
+            display: flex;
+            flex-direction: column;
+            row-gap: 1rem;
+
+            strong {
+                font-size: 15px;
+            }
+
+            .container--date-types-list {
+                display: flex;
+                flex-wrap: wrap;
+                column-gap: 0.5rem;
+
+                .clickable-box {
+                    background: $line-row;
+                    padding: 0.2rem 0.4rem;
+                    border-radius: 4px;
+
+                    color: $subtitle-dark-color;
+
+                    cursor: pointer;
+
+                    transition: all .3s ease;
+
+                    &.selected {
+                        background: $primary-color;
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+}
