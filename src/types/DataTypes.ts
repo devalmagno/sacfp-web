@@ -5,6 +5,13 @@ export type Teacher = {
   pointsheets: Pointsheet[];
 }
 
+export type TeacherPointSheet = {
+  id?: string;
+  name: string;
+  masp: string;
+  sheet: Pointsheet;
+}
+
 export type Pointsheet = {
   course: string;
   course_code: string;

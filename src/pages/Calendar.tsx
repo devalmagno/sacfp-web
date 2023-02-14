@@ -73,7 +73,7 @@ function Calendar() {
       setStartDate(calendar.start_date);
       setEndDate(calendar.end_date);
     }
-  }, [])
+  }, []);
 
   if (!calendar)
     return (

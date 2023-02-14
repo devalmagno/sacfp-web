@@ -5,6 +5,7 @@ import AddSheetRow from './AddSheetRow';
 import TimesSelect from './TimesSelect';
 import FormDate from './FormDate';
 import CalendarContainer from './CalendarContainer';
+import DocViewer from './DocViewer';
 
 export {
     Header,
@@ -14,4 +15,5 @@ export {
     TimesSelect,
     FormDate,
     CalendarContainer,
+    DocViewer
 };

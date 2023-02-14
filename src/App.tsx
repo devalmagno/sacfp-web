@@ -9,9 +9,6 @@ import {
 } from './pages';
 import { Teacher } from './slugs';
 
-import {
-  DataContextComponent
-} from './contexts';
 
 import './App.scss'
 
@@ -46,11 +43,9 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <DataContextComponent>
       <div className="App">
         <RouterProvider router={router} />
       </div>
-    </DataContextComponent>
   )
 }
 

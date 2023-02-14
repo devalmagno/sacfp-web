@@ -5,6 +5,10 @@ import { routes } from '../services/routes';
 
 import { ColumnBox, Header } from '../components';
 
+import {
+  DataContextComponent
+} from '../contexts';
+
 
 function Home() {
   const [pageTitle, setPageTitle] = useState('tela inicial');
@@ -20,6 +24,7 @@ function Home() {
 
   return (
     <>
+    <DataContextComponent>
       <Header
         pageTitle={pageTitle}
         setPageTitle={setPageTitle}
@@ -31,6 +36,7 @@ function Home() {
           </section> :
           <Outlet />
       }
+    </DataContextComponent>
     </>
   );
 }

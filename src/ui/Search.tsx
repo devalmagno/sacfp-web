@@ -2,13 +2,23 @@ import { LegacyRef, MutableRefObject, useRef } from 'react';
 import { BiSearch } from 'react-icons/bi';
 
 import '../styles/Search.scss';
+import { toCapitalize } from '../utils';
 
 type SearchProps = {
   handleSearch: (string: string) => void;
+  style?: any;
+  title: string;
 }
 
 function Search(props: SearchProps) {
   const inputElement = useRef<HTMLInputElement | null>(null);
+
+  const title = toCapitalize(props.title);
+
+  const style = {
+    width: 'auto',
+    ...props.style
+  }
 
   const focusInput = () => {
     inputElement.current?.focus();
@@ -24,8 +34,10 @@ function Search(props: SearchProps) {
   }
 
   return (
-    <div className="container--search" onClick={focusInput}>
-      <BiSearch fill="#B79EA7" size={24} />
+    <div className="container--search" onClick={focusInput} style={style}>
+      <div className="icon">
+        <BiSearch fill="#B79EA7" size={24} />
+      </div>
       <input
         type="text"
         placeholder='Pesquisar... '
@@ -34,10 +46,12 @@ function Search(props: SearchProps) {
         ref={inputElement}
         onChange={searchConfig}
       />
-      <div className="search--info">
-        <span>Buscar por Nome</span>
-        <div className="left--border"></div>
-      </div>
+      {inputElement.current?.value === '' && (
+        <div className="search--info">
+          <span>Buscar por {title}</span>
+          <div className="left--border"></div>
+        </div>
+      )}
     </div>
   )
 }

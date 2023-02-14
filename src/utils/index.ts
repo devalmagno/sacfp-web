@@ -7,6 +7,7 @@ import {
     isValidDate,
     getMonthName,
 } from "./handlerDate";
+import getDates from "./getDates";
 
 export {
     toCapitalize,
@@ -16,4 +17,5 @@ export {
     convertDateToString,
     isValidDate,
     getMonthName,
+    getDates,
 };

@@ -1,5 +1,3 @@
-import { useDataContext } from "../contexts";
-
 export const convertStringToDate = (value: string) => {
     const dateMap = {
         day: value.split('/')[0],
@@ -12,8 +10,21 @@ export const convertStringToDate = (value: string) => {
 }
 
 export const convertDateToString = (value: Date) => {
-    const string = value;
-    console.log(string);
+    const date = value.getDate();
+    const month = value.getMonth();
+    const year = value.getFullYear();
+
+    let string = '';
+
+    if (date < 10) string += `0${date}/`;
+    else string += `${date}/`;
+
+    if (month < 10) string += `0${month + 1}/`;
+    else string += `${month}/`;
+
+    string += year;
+
+    return string.toString();
 }
 
 export const isValidDate = (value: string, semester: string) => {

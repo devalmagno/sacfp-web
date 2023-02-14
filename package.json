@@ -11,13 +11,17 @@
   "dependencies": {
     "@firebase/firestore": "^3.8.0",
     "axios": "^1.2.3",
+    "docxtemplater": "^3.34.0",
+    "file-saver": "^2.0.5",
     "firebase": "^9.15.0",
+    "pizzip": "^3.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
     "react-router-dom": "^6.6.1"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.5",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
     "@vitejs/plugin-react": "^3.0.0",

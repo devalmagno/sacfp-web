@@ -180,7 +180,11 @@ function SpreadSheets() {
         />
       </div>
 
-      <Search handleSearch={handleSearch} />
+      <Search 
+        handleSearch={handleSearch} 
+        style={{ width: '498px' }} 
+        title='nome'
+      />
 
       <table className='data-table'>
         <thead>

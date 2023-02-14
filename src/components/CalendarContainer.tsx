@@ -70,6 +70,7 @@ function CalendarContainer(props: Props) {
         <div className="info">
           <strong>Informação sobre o dia {selectedDate.date}</strong>
           <span>{selectedDate.description}</span>
+          <span>{selectedDate.reference_day}</span>
         </div>
       </div>
 
