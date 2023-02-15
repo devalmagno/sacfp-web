@@ -8,6 +8,7 @@ import {
     getMonthName,
 } from "./handlerDate";
 import getDates from "./getDates";
+import generateDocument from "./generateDocument";
 
 export {
     toCapitalize,
@@ -18,4 +19,5 @@ export {
     isValidDate,
     getMonthName,
     getDates,
+    generateDocument,
 };

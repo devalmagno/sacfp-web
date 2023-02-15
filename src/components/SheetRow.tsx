@@ -6,11 +6,12 @@ import { Input, Button, CustomSelect, SavedPopUp } from '../ui';
 
 import { db } from '../services/firebaseConfig';
 
-import { Pointsheet, Schedules, Teacher } from '../types/DataTypes';
+import { Pointsheet, Schedules, Teacher, TeacherPointSheet } from '../types/DataTypes';
 
 import '../styles/Teacher.scss';
 import '../styles/SheetRow.scss';
 import { useDataContext } from '../contexts';
+import { generateDocument } from '../utils';
 
 type SheetRowProps = {
     sheet: Pointsheet;
@@ -19,7 +20,7 @@ type SheetRowProps = {
 }
 
 function SheetRow(props: SheetRowProps) {
-    const { setTeachers } = useDataContext();
+    const { setTeachers, calendar, semester } = useDataContext();
 
     const [isDisabled, setIsDisabled] = useState(true);
     const [course, setCourse] = useState(props.sheet.course);
@@ -29,6 +30,13 @@ function SheetRow(props: SheetRowProps) {
     const [schedules, setSchedules] = useState<Schedules[]>(props.sheet.schedules || []);
 
     const [showSucessPopUp, setShowSucessPopUp] = useState(false);
+
+    const teacherPointsheet: TeacherPointSheet = {
+        id: props.teacher.id,
+        name: props.teacher.name,
+        masp: props.teacher.masp,
+        sheet: props.sheet,
+    };
 
     const scheduleList = schedules.map(sch => {
         const { day, times } = sch;
@@ -164,6 +172,7 @@ function SheetRow(props: SheetRowProps) {
                     <Button
                         icon={<BiSpreadsheet fill="#fff" size={24} />}
                         tooltip='folha de ponto'
+                        onClick={() => generateDocument({calendar, pointsheet: teacherPointsheet, semester})}
                     />)
                     : (
                         <Button
