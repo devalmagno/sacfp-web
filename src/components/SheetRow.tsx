@@ -23,6 +23,7 @@ function SheetRow(props: SheetRowProps) {
     const { setTeachers, calendar, semester } = useDataContext();
 
     const [isDisabled, setIsDisabled] = useState(true);
+    const [isGeneratePointsheetDisabled, setIsGeneratePointsheetDisabled] = useState(props.sheet.schedules?.length === 0);
     const [course, setCourse] = useState(props.sheet.course);
     const [period, setPeriod] = useState(props.sheet.period.split(' ')[0].split('º')[0]);
     const [discipline, setDiscipline] = useState(props.sheet.discipline);
@@ -92,6 +93,8 @@ function SheetRow(props: SheetRowProps) {
                 sheet: newSheet,
             }
         });
+
+        setIsGeneratePointsheetDisabled(!isGeneratePointsheetDisabled);
 
         toggleIsDisabled();
         setShowSucessPopUp(true);
@@ -182,7 +185,7 @@ function SheetRow(props: SheetRowProps) {
                         icon={<BiSpreadsheet fill="#fff" size={24} />}
                         tooltip='folha de ponto'
                         onClick={() => generateDocument({calendar, pointsheet: teacherPointsheet, semester})}
-                        isDisabled={props.sheet.schedules?.length !== 0 ? false : true}
+                        isDisabled={isGeneratePointsheetDisabled}
                     />)
                     : (
                         <Button
