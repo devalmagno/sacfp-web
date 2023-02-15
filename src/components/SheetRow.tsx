@@ -31,12 +31,12 @@ function SheetRow(props: SheetRowProps) {
 
     const [showSucessPopUp, setShowSucessPopUp] = useState(false);
 
-    const teacherPointsheet: TeacherPointSheet = {
+    const [teacherPointsheet, setTeacherPointsheet] = useState<TeacherPointSheet>({
         id: props.teacher.id,
         name: props.teacher.name,
         masp: props.teacher.masp,
         sheet: props.sheet,
-    };
+    });
 
     const scheduleList = schedules.map(sch => {
         const { day, times } = sch;
@@ -82,6 +82,15 @@ function SheetRow(props: SheetRowProps) {
             teachersList[indexTeacher].pointsheets = updatedSheets;
 
             return _prevState;
+        });
+
+        setTeacherPointsheet(_prevState => {
+            const teacher = _prevState;
+
+            return {
+                ...teacher,
+                sheet: newSheet,
+            }
         });
 
         toggleIsDisabled();
