@@ -22,13 +22,13 @@ function TimesSelect(props: Props) {
     });
     const [isAddingSchedule, setIsAddingSchedule] = useState(false);
 
-    const isAddScheduleButtonDisabled = !(currentSchedule.times.length > 1);
+    const isAddScheduleButtonDisabled = !(currentSchedule.times.length > 0);
 
     const days = ["segunda", "terça", "quarta", "quinta", "sexta"];
     const times = arrayRange({
         start: 1,
         step: 1,
-        stop: 30,
+        stop: 17,
     });
 
     const daysElements = days.map(el => {
