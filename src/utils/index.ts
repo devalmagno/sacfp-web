@@ -1,5 +1,5 @@
 import toCapitalize from "./toCapitalize";
-import alphabeticalSort from "./alphabeticalSort";
+import alphabeticalSort, { ascDateSort, ascTimeSort } from "./alphabeticalSort";
 import arrayRange from "./arrayRange";
 import { 
     convertStringToDate, 

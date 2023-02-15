@@ -17,4 +17,14 @@ export const ascDateSort = (a: string, b: string) => {
     return value;
 }
 
+export const ascTimeSort = (a: number, b: number, dateA: string, dateB: string) => {
+    let value = 0;
+
+    if (dateA !== dateB) return value;
+    if (a < b) value = -1;
+    if (a > b) value = 1;
+
+    return value;
+}
+
 export default alphabeticalSort;

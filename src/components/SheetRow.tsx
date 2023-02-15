@@ -182,6 +182,7 @@ function SheetRow(props: SheetRowProps) {
                         icon={<BiSpreadsheet fill="#fff" size={24} />}
                         tooltip='folha de ponto'
                         onClick={() => generateDocument({calendar, pointsheet: teacherPointsheet, semester})}
+                        isDisabled={props.sheet.schedules?.length !== 0 ? false : true}
                     />)
                     : (
                         <Button

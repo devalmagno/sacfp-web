@@ -1,5 +1,5 @@
 import { Calendar, Schedules } from "../types/DataTypes";
-import { ascDateSort } from "./alphabeticalSort";
+import { ascDateSort, ascTimeSort } from "./alphabeticalSort";
 import arrayRange from "./arrayRange";
 import { convertDateToString, convertStringToDate } from "./handlerDate";
 
@@ -62,7 +62,7 @@ const getDates = (props: GetDateProps) => {
         i++;
     }
 
-    const ascDates = dates.sort((a, b) => ascDateSort(a.date, b.date));
+    const ascDates = dates.sort((a, b) => ascDateSort(a.date, b.date)).sort((a, b) => ascTimeSort(a.time, b.time, a.date, b.date));
 
     const schoolDays = createSchoolDaysList(ascDates);
 
