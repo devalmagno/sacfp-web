@@ -8,6 +8,7 @@ import { routes as navBar } from '../services/routes';
 
 import '../styles/Header.scss';
 import { useDataContext } from '../contexts';
+import { toCapitalizeFirstLetters } from '../utils';
 
 type HeaderProps = {
   pageTitle: string;
@@ -16,6 +17,8 @@ type HeaderProps = {
 
 function Header(props: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const { config } = useDataContext();
 
   const navigation = useNavigate();
 
@@ -78,7 +81,10 @@ function Header(props: HeaderProps) {
   return (
     <div id="under" className="container_header">
       <div className="header__info">
-        <h3>Sistema de Gestão e Criação de Folhas de Ponto</h3>
+        <div className="header--title">
+          <h3>Sistema de Gestão e Criação de Folhas de Ponto</h3>
+          <span>Departamento de {toCapitalizeFirstLetters(config.departament)}</span>
+        </div>
         <div className="header__menu">
           <span>Logado como <strong>John Doe</strong></span>
           <Select />

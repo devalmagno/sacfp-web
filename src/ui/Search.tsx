@@ -1,24 +1,36 @@
-import { LegacyRef, MutableRefObject, useRef } from 'react';
+import { useRef, useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
 
 import '../styles/Search.scss';
 import { toCapitalize } from '../utils';
 
 type SearchProps = {
-  handleSearch: (string: string) => void;
+  handleSearch: (title: string, string: string) => void;
   style?: any;
-  title: string;
 }
 
 function Search(props: SearchProps) {
-  const inputElement = useRef<HTMLInputElement | null>(null);
+  const [title, setTitle] = useState("Professor");
+  const [showSearchOptions, setShowSearchOptions] = useState(false);
 
-  const title = toCapitalize(props.title);
+  const titleList = ["Professor", "Disciplina", "Curso"];
+
+  const inputElement = useRef<HTMLInputElement | null>(null);
 
   const style = {
     width: 'auto',
     ...props.style
   }
+
+  const titleElements = titleList.map(elem => {
+    if (elem === title) return;
+
+    return (
+      <li onClick={() => setTitle(elem)}>
+        Buscar por {elem}
+      </li>
+    )
+  })
 
   const focusInput = () => {
     inputElement.current?.focus();
@@ -27,9 +39,10 @@ function Search(props: SearchProps) {
   const searchConfig = () => {
     const target = inputElement.current;
 
+
     if (target) {
-      if (target.value.length < 3) props.handleSearch("");
-      else props.handleSearch(target.value);
+      if (target.value.length < 3) props.handleSearch(title, "");
+      else props.handleSearch(title, target.value);
     }
   }
 
@@ -46,12 +59,18 @@ function Search(props: SearchProps) {
         ref={inputElement}
         onChange={searchConfig}
       />
-      {inputElement.current?.value === '' && (
-        <div className="search--info">
-          <span>Buscar por {title}</span>
-          <div className="left--border"></div>
-        </div>
-      )}
+      <div
+        className="search--info"
+        onClick={() => setShowSearchOptions(prevState => !prevState)}
+      >
+        <span>Buscar por {title}</span>
+        <div className="left--border"></div>
+        {showSearchOptions && (
+          <ul>
+            {titleElements}
+          </ul>
+        )}
+      </div>
     </div>
   )
 }

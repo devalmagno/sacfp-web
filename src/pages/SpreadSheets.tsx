@@ -30,8 +30,8 @@ function SpreadSheets() {
   //   setShowOutlet(_prevState => !_prevState);
   // }
 
-  const teachersElements = teachersList.map(teacher => (
-    <tr key={teacher.id}>
+  const teachersElements = teachersList.map((teacher, index) => (
+    <tr key={`${teacher.id}${index}`}>
       <td>{teacher.name}</td>
       <td>{teacher.masp}</td>
       <td className="teacher--buttons">
@@ -56,15 +56,88 @@ function SpreadSheets() {
     alignSelf: 'flex-end',
   }
 
-  const handleSearch = (value: string) => {
+  const handleSearch = (title: string, value: string) => {
+
+    switch (title) {
+      case 'Professor':
+        handleSearchByTeacher(value);
+        break;
+      case 'Disciplina':
+        handleSearchByDiscipline(value);
+        break;
+      case 'Curso':
+        handleSearchByCourse(value);
+        break;
+    }
+  }
+
+  const handleSearchByTeacher = (value: string) => {
     const searchTeacherList = teachers.filter(teacher => {
-      const search = value.toLowerCase();
-      const name = teacher.name != undefined ? teacher.name.toLowerCase() : '';
+      const search = value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+      const name = teacher.name != undefined ? teacher.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") : '';
 
       return name.includes(search);
     });
 
-    setTeachersList(searchTeacherList);
+    let filteredList: Teacher[] = [];
+
+    searchTeacherList.forEach(elem => {
+      if (!filteredList.includes(elem)) filteredList.push(elem);
+    })
+
+    setTeachersList(filteredList);
+  }
+
+  const handleSearchByDiscipline = (value: string) => {
+    const searchTeacherList: Teacher[] = [];
+
+    teachers.forEach(teacher => {
+      const search = value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+      let disciplines: Teacher[] = [];
+
+      teacher.pointsheets?.forEach(sheet => {
+        const discipline = sheet.discipline.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+
+        if (discipline.includes(search))
+          disciplines.push(teacher);
+      });
+
+      searchTeacherList.push(...disciplines);
+    });
+
+    let filteredList: Teacher[] = [];
+
+    searchTeacherList.forEach(elem => {
+      if (!filteredList.includes(elem)) filteredList.push(elem);
+    })
+
+    setTeachersList(filteredList);
+  }
+
+  const handleSearchByCourse = (value: string) => {
+    const searchTeacherList: Teacher[] = [];
+
+    teachers.forEach(teacher => {
+      const search = value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+      let courses: Teacher[] = [];
+
+      teacher.pointsheets?.forEach(sheet => {
+        const course = sheet.course.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+
+        if (course.includes(search))
+          courses.push(teacher);
+      });
+
+      searchTeacherList.push(...courses);
+    });
+
+    let filteredList: Teacher[] = [];
+
+    searchTeacherList.forEach(elem => {
+      if (!filteredList.includes(elem)) filteredList.push(elem);
+    })
+
+    setTeachersList(filteredList);
   }
 
   const clickInput = () => {
@@ -161,7 +234,7 @@ function SpreadSheets() {
       background={button.background}
       color={button.color}
       icon={button.icon}
-      title={title}
+      title={title!}
       func={button.func}
       path={button.path}
       disabled={teachers.length > 0 && title === 'Inserir dados'}
@@ -173,7 +246,7 @@ function SpreadSheets() {
     await deleteDoc(teacherDoc);
 
     const teacher = teachers.find(e => e.id === id);
-    
+
     const teacherList = teachers;
     const index = teacherList.indexOf(teacher!);
     teacherList.splice(index, 1);
@@ -204,11 +277,12 @@ function SpreadSheets() {
         />
       </div>
 
-      <Search
-        handleSearch={handleSearch}
-        style={{ width: '498px' }}
-        title='nome'
-      />
+      <div className="search--box">
+        <Search
+          handleSearch={handleSearch}
+          style={{ width: '498px' }}
+        />
+      </div>
 
       <table className='data-table'>
         <thead>

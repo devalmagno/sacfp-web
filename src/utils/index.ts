@@ -1,4 +1,4 @@
-import toCapitalize from "./toCapitalize";
+import toCapitalize, { toCapitalizeFirstLetters } from "./toCapitalize";
 import alphabeticalSort, { ascDateSort, ascTimeSort } from "./alphabeticalSort";
 import arrayRange from "./arrayRange";
 import { 
@@ -12,6 +12,7 @@ import generateDocument from "./generateDocument";
 
 export {
     toCapitalize,
+    toCapitalizeFirstLetters,
     alphabeticalSort,
     arrayRange,
     convertStringToDate,

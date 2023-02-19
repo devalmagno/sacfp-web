@@ -62,7 +62,22 @@ function PointSheets() {
       );
     });
 
-  const handleSearch = (value: string) => {
+  const handleSearch = (title: string, value: string) => {
+
+    switch (title) {
+      case 'Professor':
+        handleSearchByTeacher(value);
+        break;
+      case 'Disciplina':
+        handleSearchByDiscipline(value);
+        break;
+      case 'Curso':
+        handleSearchByCourse(value);
+        break;
+    }
+  }
+
+  const handleSearchByTeacher = (value: string) => {
     const searchDisciplineList = disciplineList.filter(elem => {
       const search = value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
       const name = elem.name != undefined ? elem.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") : '';
@@ -70,7 +85,48 @@ function PointSheets() {
       return name.includes(search);
     });
 
-    setFilteredDisciplineList(searchDisciplineList);
+    let filteredList: TeacherPointSheet[] = [];
+
+    searchDisciplineList.forEach(elem => {
+      if (!filteredList.includes(elem)) filteredList.push(elem);
+    })
+
+    setFilteredDisciplineList(filteredList);
+  }
+
+  const handleSearchByDiscipline = (value: string) => {
+    const searchDisciplineList = disciplineList.filter(elem => {
+      const search = value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+      const name = elem.sheet != undefined ? elem.sheet.discipline.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") : '';
+
+      return name.includes(search);
+    });
+
+    let filteredList: TeacherPointSheet[] = [];
+
+    searchDisciplineList.forEach(elem => {
+      if (!filteredList.includes(elem)) filteredList.push(elem);
+    })
+
+    setFilteredDisciplineList(filteredList);
+  }
+
+  const handleSearchByCourse = (value: string) => {
+    const searchDisciplineList = disciplineList.filter(elem => {
+      const search = value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+      const name = elem.sheet != undefined ? elem.sheet.course.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") : '';
+
+      return name.includes(search);
+    });
+
+    let filteredList: TeacherPointSheet[] = [];
+
+    searchDisciplineList.forEach(elem => {
+      if (!filteredList.includes(elem)) filteredList.push(elem);
+    })
+
+    setFilteredDisciplineList(filteredList);
+
   }
 
   useEffect(() => {
@@ -106,7 +162,6 @@ function PointSheets() {
         <div className="pointsheet--search">
           <Search
             handleSearch={handleSearch}
-            title='professor'
             style={{
               // background: '#fff',
               height: 52,

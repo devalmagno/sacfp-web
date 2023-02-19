@@ -1,12 +1,12 @@
 @import '../App.scss';
 
 .container--search {
-    position: relative;    
+    position: relative;
 
     // width: 496px;
     height: 60px;
     border-radius: 8px;
-    overflow: hidden;
+    // overflow: hidden;
     box-shadow: $box-shadow;
     padding: 0 24px;
 
@@ -28,6 +28,7 @@
         height: 100%;
         border: none;
         padding: 0 60px;
+        border-radius: 8px;
 
         position: absolute;
         left: 0;
@@ -55,6 +56,8 @@
         display: flex;
         align-items: center;
 
+        cursor: pointer;
+
         span {
             font-family: 'Poppins', sans-serif;
             font-size: 12px;
@@ -74,6 +77,29 @@
             top: 50%;
             transform: translateY(-50%)
         }
+
+        ul {
+            position: absolute;
+            bottom: -3rem;
+            left: .2rem;
+
+            background: #fff;
+            z-index: 1;
+
+            width: 10rem;
+            padding: 0.5rem 0.8rem;
+            box-shadow: $box-shadow-hover;
+            border-radius: 4px;
+
+            li {
+                font-size: 12.3px;
+                padding: 0.25rem 0;
+
+                &:hover {
+                    font-weight: 500;
+                }
+            }
+        }
     }
 
     &:hover {
@@ -84,11 +110,11 @@
 @media (max-width: $layout-breakpoint-midlow) {
     .container--search {
         width: 400px;
-    }    
+    }
 }
 
 @media (max-width: $layout-breakpoint-low) {
     .container--search {
         width: 20rem;
-    }    
+    }
 }

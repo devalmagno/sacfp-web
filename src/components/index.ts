@@ -6,6 +6,7 @@ import TimesSelect from './TimesSelect';
 import FormDate from './FormDate';
 import CalendarContainer from './CalendarContainer';
 import DocViewer from './DocViewer';
+import Footer from './Footer';
 
 export {
     Header,
@@ -15,5 +16,6 @@ export {
     TimesSelect,
     FormDate,
     CalendarContainer,
-    DocViewer
+    DocViewer,
+    Footer
 };

@@ -3,7 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 import { routes } from '../services/routes';
 
-import { ColumnBox, Header } from '../components';
+import { ColumnBox, Footer, Header } from '../components';
 
 import {
   DataContextComponent

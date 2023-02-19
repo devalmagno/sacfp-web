@@ -1,0 +1,26 @@
+@import '../App.scss';
+
+.footer--container {
+    clear: both;
+    height: 2rem;
+
+    width: 100%;
+    background: $primary-color;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+
+    strong,
+    span {
+        color: #fff;
+        font-size: 14.8px;
+    }
+
+    a {
+        display: flex;
+        align-items: center;
+        column-gap: 0.2rem;
+    }
+}

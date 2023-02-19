@@ -2,8 +2,8 @@
 
 .pointsheets--container {
     display: flex;
-    height: 100%;
     width: 100%;
+    height: calc(100% - 148px);
     background: #F3F3F4;
 
     .pointsheet--data {
@@ -11,33 +11,37 @@
         width: 24rem;
         overflow-y: hidden;
         position: relative;
+        overflow-y: scroll;
+
+        position: relative;
+
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: $primary-color;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #fff;
+            border-radius: 6px 0 6px 0;
+        }
 
         .pointsheet--search {
+            position: fixed;
+            width: 24rem;
+
             height: 5rem;
             background: $primary-color;
             padding: 0.5rem;
+
+            z-index: 1;
         }
 
         .pointsheet--inner-content {
-            overflow-y: scroll;
-            height: 100%;
             width: 100%;
-            padding: 0.5rem;
-            margin-bottom: 5rem;
-
-
-            &::-webkit-scrollbar {
-                width: 6px;
-            }
-
-            &::-webkit-scrollbar-track {
-                background: $primary-color;
-            }
-
-            &::-webkit-scrollbar-thumb {
-                background: #fff;
-                border-radius: 6px 0 6px 0;
-            }
+            padding: 5rem 0.5rem;
 
             .sheet--box {
                 display: flex;
