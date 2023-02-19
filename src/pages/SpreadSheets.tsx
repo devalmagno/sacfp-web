@@ -104,7 +104,7 @@ function SpreadSheets() {
 
   const uploudSGD3Info = async () => {
     const teachers = sgd3Info.map(info => {
-      const pointsheets = info.pointsheets.map(sheet => {
+      const pointsheets = info.pointsheets!.map(sheet => {
         return {
           ...sheet,
           schedules: [],
