@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import {
+  AddTeacher,
   Calendar,
   Home,
   PointSheets,
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: 'spreadsheets/:id',
         element: <Teacher />
+      },
+      {
+        path: 'teachers/',
+        element: <AddTeacher />
       }
     ]
   }

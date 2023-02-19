@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
-import { addDoc, collection } from '@firebase/firestore';
-import { BiData, BiSpreadsheet } from 'react-icons/bi';
+import { addDoc, collection, deleteDoc, doc } from '@firebase/firestore';
+import { BiData, BiSpreadsheet, BiPlus, BiTrash } from 'react-icons/bi';
 
 import { BoxButton, Button, Search } from '../ui';
 
@@ -34,7 +34,7 @@ function SpreadSheets() {
     <tr key={teacher.id}>
       <td>{teacher.name}</td>
       <td>{teacher.masp}</td>
-      <td>
+      <td className="teacher--buttons">
         <Link
           to={`${teacher.id}`}
           state={{
@@ -44,6 +44,9 @@ function SpreadSheets() {
         >
           <BiSpreadsheet fill="#46343B" size={24} />
         </Link>
+        <div className="delete--teacher" onClick={() => deleteTeacher(teacher.id!)}>
+          <BiTrash fill="#46343B" size={24} />
+        </div>
       </td>
     </tr>
   ));
@@ -135,6 +138,13 @@ function SpreadSheets() {
       func: clickInput,
     },
     {
+      title: routes[5].title,
+      icon: <BiPlus fill="#fff" size={48} />,
+      background: '#333A56',
+      color: '#fff',
+      path: `../${routes[5].path}`
+    },
+    {
       title: routes[2].title,
       icon: routes[2].icon,
       background: '#fff',
@@ -154,8 +164,22 @@ function SpreadSheets() {
       title={title}
       func={button.func}
       path={button.path}
+      disabled={teachers.length > 0 && title === 'Inserir dados'}
     />
   });
+
+  const deleteTeacher = async (id: string) => {
+    const teacherDoc = doc(db, "teachers", id);
+    await deleteDoc(teacherDoc);
+
+    const teacher = teachers.find(e => e.id === id);
+    
+    const teacherList = teachers;
+    const index = teacherList.indexOf(teacher!);
+    teacherList.splice(index, 1);
+    setTeachers(teacherList);
+    setTeachersList(teachers.sort((a, b) => alphabeticalSort(a.name, b.name)));
+  }
 
   return (
     <section>
@@ -180,9 +204,9 @@ function SpreadSheets() {
         />
       </div>
 
-      <Search 
-        handleSearch={handleSearch} 
-        style={{ width: '498px' }} 
+      <Search
+        handleSearch={handleSearch}
+        style={{ width: '498px' }}
         title='nome'
       />
 

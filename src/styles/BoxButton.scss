@@ -15,6 +15,10 @@
 
     cursor: pointer;
 
+    &.disabled {
+        display: none;
+    }
+
     &:hover {
         animation-name: shake;
         animation-duration: 1s;

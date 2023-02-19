@@ -26,6 +26,7 @@ const routes: Routes[] = [
     new Routes('folhas de ponto', 'pointsheets', 'pointsheets.svg', true, true),
     new Routes('calendário letivo', 'calendar', 'calendar.svg', true, true),
     new Routes('Configurações', 'settings', 'settings.svg', true, true),
+    new Routes('novo professor', 'teachers', '', false, false),
 ];
 
 export {

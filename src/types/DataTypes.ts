@@ -1,12 +1,12 @@
 export type Teacher = {
-  id?: string;
+  id: string;
   name: string;
   masp: string;
-  pointsheets: Pointsheet[];
+  pointsheets?: Pointsheet[];
 }
 
 export type TeacherPointSheet = {
-  id?: string;
+  id: string;
   name: string;
   masp: string;
   sheet: Pointsheet;
@@ -33,6 +33,7 @@ export type Calendar = {
   end_date: string;
   start_date: string; 
   activity_dates?: Activity_dates[];
+  acronym?: string;
 }
 
 export type Activity_dates = {
@@ -40,4 +41,9 @@ export type Activity_dates = {
   description: string;
   reference_day: string;
   type: string;
+}
+
+export type Config = {
+  id: string;
+  departament: string;
 }

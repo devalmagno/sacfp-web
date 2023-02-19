@@ -23,6 +23,8 @@ function Calendar() {
 
   const semesterText = `${semester.split('/')[0].split('0').toString().substring(1, 2)}º Semestre de ${semester.split('/')[1]}`;
 
+  const showCalendarContainer = calendar.activity_dates && calendar.activity_dates.length > 0;
+
   const buttonStyle = {
     columnGap: '8px',
   }
@@ -44,7 +46,7 @@ function Calendar() {
       id,
       semester,
       start_date: startDate,
-      end_date: endDate
+      end_date: endDate,
     });
   }
 
@@ -132,8 +134,8 @@ function Calendar() {
           </form>
           <hr />
           {startDate !== '' && endDate !== '' ? (
-            <FormDate 
-              calendar={calendar} 
+            <FormDate
+              calendar={calendar}
               setCalendar={setCalendar}
               semester={semester}
             />
@@ -144,10 +146,14 @@ function Calendar() {
 
         </div>
 
-        <CalendarContainer 
-          calendar={calendar} 
-          key={calendar.activity_dates?.length}
-        />
+        {showCalendarContainer ? (
+          <CalendarContainer
+            calendar={calendar}
+            key={calendar.activity_dates?.length}
+          />
+
+        ) :
+          <div className="calendar--display"></div>}
       </div>
     </section>
   )

@@ -10,6 +10,7 @@ type InputProps = {
     fontSize?: number;
     setValue: (value: any) => void;
     sufix?: string;
+    maxLength?: number;
 }
 
 function Input(props: InputProps) {
@@ -48,6 +49,7 @@ function Input(props: InputProps) {
                 autoComplete='off'
                 style={inputStyle}
                 ref={inputElement}
+                maxLength={props.maxLength || 255}
                 required
             />
             <label htmlFor="input" onClick={focusInput}>{props.label}</label>

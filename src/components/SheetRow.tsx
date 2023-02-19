@@ -66,10 +66,10 @@ function SheetRow(props: SheetRowProps) {
 
         if (!props.teacher.id) return;
         const teacherDoc = doc(db, "teachers", props.teacher.id);
-        const sheetIndex = props.teacher.pointsheets.indexOf(props.sheet);
+        const sheetIndex = props.teacher.pointsheets!.indexOf(props.sheet);
         let updatedSheets = props.teacher.pointsheets;
-        updatedSheets.splice(sheetIndex, 1);
-        updatedSheets.push(newSheet)
+        updatedSheets!.splice(sheetIndex, 1);
+        updatedSheets!.push(newSheet)
         const updatedTeacher: Teacher = {
             ...props.teacher,
             pointsheets: updatedSheets,
@@ -103,9 +103,9 @@ function SheetRow(props: SheetRowProps) {
     const removeSheet = async () => {
         if (!props.teacher.id) return;
         const teacherDoc = doc(db, "teachers", props.teacher.id);
-        const sheetIndex = props.teacher.pointsheets.indexOf(props.sheet);
+        const sheetIndex = props.teacher.pointsheets!.indexOf(props.sheet);
         let updatedSheets = props.teacher.pointsheets;
-        updatedSheets.splice(sheetIndex, 1);
+        updatedSheets!.splice(sheetIndex, 1);
         const updatedTeacher: Teacher = {
             ...props.teacher,
             pointsheets: updatedSheets,

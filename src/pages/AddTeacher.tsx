@@ -1,36 +1,38 @@
-import { Dispatch, SetStateAction, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { BiEdit, BiPlusCircle, BiSave, BiXCircle } from 'react-icons/bi';
 
 import { Button, Input, SavedPopUp } from '../ui';
 
-import { Teacher as TeacherType } from '../types/DataTypes';
+import { Teacher } from '../types/DataTypes';
 
 import '../styles/Teacher.scss';
 import { SheetRow, AddSheetRow } from '../components';
 import { toCapitalize } from '../utils';
-import { doc, updateDoc } from '@firebase/firestore';
+import { addDoc, collection, doc, updateDoc } from '@firebase/firestore';
 import { db } from '../services/firebaseConfig';
 import { useDataContext } from '../contexts';
 
-type RouteProps = {
-    teacher: TeacherType;
-}
 
-function Teacher() {
-    const route = useLocation();
-    const { teacher: teacherProp }: RouteProps = route.state;
-    
-    const { setTeachers } = useDataContext();
+function AddTeacher() {
+    const { setTeachers, semester } = useDataContext();
+    const navigate = useNavigate();
 
-    const [teacher, setTeacher] = useState(teacherProp);
-    const [name, setName] = useState(teacher.name);
-    const [masp, setMasp] = useState(teacher.masp);
+    const [name, setName] = useState('');
+    const [masp, setMasp] = useState('');
+    const [teacher, setTeacher] = useState<Teacher>({
+        masp,
+        name,
+        pointsheets: [],
+        id: ''
+    });
 
     const [isDisabled, setIsDisabled] = useState(true);
     const [addDiscipline, setAddDiscipline] = useState(false);
 
     const [showSucessPopUp, setShowSucessPopUp] = useState(false);
+
+    const teachersCollectionRef = collection(db, "teachers");
 
     const toggleDisabled = () => {
         event?.preventDefault();
@@ -46,44 +48,44 @@ function Teacher() {
         marginLeft: 10
     }
 
-    const disciplinesElements = teacher.pointsheets!.map((sheet, index) => (
-        <SheetRow
-            key={`${teacher.id}${sheet.discipline}${index}`}
-            sheet={sheet}
-            teacher={teacher}
-            setTeacher={setTeacher}
-        />
-    ));
-
-    const updateTeacher = async () => {
+    const addNewTeacher = async () => {
         event?.preventDefault();
-
-        if (name === teacher.name && masp === teacher.masp || !teacher.id) {
-            toggleDisabled();
-            return;
-        }
-
-        const teacherDoc = doc(db, "teachers", teacher.id);
-        const updatedTeacher = {
+        const { id } = await addDoc(teachersCollectionRef, {
             ...teacher,
             name,
             masp,
-        };
-
-        await updateDoc(teacherDoc, updatedTeacher);
-        setTeachers(_prevState => {
-            const teachersList = _prevState;
-            const index = teachersList.indexOf(teacher);
-            teachersList[index].name = updatedTeacher.name;
-            teachersList[index].masp = updatedTeacher.masp;
-
-            return teachersList;
         });
 
-        setTeacher(updatedTeacher);
+        setTeacher({
+            ...teacher,
+            masp,
+            name,
+            id
+        });
 
-        toggleDisabled();
-        setShowSucessPopUp(true);
+        setTeachers(_prevState => {
+            const teacherList = _prevState;
+            teacherList.push({
+                id,
+                masp,
+                name,
+                pointsheets: [],
+            });
+
+            return teacherList;
+        });
+
+        navigate(`../spreadsheets/${id}`, {
+            state: {
+                teacher: {
+                    id,
+                    name,
+                    masp,
+                    pointsheets: [],
+                },
+            }
+        });
+
     }
 
     return (
@@ -93,14 +95,14 @@ function Teacher() {
                     <Link to='/spreadsheets'>
                         {`> `}Dados
                     </Link>
-                    {` / ${teacher.name}`}
+                    {' / Novo professor'}
                 </span>
                 <div className="container--info teacher">
                     <div className="info-title">
                         <strong>Professor</strong>
                     </div>
                     <div className="top-line"></div>
-                    <form className="info--row" onSubmit={updateTeacher}>
+                    <form className="info--row" onSubmit={addNewTeacher}>
                         <Input
                             label='Nome'
                             value={name}
@@ -131,38 +133,10 @@ function Teacher() {
                                 icon={(
                                     <BiSave fill="#fff" size={20} />
                                 )}
-                                onClick={updateTeacher}
                                 submit={true}
                             />
                         )}
                     </form>
-                </div>
-                <div className="container--info teacher">
-                    <div className="info-title">
-                        <strong>Disciplinas</strong>
-                    </div>
-                    <div className="top-line"></div>
-                    <div
-                        className="add-discipline"
-                        onClick={toggleAddDiscipline}
-                    >
-                        {addDiscipline ? (
-                            <>
-                                <BiXCircle fill="#fff" size={20} />
-                                <div className="tooltip">{toCapitalize('cancelar')}</div>
-                            </>
-                        ) : (
-                            <>
-                                <BiPlusCircle fill="#fff" size={20} />
-                                <div className="tooltip">{toCapitalize('Adicionar Disciplina')}</div>
-                            </>
-                        )}
-                    </div>
-                    {addDiscipline && <AddSheetRow
-                        teacher={teacher}
-                        setShow={toggleAddDiscipline}
-                    />}
-                    {disciplinesElements}
                 </div>
             </div>
             <SavedPopUp
@@ -173,4 +147,4 @@ function Teacher() {
     )
 }
 
-export default Teacher;
+export default AddTeacher;

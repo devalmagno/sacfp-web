@@ -18,7 +18,7 @@ type AddSheetRow = {
 }
 
 function AddSheetRow(props: AddSheetRow) {
-    const { setTeachers } = useDataContext();
+    const { setTeachers, semester } = useDataContext();
 
     const [course, setCourse] = useState('');
     const [period, setPeriod] = useState('');
@@ -39,6 +39,8 @@ function AddSheetRow(props: AddSheetRow) {
     const updateSheet = async () => {
         event?.preventDefault();
 
+        console.log(props.teacher.pointsheets);
+
         const newSheet: Pointsheet = {
             course,
             period,
@@ -46,13 +48,13 @@ function AddSheetRow(props: AddSheetRow) {
             workload,
             schedules,
             course_code: '',
-            semester: '01/2023',
+            semester,
         };
 
-        if (!props.teacher.id) return;
+        if (props.teacher.id === '' || !props.teacher.pointsheets) return;
         const teacherDoc = doc(db, "teachers", props.teacher.id);
         let updatedSheets = props.teacher.pointsheets;
-        updatedSheets.push(newSheet)
+        updatedSheets!.push(newSheet)
         const updatedTeacher: Teacher = {
             ...props.teacher,
             pointsheets: updatedSheets,
@@ -60,11 +62,15 @@ function AddSheetRow(props: AddSheetRow) {
 
         await updateDoc(teacherDoc, updatedTeacher);
 
-        setTeachers(_prevState => {
-            const teachersList = _prevState;
-            const indexTeacher = teachersList.indexOf(props.teacher);
-            teachersList[indexTeacher].pointsheets = updatedSheets;
 
+        setTeachers(_prevState => {
+            const teachersList: Teacher[] = _prevState;
+            const index = teachersList.indexOf(props.teacher);
+            const teacher = teachersList.find(e => e.id === props.teacher.id);
+            teachersList.splice(index, 1);
+            teacher?.pointsheets?.push(...updatedSheets);
+            teachersList.push(teacher!);
+            
             return teachersList;
         });
 

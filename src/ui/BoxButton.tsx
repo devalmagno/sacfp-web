@@ -11,9 +11,12 @@ type BoxButtonProps = {
   color: string;
   path?: string;
   func?: () => void;
+  disabled?: boolean;
 }
 
 function BoxButton(props: BoxButtonProps) {
+  const isDisabled = props.disabled || false;
+
   const iconType =
     typeof (props.icon) === 'string' ?
       props.icon.substring(props.icon.length - 3) == 'svg' :
@@ -26,7 +29,7 @@ function BoxButton(props: BoxButtonProps) {
           (
             <Link to={props.path}>
               <div
-                className="container__box"
+                className={`container__box ${isDisabled && 'disabled'}`}
                 style={{ background: props.background }}
               >
                 <div></div>
@@ -45,7 +48,7 @@ function BoxButton(props: BoxButtonProps) {
           ) :
           (
             <div
-              className="container__box"
+              className={`container__box ${isDisabled && 'disabled'}`}
               style={{ background: props.background }}
               onClick={props.func}
             >
