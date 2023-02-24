@@ -20,8 +20,8 @@ type RouteProps = {
 function Teacher() {
     const route = useLocation();
     const { teacher: teacherProp }: RouteProps = route.state;
-    
-    const { setTeachers } = useDataContext();
+
+    const { setTeachers, calendar } = useDataContext();
 
     const [teacher, setTeacher] = useState(teacherProp);
     const [name, setName] = useState(teacher.name);
@@ -31,6 +31,8 @@ function Teacher() {
     const [addDiscipline, setAddDiscipline] = useState(false);
 
     const [showSucessPopUp, setShowSucessPopUp] = useState(false);
+
+    const semester = calendar.acronym ? `${calendar.semester}${calendar.acronym}` : calendar.semester;
 
     const toggleDisabled = () => {
         event?.preventDefault();
@@ -158,11 +160,13 @@ function Teacher() {
                             </>
                         )}
                     </div>
+                    <strong className="disclaimer">ATENÇÃO: Você está usando o calendário <span>{semester}</span></strong>
                     {addDiscipline && <AddSheetRow
                         teacher={teacher}
                         setShow={toggleAddDiscipline}
                     />}
                     {disciplinesElements}
+
                 </div>
             </div>
             <SavedPopUp

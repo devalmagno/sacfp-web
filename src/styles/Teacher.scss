@@ -13,6 +13,17 @@
         row-gap: 8px;
         // padding-top: 1rem;
 
+        .disclaimer {
+            margin-top: 1.8rem;
+            font-size: 12.8px;
+            align-self: flex-end;
+
+            span {
+                font-size: 13.5px;
+                color: #ea1d2c;
+            }
+        }
+
         .info-title {
             position: absolute;
             top: -12px;
@@ -52,6 +63,8 @@
 
             border-radius: 40px;
             cursor: pointer;
+
+
 
             .tooltip {
                 opacity: 0;
