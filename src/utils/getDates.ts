@@ -1,4 +1,4 @@
-import { Calendar, Schedules } from "../types/DataTypes";
+import { Activity_dates, Calendar, Schedules } from "../types/DataTypes";
 import { ascDateSort, ascTimeSort } from "./alphabeticalSort";
 import arrayRange from "./arrayRange";
 import { convertDateToString, convertStringToDate } from "./handlerDate";
@@ -148,7 +148,8 @@ const getFormatedSchedules = (schedules: Schedules[]) => {
 }
 
 const createDateList = (date: Date, schedules: FormatedSchedules[], calendar: Calendar) => {
-    const dayNumber = date.getDay();
+    const dayNumber = date.getDay() === 6 ? getSaturdayClassesNumber(date, calendar) : date.getDay();
+
     const schedule = schedules.find(sch => sch.day === dayNumber);
 
     let dates: DateProps[] = [];
@@ -165,7 +166,7 @@ const createDateList = (date: Date, schedules: FormatedSchedules[], calendar: Ca
         dates.push({
             date: convertDateToString(date),
             description: getDescription(date, calendar),
-            time: schedules[0].times[0],
+            time: schedules[0].times[1],
         });
 
     const formatedDates = dates.map(date => {
@@ -267,6 +268,41 @@ const createSchoolDaysList = (list: DateProps[]) => {
     }
 
     return schoolDays;
+}
+
+const getSaturdayClassesNumber = (date: Date, calendar: Calendar) =>  {
+    let day = 0;
+
+    calendar.activity_dates?.forEach(e => {
+        if (e.type === "school_saturday" && e.date === convertDateToString(date))
+            day = getReferenceDayNumber(e.reference_day);
+    });
+
+    return day;
+}
+
+const getReferenceDayNumber = (dayName: string) => {
+    let day = 0;
+
+    switch (dayName) {
+        case 'monday':
+            day = 1;
+            break;
+        case 'tuesday':
+            day = 2;
+            break;
+        case 'wedsnesday':
+            day = 3;
+            break;
+        case 'thursday':
+            day = 4;
+            break;
+        case 'friday':
+            day = 5;
+            break;
+    };
+
+    return day;
 }
 
 export default getDates;
