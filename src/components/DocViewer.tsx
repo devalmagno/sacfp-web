@@ -19,7 +19,7 @@ function DocViewer(props: Props) {
 
   if (!props.pointsheet.sheet.schedules) return <></>;
 
-  const schoolDays = getDates({ calendar: props.calendar, schedules: props.pointsheet.sheet.schedules});
+  const schoolDays = getDates({ calendar: props.calendar, schedules: props.pointsheet.sheet.schedules, workload: props.pointsheet.sheet.workload });
 
   const loadFile = (url: string, callback: (err: Error, data: string) => void) => {
     PizZipUtils.getBinaryContent(url, callback);
