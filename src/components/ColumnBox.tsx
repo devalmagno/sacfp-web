@@ -9,8 +9,8 @@ function ColumnBox() {
   const boxRoutesElements = boxRoutes.map((box) => {
     if (!box.boxButton) return;
     const randomNumber = Math.floor(Math.random() * 10);
-    const background = randomNumber % 2 == 0 ? '#333A56' : '#fff';
-    const color = randomNumber % 2 != 0 ? '#333A56' : '#fff';
+    const background = randomNumber % 2 == 0 ? '#333A56' : '#ffffff';
+    const color = randomNumber % 2 != 0 ? '#333A56' : '#ffffff';
     const title = toCapitalize(box.title);
 
     return (

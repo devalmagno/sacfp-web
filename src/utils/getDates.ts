@@ -6,6 +6,7 @@ import { convertDateToString, convertStringToDate } from "./handlerDate";
 interface GetDateProps {
     calendar: Calendar;
     schedules: Schedules[];
+    workload: number;
 }
 
 interface FormatedSchedules {
@@ -63,8 +64,9 @@ const getDates = (props: GetDateProps) => {
     }
 
     const ascDates = dates.sort((a, b) => ascDateSort(a.date, b.date)).sort((a, b) => ascTimeSort(a.time, b.time, a.date, b.date));
+    const classDatesByWorkload = getClassDatesByWorkloadAsLength(ascDates, props.workload, props.calendar)
 
-    const schoolDays = createSchoolDaysList(ascDates);
+    const schoolDays = createSchoolDaysList(classDatesByWorkload);
 
     return schoolDays;
 }
@@ -270,7 +272,7 @@ const createSchoolDaysList = (list: DateProps[]) => {
     return schoolDays;
 }
 
-const getSaturdayClassesNumber = (date: Date, calendar: Calendar) =>  {
+const getSaturdayClassesNumber = (date: Date, calendar: Calendar) => {
     let day = 0;
 
     calendar.activity_dates?.forEach(e => {
@@ -303,6 +305,47 @@ const getReferenceDayNumber = (dayName: string) => {
     };
 
     return day;
+}
+
+const getClassDatesByWorkloadAsLength = (list: DateProps[], workload: number, calendar: Calendar) => {
+
+    let noClassesDates: DateProps[] = [];
+
+    const listWithoutNoClassDates = list.filter(e => {
+        const isActivityDate = calendar.activity_dates?.some(a => a.date === e.date);
+
+        if (isActivityDate) {
+            const type = calendar.activity_dates?.find(a => {
+                if (a.date === e.date) return a;
+            })?.type;
+
+            if (type === 'school_saturday') return e;
+            else noClassesDates.push(e);
+        } else return e;
+    });
+
+    let listWithoutRepeatedClassDates: DateProps[] = [];
+
+    listWithoutNoClassDates.forEach(e => {
+        if (listWithoutRepeatedClassDates.length <= 0)
+            listWithoutRepeatedClassDates.push(e);
+
+        if (!listWithoutRepeatedClassDates.some(value => value.date === e.date && value.time === e.time))
+            listWithoutRepeatedClassDates.push(e);
+    });
+
+    let listByWorkload: DateProps[] = [];
+
+    listWithoutRepeatedClassDates.forEach(e => {
+        if (listByWorkload.length < workload)
+            listByWorkload.push(e);
+    });
+
+    const listWithNoClassesDates: DateProps[] = listByWorkload;
+    listWithNoClassesDates.push(...noClassesDates);
+    const finalList = listWithNoClassesDates.sort((a, b) => ascDateSort(a.date, b.date)).sort((a, b) => ascTimeSort(a.time, b.time, a.date, b.date));
+
+    return finalList;
 }
 
 export default getDates;

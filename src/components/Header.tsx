@@ -86,7 +86,7 @@ function Header(props: HeaderProps) {
           <span>Departamento de {toCapitalizeFirstLetters(config.departament)}</span>
         </div>
         <div className="header__menu">
-          <span>Logado como <strong>John Doe</strong></span>
+          <span>Conectado como <strong>John Doe</strong></span>
           <Select />
           <div className="container__menu" onClick={toggleBottomMenu}>
             <BiDotsVerticalRounded size={24} />

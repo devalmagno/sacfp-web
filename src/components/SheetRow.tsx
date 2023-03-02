@@ -94,7 +94,7 @@ function SheetRow(props: SheetRowProps) {
             }
         });
 
-        setIsGeneratePointsheetDisabled(!isGeneratePointsheetDisabled);
+        setIsGeneratePointsheetDisabled(false);
 
         toggleIsDisabled();
         setShowSucessPopUp(true);
