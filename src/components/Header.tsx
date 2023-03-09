@@ -7,7 +7,7 @@ import { Select } from '../ui/index';
 import { routes as navBar } from '../services/routes';
 
 import '../styles/Header.scss';
-import { useDataContext } from '../contexts';
+import { useAuthContext, useDataContext } from '../contexts';
 import { toCapitalizeFirstLetters } from '../utils';
 
 type HeaderProps = {
@@ -19,6 +19,7 @@ function Header(props: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const { config } = useDataContext();
+  const { logout, authUser } = useAuthContext();
 
   const navigation = useNavigate();
 
@@ -86,7 +87,7 @@ function Header(props: HeaderProps) {
           <span>Departamento de {toCapitalizeFirstLetters(config.departament)}</span>
         </div>
         <div className="header__menu">
-          <span>Conectado como <strong>John Doe</strong></span>
+          <span>Conectado como <strong>{authUser?.displayName?.split(' ')[0]}</strong></span>
           <Select />
           <div className="container__menu" onClick={toggleBottomMenu}>
             <BiDotsVerticalRounded size={24} />
@@ -119,7 +120,7 @@ function Header(props: HeaderProps) {
           </div>
         </div>
         <div className='option'>
-          <div className="hr logout">
+          <div className="hr logout" onClick={logout}>
             <BiLogOut className="menu__icon" />
             <span>SAIR</span>
           </div>

@@ -1,20 +1,24 @@
 import { useState, useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import { routes } from '../services/routes';
 
 import { ColumnBox, Footer, Header } from '../components';
 
 import {
-  DataContextComponent
+  DataContextComponent, useAuthContext
 } from '../contexts';
 
 
 function Home() {
   const [pageTitle, setPageTitle] = useState('tela inicial');
 
+  const { authUser } = useAuthContext();
+
   const router = useLocation();
+  const navigate = useNavigate();
   const isHome = router.pathname == '/';
+
 
   useEffect(() => {
     const pathname = router.pathname.split('/')[0] + router.pathname.split('/')[1];
@@ -22,21 +26,31 @@ function Home() {
     setPageTitle(title);
   }, [router.pathname]);
 
+  useEffect(() => {
+
+    if (!authUser) navigate('/login');
+  }, []);
+
+  useEffect(() => {
+
+    if (!authUser) navigate('/login');
+  }, [authUser])
+
   return (
     <>
-    <DataContextComponent>
-      <Header
-        pageTitle={pageTitle}
-        setPageTitle={setPageTitle}
-      />
-      {
-        isHome ?
-          <section>
-            <ColumnBox />
-          </section> :
-          <Outlet />
-      }
-    </DataContextComponent>
+      <DataContextComponent>
+        <Header
+          pageTitle={pageTitle}
+          setPageTitle={setPageTitle}
+        />
+        {
+          isHome ?
+            <section>
+              <ColumnBox />
+            </section> :
+            <Outlet />
+        }
+      </DataContextComponent>
     </>
   );
 }

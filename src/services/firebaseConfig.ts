@@ -1,8 +1,9 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from '@firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: import.meta.env.APIKEY,
+  apiKey: import.meta.env.VITE_APIKEY,
   authDomain: "folha-de-ponto-5d9d4.firebaseapp.com",
   projectId: "folha-de-ponto-5d9d4",
   storageBucket: "folha-de-ponto-5d9d4.appspot.com",
@@ -13,4 +14,10 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-export const db = getFirestore(app);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+export {
+  db,
+  auth
+};

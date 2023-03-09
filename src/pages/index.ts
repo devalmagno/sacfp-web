@@ -4,6 +4,7 @@ import PointSheets from './PointSheets';
 import Calendar from './Calendar';
 import Settings from './Settings';
 import AddTeacher from './AddTeacher';
+import Login from './Login';
 
 export {
     Home,
@@ -11,5 +12,6 @@ export {
     PointSheets,
     Settings,
     SpreadSheets,
-    AddTeacher
+    AddTeacher,
+    Login
 };

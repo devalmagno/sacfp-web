@@ -115,6 +115,8 @@
         animation-name: bottomToTop;
         animation-duration: .6s;
 
+        z-index: 10;
+
         .menu__close {
             position: absolute;
             top: -2rem;

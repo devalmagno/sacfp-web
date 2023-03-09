@@ -66,10 +66,8 @@ function AddSheetRow(props: AddSheetRow) {
         setTeachers(_prevState => {
             const teachersList: Teacher[] = _prevState;
             const index = teachersList.indexOf(props.teacher);
-            const teacher = teachersList.find(e => e.id === props.teacher.id);
             teachersList.splice(index, 1);
-            teacher?.pointsheets?.push(...updatedSheets);
-            teachersList.push(teacher!);
+            teachersList.push(updatedTeacher);
             
             return teachersList;
         });
