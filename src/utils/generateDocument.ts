@@ -26,6 +26,9 @@ const generateDocument = (props: Props) => {
 
     schoolDays.forEach(e => number += e.schedules.length);
 
+    const workload = props.pointsheet.sheet.course === 'TUTORIA' ? 
+        '02' : `${props.pointsheet.sheet.workload}`;
+
     loadFile(
         '/pointsheets/pointsheet_model.docx',
         (error, content) => {
@@ -45,7 +48,7 @@ const generateDocument = (props: Props) => {
                 masp: props.pointsheet.masp,
                 discipline: props.pointsheet.sheet.discipline,
                 period: props.pointsheet.sheet.period,
-                workload: props.pointsheet.sheet.workload,
+                workload,
                 schoolDays,
             });
 

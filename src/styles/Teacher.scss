@@ -13,6 +13,22 @@
         row-gap: 8px;
         // padding-top: 1rem;
 
+        .box {
+            background: $line-row;
+            width: fit-content;
+            padding: 4px 6px;
+            border-radius: 4px;
+
+            cursor: pointer;
+
+            transition: all .3s ease;
+
+            &.select {
+                background: $primary-color;
+                color: #fff;
+            }
+        }
+
         .disclaimer {
             margin-top: 1.8rem;
             font-size: 12.8px;
@@ -64,8 +80,6 @@
             border-radius: 40px;
             cursor: pointer;
 
-
-
             .tooltip {
                 opacity: 0;
 
@@ -87,6 +101,21 @@
 
             &:hover>.tooltip {
                 opacity: 1;
+            }
+        }
+
+        .new-sheet {
+            .select--discipline {
+                display: flex;
+                flex-direction: column;
+                row-gap: 0.5rem;
+
+                .box--disciplines {
+                    display: flex;
+                    row-gap: 0.5rem;
+                    column-gap: 0.5rem;
+                    flex-wrap: wrap;
+                }
             }
         }
 

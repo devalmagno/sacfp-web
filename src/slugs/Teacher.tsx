@@ -4,10 +4,10 @@ import { BiEdit, BiPlusCircle, BiSave, BiXCircle } from 'react-icons/bi';
 
 import { Button, Input, SavedPopUp } from '../ui';
 
-import { Teacher as TeacherType } from '../types/DataTypes';
+import { Pointsheet, Teacher as TeacherType } from '../types/DataTypes';
 
 import '../styles/Teacher.scss';
-import { SheetRow, AddSheetRow } from '../components';
+import { SheetRow, AddSheetRow, TutoringSheetRow } from '../components';
 import { toCapitalize } from '../utils';
 import { doc, updateDoc } from '@firebase/firestore';
 import { db } from '../services/firebaseConfig';
@@ -27,8 +27,11 @@ function Teacher() {
     const [name, setName] = useState(teacher.name);
     const [masp, setMasp] = useState(teacher.masp);
 
+    const [tutoringSheet, setTutoringSheet] = useState<Pointsheet | null>(null);
+
     const [isDisabled, setIsDisabled] = useState(true);
     const [addDiscipline, setAddDiscipline] = useState(false);
+    const [isAddingTutoring, setIsAddingTutoring] = useState(false);
 
     const [showSucessPopUp, setShowSucessPopUp] = useState(false);
 
@@ -56,6 +59,17 @@ function Teacher() {
             setTeacher={setTeacher}
         />
     ));
+
+    const tutoringDisciplinesElements = teacher.pointsheets?.map(sheet => {
+        return (
+            <div
+                onClick={() => setTutoringSheet(sheet)}
+                className="box"
+            >
+                {sheet.discipline}
+            </div>
+        );
+    })
 
     const updateTeacher = async () => {
         event?.preventDefault();
@@ -161,10 +175,38 @@ function Teacher() {
                         )}
                     </div>
                     <strong className="disclaimer">ATENÇÃO: Você está usando o calendário <span>{semester}</span></strong>
-                    {addDiscipline && <AddSheetRow
-                        teacher={teacher}
-                        setShow={toggleAddDiscipline}
-                    />}
+                    {addDiscipline && (
+                        <div className="new-sheet">
+                            <div
+                                onClick={() => setIsAddingTutoring(!isAddingTutoring)}
+                                className={isAddingTutoring ? 'box select' : 'box'}
+                            >
+                                Tutoria
+                            </div>
+                            {isAddingTutoring ? (
+                                <div>
+                                    <div className="select--discipline">
+                                        <strong>Disciplina </strong>
+                                        <div className="box--disciplines">
+                                            {tutoringDisciplinesElements}
+                                        </div>
+                                    </div>
+                                    {tutoringSheet && (
+                                        <TutoringSheetRow
+                                            teacher={teacher}
+                                            sheet={tutoringSheet!}
+                                            setShow={toggleAddDiscipline}
+                                        />
+                                    )}
+                                </div>
+                            ) : (
+                                <AddSheetRow
+                                    teacher={teacher}
+                                    setShow={toggleAddDiscipline}
+                                />
+                            )}
+                        </div>
+                    )}
                     {disciplinesElements}
 
                 </div>
