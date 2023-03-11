@@ -106,9 +106,9 @@ function TutoringSheetRow(props: TutoringSheetRowType) {
             />
             <Input
                 label='CH'
-                value={workload}
+                value={'02'}
                 width={82}
-                isDisabled={false}
+                isDisabled={true}
                 setValue={setWorkload}
                 sufix='h/a'
             />

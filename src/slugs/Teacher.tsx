@@ -60,16 +60,22 @@ function Teacher() {
         />
     ));
 
-    const tutoringDisciplinesElements = teacher.pointsheets?.map(sheet => {
+    const tutoringDisciplinesElements = teacher.pointsheets?.filter(sheet => sheet.course !== 'TUTORIA').map(sheet => {
         return (
             <div
-                onClick={() => setTutoringSheet(sheet)}
-                className="box"
+                onClick={() => selectTutoringSheet(sheet)}
+                style={tutoringSheet && tutoringSheet !== sheet ? { display: 'none' } : {}}
+                className={tutoringSheet === sheet ? 'box select' : 'box'}
             >
                 {sheet.discipline}
             </div>
         );
-    })
+    });
+
+    const selectTutoringSheet = (sheet: Pointsheet) => {
+        if (tutoringSheet === sheet) setTutoringSheet(null);
+        else setTutoringSheet(sheet);
+    }
 
     const updateTeacher = async () => {
         event?.preventDefault();
