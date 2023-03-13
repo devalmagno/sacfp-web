@@ -110,20 +110,22 @@ function SheetRow(props: SheetRowProps) {
             ...props.teacher,
             pointsheets: updatedSheets,
         };
+        console.log(updatedTeacher);
 
-        await updateDoc(teacherDoc, updatedTeacher);
+        // await updateDoc(teacherDoc, updatedTeacher);
         props.setTeacher(updatedTeacher);
 
         setTeachers(_prevState => {
             const teachersList = _prevState;
             const indexTeacher = teachersList.indexOf(props.teacher);
-            teachersList[indexTeacher].pointsheets = updatedSheets;
+            teachersList.splice(indexTeacher, 1);
+            teachersList.push(updatedTeacher);
 
             return teachersList;
         });
 
-        toggleIsDisabled();
-        setShowSucessPopUp(true);
+        // toggleIsDisabled();
+        // setShowSucessPopUp(true);
     }
 
     return (

@@ -63,7 +63,6 @@ function TutoringSheetRow(props: TutoringSheetRowType) {
 
         await updateDoc(teacherDoc, updatedTeacher);
 
-
         setTeachers(_prevState => {
             const teachersList: Teacher[] = _prevState;
             const index = teachersList.indexOf(props.teacher);
