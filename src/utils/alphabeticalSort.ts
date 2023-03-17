@@ -6,6 +6,12 @@ const alphabeticalSort = (a: string, b: string) => {
     return 0;
 }
 
+export const sortNumericalRising = (a: number, b: number) => {
+    if (a < b) return -1;
+    if (a > b) return 1;
+    return 0;
+}
+
 export const ascDateSort = (a: string, b: string) => {
     const dates = [convertStringToDate(a), convertStringToDate(b)];
 

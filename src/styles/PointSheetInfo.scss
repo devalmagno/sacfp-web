@@ -1,0 +1,97 @@
+@import '../App.scss';
+
+.pointsheet-info--container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    padding: 0 0.5rem;
+
+    h3,
+    span {
+        color: #fff;
+    }
+
+    .go-back {
+        display: flex;
+        align-items: center;
+        column-gap: 0.5rem;
+
+        transition: all .3s ease;
+        cursor: pointer;
+
+        span {
+            color: #fff;
+        }
+
+        &:hover {
+            transform: scale(1.03);
+        }
+    }
+
+    .pointsheet-models {
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+
+        .models--box {
+            background: #fff;
+            padding: 1rem;
+            border-radius: 4px;
+
+            display: flex;
+            flex-direction: column;
+            row-gap: 0.8rem;
+
+            h3 {
+                color: $primary-color;
+            }
+
+            .container--replacement {
+                background: $card-background;
+                border: 1px solid $card-border;
+                padding: 0.5rem 1rem;
+                border-radius: 4px;
+
+                justify-content: space-between;
+
+                div {
+                    row-gap: 0.5rem;
+
+                    strong,
+                    span {
+                        color: $card-color;
+                        font-size: 12.8px;
+                    }
+                }
+
+                .remove--button {
+                    cursor: pointer;
+                }
+            }
+
+            .replacement--warning {
+                font-size: 12.8px;
+                color: $warning-color;
+            }
+        }
+
+        .models--button {
+            background: #fff;
+            border-radius: 4px;
+            padding: 1rem;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            box-shadow: $box-shadow-input;
+
+            cursor: pointer;
+
+            h3 {
+                color: $primary-color;
+            }
+
+        }
+    }
+}

@@ -18,6 +18,8 @@ button {
     justify-content: space-between;
 
     &:hover > .tooltip {
+        left: -2rem;
+        top: -1.2rem;
         opacity: 1;
     }
 

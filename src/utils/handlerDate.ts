@@ -5,7 +5,7 @@ export const convertStringToDate = (value: string) => {
         year: value.split('/')[2]
     };
     const utcDate = `${dateMap.month}/${dateMap.day}/${dateMap.year}`;
-    
+
     return new Date(utcDate);
 }
 
@@ -90,4 +90,29 @@ export const getMonthName = (value: string) => {
     }
 
     return monthName;
+}
+
+export const getDayName = (value: string) => {
+    const date = convertStringToDate(value);
+    let dayName = '';
+
+    switch (date.getDay()) {
+        case 1:
+            dayName = 'segunda';
+            break;
+        case 2:
+            dayName = 'terça';
+            break;
+        case 3:
+            dayName = 'quarta';
+            break;
+        case 4:
+            dayName = 'quinta';
+            break;
+        case 5:
+            dayName = 'sexta';
+            break;
+    }
+
+    return dayName;
 }

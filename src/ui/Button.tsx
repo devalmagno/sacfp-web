@@ -29,7 +29,7 @@ function Button(props: ButtonProps) {
 
   return (
     <button 
-      style={style} 
+      style={isDisabled ? {...style, backgroundColor: '#e9ecef', color: '#6c757d'} : style} 
       onClick={func} 
       disabled={isDisabled}
       type={props.submit ? 'submit' : 'button'}

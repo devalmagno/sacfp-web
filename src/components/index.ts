@@ -8,6 +8,8 @@ import FormDate from './FormDate';
 import CalendarContainer from './CalendarContainer';
 import DocViewer from './DocViewer';
 import Footer from './Footer';
+import PointSheetInfo from './PointSheetInfo';
+import PointsheetModels from './PointsheetModels';
 
 export {
     Header,
@@ -19,5 +21,7 @@ export {
     FormDate,
     CalendarContainer,
     DocViewer,
-    Footer
+    Footer,
+    PointSheetInfo,
+    PointsheetModels
 };

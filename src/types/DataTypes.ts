@@ -47,3 +47,15 @@ export type Config = {
   id: string;
   departament: string;
 }
+
+export type ReplacementInfo = {
+    classDate: string;
+    classTimes: ClassTimesProps[];
+    replacementDate: string;
+    replacementTimes: ClassTimesProps[];
+}
+
+export type ClassTimesProps = {
+    time: number;
+    isSelected: boolean;
+}

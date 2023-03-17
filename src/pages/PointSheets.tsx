@@ -1,19 +1,21 @@
-import { BiEdit, BiSpreadsheet } from 'react-icons/bi';
+import { BiSpreadsheet, BiDownload } from 'react-icons/bi';
 
 import { Button, Search } from "../ui";
 
 import '../styles/PointSheets.scss';
 import { useDataContext } from '../contexts';
-import { TeacherPointSheet } from '../types/DataTypes';
+import { Teacher, TeacherPointSheet } from '../types/DataTypes';
 import { alphabeticalSort } from '../utils';
 import { useEffect, useState } from 'react';
-import { DocViewer } from '../components';
+import { DocViewer, PointSheetInfo } from '../components';
 
 function PointSheets() {
   const { teachers, calendar } = useDataContext();
   const [disciplineList, setDisciplineList] = useState<TeacherPointSheet[]>([]);
   const [filteredDisciplineList, setFilteredDisciplineList] = useState<TeacherPointSheet[]>([]);
   const [currentPointsheet, setCurrentPointsheet] = useState<TeacherPointSheet | undefined>(undefined);
+  const [showCurrentPointsheet, setShowCurrentPointsheet] = useState(false);
+  const [showDocViewer, setShowDocViewer] = useState(false);
 
   const buttonStyle = {
     background: "#fff",
@@ -46,21 +48,40 @@ function PointSheets() {
 
           <div className="sheet-actions">
             {scheduleList !== '' && (
-              <div onClick={() => setCurrentPointsheet(elem)}>
+              <div onClick={() => selectCurrentPointsheet(elem, 'download')}>
                 <Button
-                  icon={<BiSpreadsheet fill="#333A56" size={16} />}
+                  icon={<BiDownload fill="#333A56" size={16} />}
                   style={buttonStyle}
+                  tooltip='Baixar'
                 />
               </div>
             )}
-            <Button
-              icon={<BiEdit fill="#333A56" size={16} />}
-              style={buttonStyle}
-            />
+            <div onClick={() => selectCurrentPointsheet(elem, 'pointsheet_info')}>
+              <Button
+                icon={<BiSpreadsheet fill="#333A56" size={16} />}
+                style={buttonStyle}
+                tooltip='Ver Pontos'
+              />
+            </div>
           </div>
         </div>
       );
     });
+
+  const selectCurrentPointsheet = (elem: TeacherPointSheet, type: string) => {
+      setCurrentPointsheet(elem);
+
+      if (type === 'download') handleShowDocViewer();
+      else if (type === 'pointsheet_info') handleShowPointsheetInfo();
+  }
+
+  const handleShowPointsheetInfo = () => {
+    setShowCurrentPointsheet(!showCurrentPointsheet);
+  }
+
+  const handleShowDocViewer = () => {
+    setShowDocViewer(!showDocViewer);
+  }
 
   const handleSearch = (title: string, value: string) => {
 
@@ -129,6 +150,10 @@ function PointSheets() {
 
   }
 
+  const renderInnerContent = () => {
+
+  }
+
   useEffect(() => {
     const getDisciplineList = () => {
       const disciplineArray: TeacherPointSheet[] = [];
@@ -172,17 +197,18 @@ function PointSheets() {
         <div className="pointsheet--inner-content">
           {disciplineList.length === 0 ? (
             <div><strong>Carregando....</strong></div>
-          ) : disciplineElements}
+          ) : showCurrentPointsheet ?
+            <PointSheetInfo
+              sheet={currentPointsheet!}
+              show={handleShowPointsheetInfo}
+            /> :
+            disciplineElements
+          }
         </div>
       </div>
 
       <div className="pointsheet--render">
-        {currentPointsheet && (
-          <DocViewer
-            pointsheet={currentPointsheet}
-            calendar={calendar}
-          />
-        )}
+        {showDocViewer && <DocViewer calendar={calendar} pointsheet={currentPointsheet!} />}
       </div>
     </div>
   );
