@@ -3,6 +3,7 @@ import { createBrowserRouter, Navigate, BrowserRouter as Router, RouterProvider 
 import {
   AddTeacher,
   Calendar,
+  ErrorPage,
   Home,
   Login,
   PointSheets,
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: '/spreadsheets',

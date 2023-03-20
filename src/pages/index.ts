@@ -5,6 +5,7 @@ import Calendar from './Calendar';
 import Settings from './Settings';
 import AddTeacher from './AddTeacher';
 import Login from './Login';
+import ErrorPage from './ErrorPage';
 
 export {
     Home,
@@ -13,5 +14,6 @@ export {
     Settings,
     SpreadSheets,
     AddTeacher,
-    Login
+    Login,
+    ErrorPage
 };
