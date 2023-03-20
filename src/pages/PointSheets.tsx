@@ -150,11 +150,9 @@ function PointSheets() {
 
   }
 
-  const renderInnerContent = () => {
-
-  }
-
   useEffect(() => {
+    document.title = 'SGCFP - Folhas de Ponto';
+
     const getDisciplineList = () => {
       const disciplineArray: TeacherPointSheet[] = [];
 

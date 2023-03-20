@@ -19,6 +19,8 @@ function Login() {
     useEffect(() => {
 
         if (authUser !== null) navigate('/');
+
+        document.title = 'SGCFP - Fazer Acesso';
     }, []);
 
     useEffect(() => {

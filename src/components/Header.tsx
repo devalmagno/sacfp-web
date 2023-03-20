@@ -16,8 +16,6 @@ type HeaderProps = {
 }
 
 function Header(props: HeaderProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const { config } = useDataContext();
   const { logout, authUser } = useAuthContext();
 
@@ -45,31 +43,6 @@ function Header(props: HeaderProps) {
     );
   })
 
-  const bottomMenuOptions = [
-    {
-      title: 'mudar senha',
-      icon: <BiEdit className="menu__icon" />,
-      func: () => null,
-    },
-    {
-      title: 'sair',
-      icon: <BiLogOut className="menu__icon" />,
-      func: () => null,
-    },
-  ];
-  const bottomMenuElements = bottomMenuOptions.map(option => (
-    <div>
-      <div className="hr logout" onClick={option.func}>
-        {option.icon}
-        <span>{option.title.toUpperCase()}</span>
-      </div>
-    </div>
-  ));
-
-  function toggleBottomMenu() {
-    setIsMenuOpen(state => !state);
-  }
-
   function handlePageNavigation(pageTitle: string) {
     props.setPageTitle(pageTitle);
   }
@@ -89,8 +62,8 @@ function Header(props: HeaderProps) {
         <div className="header__menu">
           <span>Conectado como <strong>{authUser?.displayName?.split(' ')[0]}</strong></span>
           <Select />
-          <div className="container__menu" onClick={toggleBottomMenu}>
-            <BiDotsVerticalRounded size={24} />
+          <div className="container__menu" onClick={logout}>
+            <BiLogOut size={20} />
           </div>
         </div>
       </div>
@@ -105,28 +78,6 @@ function Header(props: HeaderProps) {
           {navBarElements}
         </ul>
       </nav>
-
-      <div className="menu__options" style={
-        isMenuOpen ? { display: "flex " } :
-          { display: 'none' }
-      }>
-        <div className="menu__close" onClick={toggleBottomMenu}>
-          <BiX size={24} />
-        </div>
-        <div className='option'>
-          <div className="hr">
-            <BiEdit className="menu__icon" />
-            <span>MUDAR SENHA</span>
-          </div>
-        </div>
-        <div className='option'>
-          <div className="hr logout" onClick={logout}>
-            <BiLogOut className="menu__icon" />
-            <span>SAIR</span>
-          </div>
-        </div>
-      </div>
-
     </div>
   )
 }

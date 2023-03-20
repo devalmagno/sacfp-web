@@ -79,10 +79,12 @@ function FormDate({ calendar, setCalendar, semester }: Props) {
   const addNewDateToCalendar = async () => {
     event?.preventDefault();
     if (!isValidDate(date, semester)) return;
+    if (selectedDateType.type === "school_saturday" && referenceDay === '')
+      return;
 
     const calendarDoc = doc(db, "semesters", calendar.id);
 
-    const updatedCalendar = calendar;
+    const updatedCalendar = {...calendar};
     updatedCalendar.activity_dates?.push({
       date,
       description,
@@ -147,13 +149,13 @@ function FormDate({ calendar, setCalendar, semester }: Props) {
             title='Adicionar'
             style={buttonStyle}
             submit={true}
-            isDisabled={selectedDateType.type === '' ||
-              date === '' ||
-              selectedDateType.type === 'other' &&
-              description === '' ||
-              selectedDateType.type === 'school_saturday' &&
-              referenceDay === ''
-            }
+            // isDisabled={selectedDateType.type === '' ||
+            //   date === '' ||
+            //   selectedDateType.type === 'other' &&
+            //   description === '' ||
+            //   selectedDateType.type === 'school_saturday' &&
+            //   referenceDay === ''
+            // }
           />
         </form>
       </div>

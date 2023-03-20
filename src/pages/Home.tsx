@@ -24,10 +24,10 @@ function Home() {
     const pathname = router.pathname.split('/')[0] + router.pathname.split('/')[1];
     const { title } = routes.filter(route => `${route.path}` == pathname)[0];
     setPageTitle(title);
+    document.title = 'SGCFP - Tela Inicial';
   }, [router.pathname]);
 
   useEffect(() => {
-
     if (!authUser) navigate('/login');
   }, []);
 

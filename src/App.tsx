@@ -11,11 +11,10 @@ import {
 } from './pages';
 import { Teacher } from './slugs';
 
-import { AuthContext, AuthProvider } from './contexts';
-import { useAuthContext } from './contexts/AuthContext';
+import { AuthProvider } from './contexts';
 
 
-import './App.scss'
+import './App.scss';
 
 const router = createBrowserRouter([
   {
@@ -60,8 +59,8 @@ function App() {
   return (
     <div className="App">
       <AuthProvider>
-        <RouterProvider router={router} />
-        {/* {authUser ? (
+          <RouterProvider router={router} />
+          {/* {authUser ? (
           <RouterProvider router={router} />
         ) : (
           <Router>

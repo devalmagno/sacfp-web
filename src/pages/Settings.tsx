@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Input, InputSemester } from '../ui';
 import { useDataContext } from '../contexts';
 
@@ -63,6 +63,10 @@ function Settings() {
     ]);
   }
 
+  useEffect(() => {
+    document.title = 'SGCFP - Configurações'
+  }, [])
+
   return (
     <section>
       <div className="settings--container column">
@@ -90,7 +94,7 @@ function Settings() {
 
           <div className="current-semester">
             <strong className='subtext'>Atual</strong>
-            <span className='subtext'>{semester}{calendar.acronym}</span>
+            <span className='subtext'>{semester}{calendar?.acronym}</span>
           </div>
 
           <form className="column" onSubmit={createNewCalendar}>

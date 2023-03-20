@@ -8,6 +8,7 @@ import InputSemester from './InputSemester';
 import CustomSelect from './CustomSelect';
 import SavedPopUp from './SavedPopUp';
 import ReplacementDate from './ReplacementDate';
+import DateInfo from './DateInfo';
 
 export {
     BoxButton,
@@ -19,5 +20,6 @@ export {
     CustomSelect,
     SavedPopUp,
     InputSemester,
-    ReplacementDate
+    ReplacementDate,
+    DateInfo
 };

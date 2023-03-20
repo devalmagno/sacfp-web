@@ -32,8 +32,8 @@ export type Calendar = {
   semester: string;
   end_date: string;
   start_date: string; 
-  activity_dates?: Activity_dates[];
-  acronym?: string;
+  activity_dates: Activity_dates[];
+  acronym: string;
 }
 
 export type Activity_dates = {

@@ -10,10 +10,9 @@ import '../styles/Calendar.scss';
 import { FormDate } from "../components";
 import { db } from "../services/firebaseConfig";
 import { addDoc, collection, doc, updateDoc } from "@firebase/firestore";
-import { Calendar as CalendarType } from "../types/DataTypes";
 
 function Calendar() {
-  const { semester, calendar, setCalendar } = useDataContext();
+  const { semester, calendar, setCalendar, isFetched } = useDataContext();
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
 
@@ -23,7 +22,7 @@ function Calendar() {
 
   const semesterText = `${semester.split('/')[0].split('0').toString().substring(1, 2)}º Semestre de ${semester.split('/')[1]}`;
 
-  const showCalendarContainer = calendar.activity_dates && calendar.activity_dates.length > 0;
+  const showCalendarContainer = calendar && calendar.activity_dates !== undefined && calendar.activity_dates.length > 0;
 
   const buttonStyle = {
     columnGap: '8px',
@@ -47,21 +46,21 @@ function Calendar() {
       semester,
       start_date: startDate,
       end_date: endDate,
+      activity_dates: [],
+      acronym: '',
     });
   }
 
   const updateSemesterStartAndEndDate = async () => {
     event?.preventDefault();
 
-    setCalendar(_prevState => {
-      const calendar: CalendarType = {
-        ..._prevState,
-        start_date: startDate,
-        end_date: endDate,
-      }
+    const newCalendar = {
+      ...calendar,
+      startDate,
+      endDate,
+    };
 
-      return calendar;
-    })
+    setCalendar(newCalendar);
 
     if (!calendar.id) return;
     const calendarDoc = doc(db, "semesters", calendar.id);
@@ -71,11 +70,13 @@ function Calendar() {
   }
 
   useEffect(() => {
-    if (calendar.start_date) {
-      setStartDate(calendar.start_date);
-      setEndDate(calendar.end_date);
-    }
+    document.title = 'SGCFP - Calendário Letivo';
   }, []);
+
+  useEffect(() => {
+    setStartDate(calendar.start_date);
+    setEndDate(calendar.end_date);
+  }, [calendar]);
 
   if (!calendar)
     return (
@@ -122,7 +123,7 @@ function Calendar() {
                   icon={<BiSave fill="#fff" size={20} />}
                   submit={true}
                   tooltip="salvar"
-                  isDisabled={startDate.length == 0 || endDate.length == 0}
+                  isDisabled={startDate.length === 0 || endDate.length === 0}
                 />
                 <Button
                   icon={<BiX fill="#fff" size={20} />}
@@ -149,9 +150,7 @@ function Calendar() {
         {showCalendarContainer ? (
           <CalendarContainer
             calendar={calendar}
-            key={calendar.activity_dates?.length}
           />
-
         ) :
           <div className="calendar--display"></div>}
       </div>

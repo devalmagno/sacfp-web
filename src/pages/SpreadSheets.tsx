@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { addDoc, collection, deleteDoc, doc } from '@firebase/firestore';
 import { BiData, BiSpreadsheet, BiPlus, BiTrash } from 'react-icons/bi';
 
@@ -253,6 +253,10 @@ function SpreadSheets() {
     setTeachers(teacherList);
     setTeachersList(teachers.sort((a, b) => alphabeticalSort(a.name, b.name)));
   }
+
+  useEffect(() => {
+    document.title = 'SGCFP - Dados';
+  }, []);
 
   return (
     <section>

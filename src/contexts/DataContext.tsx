@@ -20,6 +20,8 @@ type dataContext = {
 
     config: Config;
     setConfig: Dispatch<SetStateAction<Config>>;
+
+    isFetched: boolean;
 }
 
 type Props = {
@@ -45,6 +47,8 @@ export function DataContextComponent(props: Props) {
 
     const [semester, setSemester] = useState("01/2023");
     const [calendar, setCalendar] = useState<Calendar>(calendarList[0]);
+
+    const [isFetched, setIsFetched] = useState(false);
 
     const [config, setConfig] = useState<Config>({
         id: '',
@@ -96,7 +100,8 @@ export function DataContextComponent(props: Props) {
                 config,
                 setConfig,
                 calendarList,
-                setCalendarList
+                setCalendarList,
+                isFetched
             }}
         >
             {props.children}

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { BiEdit, BiPlusCircle, BiSave, BiXCircle } from 'react-icons/bi';
 
@@ -107,6 +107,10 @@ function Teacher() {
         toggleDisabled();
         setShowSucessPopUp(true);
     }
+
+    useEffect(() => {
+        document.title = `SGCFP - ${teacher.name}`
+    })
 
     return (
         <section>

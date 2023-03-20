@@ -38,7 +38,7 @@ function Select() {
 
     const changeCurrentCalendar = (selected: Calendar) => {
         setCalendar(selected);
-        setSemester(selected.semester)
+        setSemester(`${selected.semester}`)
         setIsOpen(false);
     }
 
