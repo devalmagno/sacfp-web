@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 import { toCapitalize } from '../utils';
 
@@ -18,20 +18,19 @@ function Button(props: ButtonProps) {
   const title = props.title ? props.title.toUpperCase() : '';
   const tooltip = props.tooltip ? toCapitalize(props.tooltip) : '';
 
-  const isDisabled = props.isDisabled || false;
-  const func = isDisabled ? () => {} : props.onClick;
+  const func = props.isDisabled ? () => {} : props.onClick;
 
   const style = {
-    background: "#333A56",
+    backgroundColor: "#333A56",
     color: '#fff',
     ...props.style
   }
 
   return (
     <button 
-      style={isDisabled ? {...style, backgroundColor: '#e9ecef', color: '#6c757d'} : style} 
+      style={props.isDisabled ? {...style, backgroundColor: '#e9ecef', color: '#6c757d'} : style} 
       onClick={func} 
-      disabled={isDisabled}
+      disabled={props.isDisabled}
       type={props.submit ? 'submit' : 'button'}
     >
       {title}{props.icon}

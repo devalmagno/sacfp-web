@@ -22,6 +22,7 @@ function TimesSelect(props: Props) {
     });
     const [isAddingSchedule, setIsAddingSchedule] = useState(false);
 
+    const isAddCurrentScheduleButtonDisabled = !(currentSchedule.times.length > 0);
     const isAddScheduleButtonDisabled = !(currentSchedule.times.length > 0);
 
     const days = ["segunda", "terça", "quarta", "quinta", "sexta"];
@@ -197,12 +198,13 @@ function TimesSelect(props: Props) {
                 {!isAddScheduleButtonDisabled ? (
                     <Button
                         icon={<BiPlus fill="#fff" size={16} />}
+                        isDisabled={isAddCurrentScheduleButtonDisabled}
                         onClick={addToSchedules}
                     />
                 ) : (
                     <Button
                         title='Adicionar'
-                        isDisabled={schedules.length == 0}
+                        isDisabled={schedules.length === 0}
                         onClick={submitNewSchedules}
                     />
                 )}

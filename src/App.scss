@@ -114,6 +114,13 @@ $warning-color: #ea1d2c;
     font-size: 14px;
 }
 
+.box--container {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+    column-gap: 0.5rem;
+}
+
 .box {
     background: $line-row;
     width: fit-content;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { doc, updateDoc } from '@firebase/firestore';
 import { BiSave } from 'react-icons/bi';
 
@@ -13,6 +13,7 @@ import '../styles/SheetRow.scss';
 import { useDataContext } from '../contexts';
 
 type AddSheetRow = {
+    course: string;
     teacher: Teacher;
     setShow: () => void;
 }
@@ -20,7 +21,7 @@ type AddSheetRow = {
 function AddSheetRow(props: AddSheetRow) {
     const { setTeachers, semester } = useDataContext();
 
-    const [course, setCourse] = useState('');
+    const [course, setCourse] = useState(props.course);
     const [period, setPeriod] = useState('');
     const [discipline, setDiscipline] = useState('');
     const [workload, setWorkload] = useState(0);
@@ -78,6 +79,10 @@ function AddSheetRow(props: AddSheetRow) {
             props.setShow();
         }, 2500);
     }
+
+    useEffect(() => {
+        setCourse(props.course);
+    }, [props.course]);
 
     return (
         <form className="info--row" onSubmit={updateSheet}>

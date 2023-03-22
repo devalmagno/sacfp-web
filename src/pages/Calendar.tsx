@@ -12,7 +12,7 @@ import { db } from "../services/firebaseConfig";
 import { addDoc, collection, doc, updateDoc } from "@firebase/firestore";
 
 function Calendar() {
-  const { semester, calendar, setCalendar, isFetched } = useDataContext();
+  const { semester, calendar, setCalendar } = useDataContext();
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
 

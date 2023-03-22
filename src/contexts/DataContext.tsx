@@ -21,7 +21,8 @@ type dataContext = {
     config: Config;
     setConfig: Dispatch<SetStateAction<Config>>;
 
-    isFetched: boolean;
+    courseList: string[];
+    setCourseList: Dispatch<SetStateAction<string[]>>;
 }
 
 type Props = {
@@ -48,12 +49,12 @@ export function DataContextComponent(props: Props) {
     const [semester, setSemester] = useState("01/2023");
     const [calendar, setCalendar] = useState<Calendar>(calendarList[0]);
 
-    const [isFetched, setIsFetched] = useState(false);
-
     const [config, setConfig] = useState<Config>({
         id: '',
         departament: '',
     });
+
+    const [courseList, setCourseList] = useState<string[]>([]);
 
     const teachersCollectionRef = collection(db, "teachers");
     const calendarCollectionRef = collection(db, "semesters");
@@ -84,6 +85,23 @@ export function DataContextComponent(props: Props) {
     }, []);
 
     useEffect(() => {
+        const getCourseList = () => {
+            let teacherCourses: string[] = [];
+            teachers.forEach(teacher => {
+                teacher.pointsheets?.forEach(sheet => {
+                    if (!teacherCourses.some(e => e === sheet.course) && sheet.course !== 'TESTE' && sheet.course.toLowerCase() !== 'tutoria')
+                        teacherCourses.push(sheet.course);
+                });
+            });
+
+            setCourseList(teacherCourses);
+        }
+
+
+        getCourseList();
+    }, [teachers])
+
+    useEffect(() => {
         const currentCalendar = calendarList.filter(calendar => calendar.semester === semester);
         setCalendar(currentCalendar[0])
     }, [calendarList, semester]);
@@ -101,7 +119,8 @@ export function DataContextComponent(props: Props) {
                 setConfig,
                 calendarList,
                 setCalendarList,
-                isFetched
+                courseList,
+                setCourseList
             }}
         >
             {props.children}

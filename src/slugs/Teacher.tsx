@@ -21,7 +21,7 @@ function Teacher() {
     const route = useLocation();
     const { teacher: teacherProp }: RouteProps = route.state;
 
-    const { setTeachers, calendar } = useDataContext();
+    const { setTeachers, calendar, courseList } = useDataContext();
 
     const [teacher, setTeacher] = useState(teacherProp);
     const [name, setName] = useState(teacher.name);
@@ -31,7 +31,9 @@ function Teacher() {
 
     const [isDisabled, setIsDisabled] = useState(true);
     const [addDiscipline, setAddDiscipline] = useState(false);
+
     const [isAddingTutoring, setIsAddingTutoring] = useState(false);
+    const [currentCourse, setCurrentCourse] = useState('');
 
     const [showSucessPopUp, setShowSucessPopUp] = useState(false);
 
@@ -71,6 +73,33 @@ function Teacher() {
             </div>
         );
     });
+
+    const courseElements = courseList.map(course => {
+        const courseName = course.split(' ').map(e => toCapitalize(e)).toString().replaceAll(",", " ");
+        const isSelected = course === currentCourse;
+
+        return (
+            <div
+                className={isSelected ? 'box select' : 'box'}
+                onClick={() => selectCourse(course)}
+                key={course}
+            >
+                {courseName}
+            </div>
+        );
+    });
+
+    const handlerTutoring = () => {
+        if (!isAddingTutoring) setCurrentCourse('');
+        setIsAddingTutoring(!isAddingTutoring);
+    }
+
+    const selectCourse = (course: string) => {
+        if (course !== currentCourse) setCurrentCourse(course);
+        else setCurrentCourse('');
+
+        if (isAddingTutoring) setIsAddingTutoring(false);
+    }
 
     const selectTutoringSheet = (sheet: Pointsheet) => {
         if (tutoringSheet === sheet) setTutoringSheet(null);
@@ -187,12 +216,16 @@ function Teacher() {
                     <strong className="disclaimer">ATENÇÃO: Você está usando o calendário <span>{semester}</span></strong>
                     {addDiscipline && (
                         <div className="new-sheet">
-                            <div
-                                onClick={() => setIsAddingTutoring(!isAddingTutoring)}
-                                className={isAddingTutoring ? 'box select' : 'box'}
-                            >
-                                Tutoria
+                            <div className="box--container">
+                                <div
+                                    onClick={handlerTutoring}
+                                    className={isAddingTutoring ? 'box select' : 'box'}
+                                >
+                                    Tutoria
+                                </div>
+                                {courseElements}
                             </div>
+
                             {isAddingTutoring ? (
                                 <div>
                                     <div className="select--discipline">
@@ -213,6 +246,7 @@ function Teacher() {
                                 <AddSheetRow
                                     teacher={teacher}
                                     setShow={toggleAddDiscipline}
+                                    course={currentCourse}
                                 />
                             )}
                         </div>

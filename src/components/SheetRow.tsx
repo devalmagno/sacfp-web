@@ -20,7 +20,7 @@ type SheetRowProps = {
 }
 
 function SheetRow(props: SheetRowProps) {
-    const { setTeachers, calendar, semester } = useDataContext();
+    const { teachers, setTeachers, calendar, semester } = useDataContext();
 
     const [isDisabled, setIsDisabled] = useState(true);
     const [isGeneratePointsheetDisabled, setIsGeneratePointsheetDisabled] = useState(props.sheet.schedules?.length === 0);
@@ -112,17 +112,15 @@ function SheetRow(props: SheetRowProps) {
         };
         console.log(updatedTeacher);
 
-        // await updateDoc(teacherDoc, updatedTeacher);
+        await updateDoc(teacherDoc, updatedTeacher);
         props.setTeacher(updatedTeacher);
 
-        setTeachers(_prevState => {
-            const teachersList = _prevState;
-            const indexTeacher = teachersList.indexOf(props.teacher);
-            teachersList.splice(indexTeacher, 1);
-            teachersList.push(updatedTeacher);
+        const teachersList = teachers.slice();
+        const indexTeacher = teachersList.indexOf(props.teacher);
+        teachersList.splice(indexTeacher, 1);
+        teachersList.push(updatedTeacher);
 
-            return teachersList;
-        });
+        setTeachers(teachersList);
 
         // toggleIsDisabled();
         // setShowSucessPopUp(true);
@@ -186,7 +184,7 @@ function SheetRow(props: SheetRowProps) {
                     <Button
                         icon={<BiSpreadsheet fill="#fff" size={24} />}
                         tooltip='folha de ponto'
-                        onClick={() => generateDocument({calendar, pointsheet: teacherPointsheet, semester})}
+                        onClick={() => generateDocument({ calendar, pointsheet: teacherPointsheet, semester })}
                         isDisabled={isGeneratePointsheetDisabled}
                     />)
                     : (
