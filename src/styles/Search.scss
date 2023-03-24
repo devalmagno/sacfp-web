@@ -107,14 +107,14 @@
     }
 }
 
-@media (max-width: $layout-breakpoint-midlow) {
+@media (max-width: $layout-breakpoint-medium) {
     .container--search {
-        width: 400px;
+        min-width: 500px !important;
     }
 }
 
-@media (max-width: $layout-breakpoint-low) {
+@media (max-width: $layout-breakpoint-midlow) {
     .container--search {
-        width: 20rem;
+        min-width: 384px !important;
     }
 }

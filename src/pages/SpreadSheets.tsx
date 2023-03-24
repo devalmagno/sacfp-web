@@ -21,29 +21,26 @@ function SpreadSheets() {
   const inputElement = useRef<HTMLInputElement | null>(null);
   const { teachers, setTeachers, semester } = useDataContext();
   const [teachersList, setTeachersList] = useState<Teacher[]>(teachers.sort((a, b) => alphabeticalSort(a.name, b.name)));
-  // const [showOutlet, setShowOutlet] = useState(false);
 
   const teachersCollectionRef = collection(db, "teachers");
-
-
-  // const toggleShowOutlet = () => {
-  //   setShowOutlet(_prevState => !_prevState);
-  // }
 
   const teachersElements = teachersList.map((teacher, index) => (
     <tr key={`${teacher.id}${index}`}>
       <td>{teacher.name}</td>
       <td>{teacher.masp}</td>
       <td className="teacher--buttons">
-        <Link
-          to={`${teacher.id}`}
-          state={{
-            teacher: teacher,
-          }}
-        // onClick={toggleShowOutlet}
-        >
-          <BiSpreadsheet fill="#46343B" size={24} />
-        </Link>
+        <div className="open--data">
+          <Link
+            to={`${teacher.id}`}
+            state={{
+              teacher: teacher,
+            }}
+          // onClick={toggleShowOutlet}
+          >
+            <BiSpreadsheet className="open--data" fill="#46343B" size={24} />
+          </Link>
+
+        </div>
         <div className="delete--teacher" onClick={() => deleteTeacher(teacher.id!)}>
           <BiTrash fill="#46343B" size={24} />
         </div>
@@ -284,7 +281,6 @@ function SpreadSheets() {
       <div className="search--box">
         <Search
           handleSearch={handleSearch}
-          style={{ width: '498px' }}
         />
       </div>
 

@@ -216,9 +216,11 @@
         height: auto;
 
         .header__info {
+            padding: 1rem 0;
             flex-direction: column;
             row-gap: 1rem;
             justify-content: center;
+            height: auto;
         }
 
         .header__nav {

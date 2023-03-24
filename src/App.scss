@@ -31,12 +31,24 @@ $warning-color: #ea1d2c;
     height: 100vh;
     width: 100vw;
 
-    overflow-x: hidden;
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $primary-color;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #fff;
+        border-radius: 6px 0 6px 0;
+    }
 
     section {
         width: 100%;
         height: calc(100% - 148px);
-        overflow-y: scroll;
+        // overflow-y: scroll;
+        overflow-x: visible;
         padding: 3rem 0;
 
         display: flex;

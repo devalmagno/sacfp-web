@@ -26,3 +26,11 @@
 
     }
 }
+
+@media (max-width: $layout-breakpoint-medium) {
+    .calendar--container {
+        flex-direction: column;
+
+        width: 100%;
+    }
+}

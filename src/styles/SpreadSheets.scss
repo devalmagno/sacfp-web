@@ -24,6 +24,10 @@
     }
 }
 
+.search--box {
+    width: 498px;
+}
+
 .data-table {
     width: 512px;
 
@@ -75,5 +79,86 @@
                 }
             }
         }
+    }
+}
+
+@media (max-width: $layout-breakpoint-midlow) {
+    section {
+        padding: 3rem 0.5rem !important;
+
+        .search--box {
+            width: 100%;
+        }
+
+        .data-table {
+            width: auto;
+            display: flex;
+            height: 160px;
+            overflow-y: hidden;
+
+            thead {
+                tr {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    row-gap: 0.5rem;
+
+                    th {
+                        height: 3rem;
+
+                        padding: 1rem;
+                        background: $primary-color;
+                        color: #fff;
+                    }
+                }
+            }
+
+            tbody {
+                height: 160px;
+                overflow: scroll;
+
+                tr {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    row-gap: 0.5rem;
+
+                    td {
+                        height: 3rem;
+
+                        padding: 1rem;
+
+                        &.teacher--buttons {
+                            display: flex;
+                            align-items: center;
+                            column-gap: 2rem;
+
+                            .open--data {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                column-gap: 0.5rem;
+
+                                &::after {
+                                    content: 'VER DADOS';
+                                }
+                            }
+
+                            .delete--teacher {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                column-gap: 0.5rem;
+
+                                &::after {
+                                    content: 'REMOVER PROFESSOR';
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }

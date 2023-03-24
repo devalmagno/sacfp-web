@@ -81,8 +81,8 @@
     }
 
     .date-info--container {
-        position: absolute;
-        bottom: 7rem;
+        // position: absolute;
+        // bottom: 7rem;
 
         .info {
             width: 100%;
@@ -105,8 +105,8 @@
         flex-direction: column;
         row-gap: 0.5rem;
 
-        position: absolute;
-        bottom: 1rem;
+        // position: absolute;
+        // bottom: 1rem;
 
         .color--container {
             display: flex;
@@ -142,4 +142,10 @@
         }
     }
 
+}
+
+@media (max-width: $layout-breakpoint-medium) {
+    .calendar--display {
+        width: 100%;
+    }
 }

@@ -93,3 +93,21 @@
         }
     }
 }
+
+@media (max-width: $layout-breakpoint-medium) {
+    .pointsheets--container {
+        .pointsheet--data {
+            width: 100% !important;
+            padding: 0 1rem;
+
+            .pointsheet--search {
+                width: 92%;
+            }
+        }
+
+        .pointsheet--render {
+            width: 0;
+            display: none;
+        }
+    }
+}
