@@ -1,0 +1,96 @@
+@import '../App.scss';
+
+.sheet--container {
+    width: 40rem;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: #fff;
+    row-gap: 1rem;
+    box-shadow: $box-shadow-hover;
+    border-radius: 4px;
+
+    .pointsheet--header {
+        display: flex;
+        flex-wrap: wrap;
+        row-gap: 1rem;
+
+        .info {
+            display: flex;
+            flex-direction: column;
+            width: 5rem;
+            height: 2.5rem;
+            overflow-y: hidden;
+
+            span {
+                font-size: 0.9rem;
+            }
+
+            &:nth-child(1) {
+                width: 30rem;
+            }
+
+            &:nth-child(2) {
+                width: 5rem;
+            }
+
+            &:nth-child(3) {
+                width: 25rem;
+            }
+        }
+    }
+
+    .pointsheet-table {
+        thead {
+            display: flex;
+            // column-gap: 0.5rem;
+
+            tr {
+                border: 1px solid #000;
+                padding: 0 0.5rem;
+
+                &:nth-child(1) {
+                    width: 6.5rem;
+                }
+
+                &:nth-child(2) {
+                    width: 4rem;
+                }
+
+                &:nth-child(3) {
+                    width: 22.5rem;
+                }
+            }
+        }
+
+        tbody {
+            display: flex;
+            flex-direction: column;
+
+            tr {
+                display: flex;
+
+                td {
+                    border: 1px solid #00000099;
+                    padding: 0.2rem 0.5rem;
+
+                    &:nth-child(1) {
+                        width: 6.5rem;
+                    }
+
+                    &:nth-child(2) {
+                        width: 4rem;
+                        display: flex;
+                        justify-content: center;
+                    }
+
+                    &:nth-child(3) {
+                        width: 22.5rem;
+                    }
+                }
+
+            }
+        }
+    }
+}

@@ -8,6 +8,7 @@ import InputSemester from './InputSemester';
 import CustomSelect from './CustomSelect';
 import SavedPopUp from './SavedPopUp';
 import ReplacementDate from './ReplacementDate';
+import EadDate from './EadDate';
 import DateInfo from './DateInfo';
 
 export {
@@ -21,5 +22,6 @@ export {
     SavedPopUp,
     InputSemester,
     ReplacementDate,
-    DateInfo
+    DateInfo,
+    EadDate
 };

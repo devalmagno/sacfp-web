@@ -91,7 +91,16 @@
             h3 {
                 color: $primary-color;
             }
+        }
 
+        .button--disabled {
+            background: $disabled-background;
+
+            border: $disabled-border;
+            
+            h3 {
+                color: $disabled-color;
+            }
         }
     }
 }

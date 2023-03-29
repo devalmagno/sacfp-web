@@ -4,10 +4,10 @@ import { Button, Search } from "../ui";
 
 import '../styles/PointSheets.scss';
 import { useDataContext } from '../contexts';
-import { Teacher, TeacherPointSheet } from '../types/DataTypes';
-import { alphabeticalSort } from '../utils';
+import { TeacherPointSheet } from '../types/DataTypes';
+import { alphabeticalSort, generateDocument } from '../utils';
 import { useEffect, useState } from 'react';
-import { DocViewer, PointSheetInfo } from '../components';
+import { NormalPointsheet, PointSheetInfo } from '../components';
 
 function PointSheets() {
   const { teachers, calendar } = useDataContext();
@@ -69,18 +69,20 @@ function PointSheets() {
     });
 
   const selectCurrentPointsheet = (elem: TeacherPointSheet, type: string) => {
-      setCurrentPointsheet(elem);
+    setCurrentPointsheet(elem);
 
-      if (type === 'download') handleShowDocViewer();
-      else if (type === 'pointsheet_info') handleShowPointsheetInfo();
+    if (type === 'download') generateDocument({
+      calendar,
+      pointsheet: elem,
+      save: true,
+      semester: calendar.semester,
+    });
+    else if (type === 'pointsheet_info') handleShowPointsheetInfo();
   }
 
   const handleShowPointsheetInfo = () => {
     setShowCurrentPointsheet(!showCurrentPointsheet);
-  }
-
-  const handleShowDocViewer = () => {
-    setShowDocViewer(!showDocViewer);
+    setShowDocViewer(true);
   }
 
   const handleSearch = (title: string, value: string) => {
@@ -206,7 +208,13 @@ function PointSheets() {
       </div>
 
       <div className="pointsheet--render">
-        {showDocViewer && <DocViewer calendar={calendar} pointsheet={currentPointsheet!} />}
+        {
+          disciplineList[0] && (
+            <NormalPointsheet
+              pointsheet={currentPointsheet ? currentPointsheet : disciplineList[0]}
+            />
+          )
+        }
       </div>
     </div>
   );

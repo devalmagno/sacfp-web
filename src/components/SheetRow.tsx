@@ -184,7 +184,7 @@ function SheetRow(props: SheetRowProps) {
                     <Button
                         icon={<BiSpreadsheet fill="#fff" size={24} />}
                         tooltip='folha de ponto'
-                        onClick={() => generateDocument({ calendar, pointsheet: teacherPointsheet, semester })}
+                        onClick={() => generateDocument({ calendar, pointsheet: teacherPointsheet, semester, save: true })}
                         isDisabled={isGeneratePointsheetDisabled}
                     />)
                     : (

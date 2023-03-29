@@ -1,0 +1,11 @@
+[
+    {
+        "origin": [
+            "http://127.0.0.1"
+        ],
+        "method": [
+            "GET"
+        ],
+        "maxAgeSeconds": 3600
+    }
+]

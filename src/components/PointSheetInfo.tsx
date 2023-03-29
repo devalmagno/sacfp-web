@@ -2,12 +2,13 @@ import { BiLeftArrowAlt, BiRightArrowAlt, BiSpreadsheet } from 'react-icons/bi';
 
 import { TeacherPointSheet } from '../types/DataTypes';
 
+import { generateDocument } from '../utils';
+
 import '../styles/PointSheetInfo.scss';
-import { ReactNode, useEffect, useState } from 'react';
-import { InputDate } from '../ui';
-import { sortNumericalRising, getDayName, arrayRange } from '../utils';
 
 import PointsheetModels from './PointsheetModels';
+import { useDataContext } from '../contexts';
+import { PointsheetEadModel } from '.';
 
 type Props = {
     sheet: TeacherPointSheet;
@@ -15,6 +16,7 @@ type Props = {
 }
 
 function PointSheetInfo({ sheet, show }: Props) {
+    const { calendar, semester } = useDataContext();
 
     const schedules = sheet.sheet.schedules!.map(sch => {
         const { day, times } = sch;
@@ -38,7 +40,15 @@ function PointSheetInfo({ sheet, show }: Props) {
             <span>{schedules}</span>
 
             <div className="pointsheet-models">
-                <div className="models--button">
+                <div
+                    className="models--button"
+                    onClick={() => generateDocument({
+                        calendar,
+                        pointsheet: sheet,
+                        save: true,
+                        semester,
+                    })}
+                >
                     <BiSpreadsheet fill="#333A56" size={16} />
                     <h3>Gerar Folha de Ponto Normal</h3>
                     <BiRightArrowAlt fill="#333A56" size={16} />
@@ -52,6 +62,10 @@ function PointSheetInfo({ sheet, show }: Props) {
                 <PointsheetModels
                     sheet={sheet}
                     type='Reposição'
+                />
+
+                <PointsheetEadModel
+                    sheet={sheet}
                 />
             </div>
         </div>

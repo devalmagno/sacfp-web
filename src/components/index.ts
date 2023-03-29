@@ -6,10 +6,11 @@ import TutoringSheetRow from './TutoringSheetRow';
 import TimesSelect from './TimesSelect';
 import FormDate from './FormDate';
 import CalendarContainer from './CalendarContainer';
-import DocViewer from './DocViewer';
 import Footer from './Footer';
 import PointSheetInfo from './PointSheetInfo';
 import PointsheetModels from './PointsheetModels';
+import PointsheetEadModel from './PointsheetEadModel';
+import NormalPointsheet from './NormalPointsheet';
 
 export {
     Header,
@@ -20,8 +21,9 @@ export {
     TimesSelect,
     FormDate,
     CalendarContainer,
-    DocViewer,
     Footer,
     PointSheetInfo,
-    PointsheetModels
+    PointsheetModels,
+    NormalPointsheet,
+    PointsheetEadModel
 };

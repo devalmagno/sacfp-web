@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import InputDate from "./InputDate"
-import { ClassTimesProps, ReplacementInfo, TeacherPointSheet } from "../types/DataTypes";
+import { ClassTimesProps, EadInfo, TeacherPointSheet } from "../types/DataTypes";
 import { arrayRange, convertDayNameEnUSToPtBR, convertStringToDate, getDayName, sortNumericalRising } from "../utils";
 import Button from "./Button";
 import { BiPlus } from "react-icons/bi";
@@ -9,11 +9,11 @@ import { useDataContext } from "../contexts";
 type Props = {
     type: string;
     sheet: TeacherPointSheet;
-    replacementInfo: ReplacementInfo[];
-    setReplacementInfo: Dispatch<SetStateAction<ReplacementInfo[]>>;
+    eadInfo: EadInfo[];
+    setEadInfo: Dispatch<SetStateAction<EadInfo[]>>;
 }
 
-function ReplacementDate(props: Props) {
+function EadDate(props: Props) {
     const [classDate, setClassDate] = useState('');
     const [classTimes, setClassTimes] = useState<ClassTimesProps[]>([]);
 
@@ -86,29 +86,19 @@ function ReplacementDate(props: Props) {
     }
 
     const addToList = () => {
-        const replacement: ReplacementInfo = {
+        const ead: EadInfo = {
             classDate,
             classTimes,
-            replacementDate,
-            replacementTimes
         };
-        const replacementList = props.replacementInfo.slice();
+        const eadList = props.eadInfo.slice();
 
-        if (replacementList.some(e => e === replacement)) return;
+        if (eadList.some(e => e === ead)) return;
 
-        replacementList.push(replacement);
-        props.setReplacementInfo(replacementList);
+        eadList.push(ead);
+        props.setEadInfo(eadList);
 
         setClassDate('');
-        setReplacementDate('');
         setClassTimes([]);
-
-        const replacementTimesList = replacementTimes
-            .map(e => ({
-                ...e,
-                isSelected: false
-            }));
-        setReplacementTimes(replacementTimesList);
     }
 
     useEffect(() => {
@@ -156,43 +146,17 @@ function ReplacementDate(props: Props) {
                 />
                 {timesElement}
             </div>
-            {classDate.length === 10 && classTimes.some(e => e.isSelected) && (
-                <div className="flex-column">
-                    <div className="flex-row">
-                        <InputDate
-                            label={`Data ${props.type}`}
-                            value={replacementDate}
-                            setValue={setReplacementDate}
-                            isDisabled={!classTimes.some(e => e.isSelected)}
-                            width={246}
-                        />
-                        {classDate.length === 10 &&
-                            replacementDate.length === 10 &&
-                            !isAfterReplacementBlocked &&
-                            !isBeforeReplacementBlocked &&
-                            classTimes.filter(e => e.isSelected).length ===
-                            replacementTimes.filter(e => e.isSelected).length && (
-                                <Button
-                                    icon={<BiPlus fill="#fff" size={20} />}
-                                    onClick={addToList}
-                                />
-                            )}
-                    </div>
-                    {isBeforeReplacementBlocked && (
-                        <strong className="replacement--warning">Data da Anteposição deve ser antes da data da aula</strong>
-                    )}
-                    {isAfterReplacementBlocked && (
-                        <strong className="replacement--warning">Data da Reposição deve ser após a da data da aula</strong>
-                    )}
-                    {!isAfterReplacementBlocked && !isBeforeReplacementBlocked && replacementDate.length === 10 && (
-                        <div className="flex-row">
-                            {replacementTimesElements}
-                        </div>
-                    )}
+            {classTimes.some(e => e.isSelected) && (
+                <div className="flex-row" style={{ justifyContent: 'flex-end', }}>
+                    <Button
+                        icon={<BiPlus fill="#fff" size={20} />}
+                        onClick={addToList}
+                        style={{ width: 48 }}
+                    />
                 </div>
             )}
         </div>
     )
 }
 
-export default ReplacementDate
+export default EadDate

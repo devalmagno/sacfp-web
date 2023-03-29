@@ -55,6 +55,11 @@ export type ReplacementInfo = {
     replacementTimes: ClassTimesProps[];
 }
 
+export type EadInfo = {
+    classDate: string;
+    classTimes: ClassTimesProps[];
+}
+
 export type ClassTimesProps = {
     time: number;
     isSelected: boolean;

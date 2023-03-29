@@ -94,25 +94,58 @@ export const getMonthName = (value: string) => {
 
 export const getDayName = (value: string) => {
     const date = convertStringToDate(value);
-    let dayName = '';
+    let ptBR = '';
+    let enUS = '';
 
     switch (date.getDay()) {
         case 1:
-            dayName = 'segunda';
+            ptBR = 'segunda';
+            enUS = 'monday';
             break;
         case 2:
-            dayName = 'terça';
+            ptBR = 'terça';
+            enUS = 'tuesday';
             break;
         case 3:
-            dayName = 'quarta';
+            ptBR = 'quarta';
+            enUS = 'wednesday';
             break;
         case 4:
-            dayName = 'quinta';
+            ptBR = 'quinta';
+            enUS = 'thursday';
             break;
         case 5:
-            dayName = 'sexta';
+            ptBR = 'sexta';
+            enUS = 'friday';
             break;
     }
 
-    return dayName;
+    return {
+        ptBR,
+        enUS
+    };
+}
+
+export const convertDayNameEnUSToPtBR = (value: string) => {
+    let ptBR = '';
+
+    switch (value) {
+        case 'monday':
+            ptBR = 'segunda';
+            break;
+        case 'tuesday':
+            ptBR = 'terça';
+            break;
+        case 'wednesday':
+            ptBR = 'quarta';
+            break;
+        case 'thursday':
+            ptBR = 'quinta';
+            break;
+        case 'friday':
+            ptBR = 'sexta';
+            break;
+    }
+
+    return ptBR;
 }

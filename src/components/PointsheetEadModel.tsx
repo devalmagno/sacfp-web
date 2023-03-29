@@ -1,34 +1,36 @@
 import { BiMenu, BiMenuAltRight, BiRightArrowAlt, BiSpreadsheet, BiTrashAlt } from "react-icons/bi"
-import { ReplacementDate } from "../ui"
+import { EadDate } from "../ui"
 
 import '../styles/PointSheetInfo.scss';
 import { useState } from "react";
-import { ReplacementInfo, TeacherPointSheet } from "../types/DataTypes";
+import { EadInfo, TeacherPointSheet } from "../types/DataTypes";
 import { useDataContext } from "../contexts";
-import { generateReplacementDocument } from "../utils";
+import { generateEadDocument } from "../utils";
 
 type Props = {
     sheet: TeacherPointSheet;
-    type: string;
 }
 
-function PointsheetModels({ sheet, type }: Props) {
+function PointsheetModels({ sheet }: Props) {
     const { config, semester } = useDataContext();
 
-    const [replacementInfo, setReplacementInfo] = useState<ReplacementInfo[]>([]);
+    const [eadInfo, setEadInfo] = useState<EadInfo[]>([]);
 
     const [showContent, setShowContent] = useState(false);
 
-    const replacementElements = replacementInfo.map(elem => {
+    const eadElements = eadInfo.map(elem => {
         const classTimes = elem.classTimes.filter(e => e.isSelected)
-            .map(e => ` ${e.time}º`).toString().replaceAll(",", " ");
-        const replacementTimes = elem.replacementTimes.filter(e => e.isSelected)
             .map(e => ` ${e.time}º`).toString().replaceAll(",", " ");
 
         return (
             <div className="container--replacement flex-row">
                 <BiSpreadsheet fill="#717171" size={20} />
-                <div className="flex-column">
+                <div 
+                    className="flex-column" 
+                    style={{
+                        width: '12rem',
+                    }}     
+                >
                     <strong>
                         {elem.classDate}
                     </strong>
@@ -36,17 +38,9 @@ function PointsheetModels({ sheet, type }: Props) {
                         {classTimes}
                     </span>
                 </div>
-                <div className="flex-column">
-                    <strong>
-                        {elem.replacementDate}
-                    </strong>
-                    <span>
-                        {replacementTimes}
-                    </span>
-                </div>
                 <div
                     className="remove--button"
-                    onClick={() => removeReplacement(elem)}
+                    onClick={() => removeEadItem(elem)}
                 >
                     <BiTrashAlt fill="#717171" size={20} />
                 </div>
@@ -54,34 +48,18 @@ function PointsheetModels({ sheet, type }: Props) {
         );
     });
 
-    const removeReplacement = (elem: ReplacementInfo) => {
-        const replacementList = replacementInfo.slice();
-        const index = replacementList.indexOf(elem);
+    const removeEadItem = (elem: EadInfo) => {
+        const eadList = eadInfo.slice();
+        const index = eadList.indexOf(elem);
 
-        replacementList.splice(index, 1);
-        setReplacementInfo(replacementList);
+        eadList.splice(index, 1);
+        setEadInfo(eadList);
     }
 
     const generatePointsheet = () => {
-        // const formatedClassTimes = classTimes.filter(e => e.isSelected)
-        //     .map(e => e.time);
-        // const formatedReplacementTimes = replacementTimes.filter(e => e.isSelected)
-        //     .map(e => e.time);
-        const formatedReplacementInfo = replacementInfo.map(replacement => {
-            const classTimes = replacement.classTimes.filter(e => e.isSelected);
-            const replacementTimes = replacement.replacementTimes.filter(e => e.isSelected);
-
-            return {
-                ...replacement,
-                classTimes,
-                replacementTimes
-            }
-        });
-
-        generateReplacementDocument({
-            replacementInfo: formatedReplacementInfo,
+        generateEadDocument({
+            eadInfo,
             pointsheet: sheet,
-            pointsheetType: type,
             departament: config.departament,
             semester
         });
@@ -94,7 +72,7 @@ function PointsheetModels({ sheet, type }: Props) {
                 style={{ justifyContent: 'space-between', cursor: 'pointer' }}
                 onClick={() => setShowContent(prevState => !prevState)}
             >
-                <h3>Folha de Ponto {type}</h3>
+                <h3>Folha de Ponto EAD</h3>
                 {!showContent ? (
                     <BiMenu fill="#333A56" size={24} />
                 ) : (
@@ -103,23 +81,23 @@ function PointsheetModels({ sheet, type }: Props) {
             </div>
             <div className="flex-column" style={!showContent ? { display: 'none' } : {}}>
                 <div className="flex-column">
-                    <ReplacementDate
-                        replacementInfo={replacementInfo}
-                        setReplacementInfo={setReplacementInfo}
+                    <EadDate
+                        eadInfo={eadInfo}
+                        setEadInfo={setEadInfo}
                         sheet={sheet}
-                        type={type}
+                        type={'EAD'}
                     />
-                    {replacementElements}
-                    {replacementInfo.length !== 0 ? (
+                    {eadElements}
+                    {eadInfo.length !== 0 ? (
                         <div className="models--button" onClick={generatePointsheet}>
                             <BiSpreadsheet fill="#333A56" size={16} />
-                            <h3>Gerar Ponto de {type}</h3>
+                            <h3>Gerar Ponto EAD</h3>
                             <BiRightArrowAlt fill="#333A56" size={16} />
                         </div>
                     ) : (
                         <div className="models--button button--disabled">
                             <BiSpreadsheet fill="#333A56" size={16} />
-                            <h3>Gerar Ponto de {type}</h3>
+                            <h3>Gerar Ponto EAD</h3>
                             <BiRightArrowAlt fill="#333A56" size={16} />
                         </div>
                     )}

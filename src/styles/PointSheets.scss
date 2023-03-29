@@ -92,6 +92,29 @@
             }
         }
     }
+
+    .pointsheet--render {
+        width: calc(100% - 24rem);
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 1.5rem 0;
+
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: $primary-color;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #fff;
+            border-radius: 6px 0 6px 0;
+        }
+    }
 }
 
 @media (max-width: $layout-breakpoint-medium) {
