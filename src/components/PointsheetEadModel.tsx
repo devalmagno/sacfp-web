@@ -2,9 +2,9 @@ import { BiMenu, BiMenuAltRight, BiRightArrowAlt, BiSpreadsheet, BiTrashAlt } fr
 import { EadDate } from "../ui"
 
 import '../styles/PointSheetInfo.scss';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EadInfo, TeacherPointSheet } from "../types/DataTypes";
-import { useDataContext } from "../contexts";
+import { useDataContext, useRenderReplacementContext } from "../contexts";
 import { generateEadDocument } from "../utils";
 
 type Props = {
@@ -12,11 +12,11 @@ type Props = {
 }
 
 function PointsheetModels({ sheet }: Props) {
-    const { config, semester } = useDataContext();
-
-    const [eadInfo, setEadInfo] = useState<EadInfo[]>([]);
+    const { eadInfo, setEadInfo, setType, type } = useRenderReplacementContext();
 
     const [showContent, setShowContent] = useState(false);
+
+    const { config, semester } = useDataContext();
 
     const eadElements = eadInfo.map(elem => {
         const classTimes = elem.classTimes.filter(e => e.isSelected)
@@ -25,11 +25,11 @@ function PointsheetModels({ sheet }: Props) {
         return (
             <div className="container--replacement flex-row">
                 <BiSpreadsheet fill="#717171" size={20} />
-                <div 
-                    className="flex-column" 
+                <div
+                    className="flex-column"
                     style={{
                         width: '12rem',
-                    }}     
+                    }}
                 >
                     <strong>
                         {elem.classDate}
@@ -48,6 +48,11 @@ function PointsheetModels({ sheet }: Props) {
         );
     });
 
+    const handlerShowContent = () => {
+        setShowContent(prevState => !prevState);
+        setType('EAD');
+    }
+
     const removeEadItem = (elem: EadInfo) => {
         const eadList = eadInfo.slice();
         const index = eadList.indexOf(elem);
@@ -65,12 +70,31 @@ function PointsheetModels({ sheet }: Props) {
         });
     }
 
+    useEffect(() => {
+        const changeType = () => {
+            if (showContent)
+                setType(type);
+
+            setEadInfo([])
+        }
+
+        changeType()
+    }, [showContent]);
+
+    useEffect(() => {
+        const handlerShowContent = () => {
+            if (type !== 'EAD') setShowContent(false);
+        }
+
+        handlerShowContent();
+    }, [type])
+
     return (
         <div className="models--box">
             <div
                 className="flex-row"
                 style={{ justifyContent: 'space-between', cursor: 'pointer' }}
-                onClick={() => setShowContent(prevState => !prevState)}
+                onClick={handlerShowContent}
             >
                 <h3>Folha de Ponto EAD</h3>
                 {!showContent ? (

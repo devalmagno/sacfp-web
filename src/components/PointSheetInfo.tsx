@@ -7,7 +7,7 @@ import { generateDocument } from '../utils';
 import '../styles/PointSheetInfo.scss';
 
 import PointsheetModels from './PointsheetModels';
-import { useDataContext } from '../contexts';
+import { useDataContext, useRenderReplacementContext } from '../contexts';
 import { PointsheetEadModel } from '.';
 
 type Props = {
@@ -17,6 +17,7 @@ type Props = {
 
 function PointSheetInfo({ sheet, show }: Props) {
     const { calendar, semester } = useDataContext();
+    const { setType } = useRenderReplacementContext();
 
     const schedules = sheet.sheet.schedules!.map(sch => {
         const { day, times } = sch;
@@ -30,7 +31,7 @@ function PointSheetInfo({ sheet, show }: Props) {
         <div className='pointsheet-info--container'>
             <div className="go-back" onClick={show}>
                 <BiLeftArrowAlt fill='#fff' />
-                <span>Voltar</span>
+                <span>Voltar para Pontos</span>
             </div>
             <h3>{sheet.name}</h3>
             <span>{sheet.masp}</span>
@@ -51,6 +52,15 @@ function PointSheetInfo({ sheet, show }: Props) {
                 >
                     <BiSpreadsheet fill="#333A56" size={16} />
                     <h3>Gerar Folha de Ponto Normal</h3>
+                    <BiRightArrowAlt fill="#333A56" size={16} />
+                </div>
+
+                <div
+                    className="models--button"
+                    onClick={() => setType('')}
+                >
+                    <BiSpreadsheet fill="#333A56" size={16} />
+                    <h3>Visualizar Folha de Ponto Normal</h3>
                     <BiRightArrowAlt fill="#333A56" size={16} />
                 </div>
 

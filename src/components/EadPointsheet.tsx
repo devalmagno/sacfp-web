@@ -1,42 +1,50 @@
-import { TeacherPointSheet } from "../types/DataTypes"
+import { EadSchoolDays, ScheduleEad, ScheduleReplacement, TeacherPointSheet } from "../types/DataTypes"
 
 import '../styles/NormalPointsheet.scss';
-import { getDates } from "../utils";
-import { useDataContext } from "../contexts";
+import { useDataContext, useRenderReplacementContext } from "../contexts";
+import { getSchoolDaysList } from "../utils";
 
 type Props = {
     pointsheet: TeacherPointSheet;
 }
 
-function NormalPointsheet(props: Props) {
+function EadPointsheet(props: Props) {
     const { calendar } = useDataContext();
+    const { eadInfo, type } = useRenderReplacementContext();
 
-    const schoolDays = getDates({
-        calendar,
-        schedules: props.pointsheet.sheet.schedules!,
-        workload: props.pointsheet.sheet.workload,
+    const schedules: ScheduleEad[] = [];
+    eadInfo.forEach(e => {
+        const classInfo: ScheduleEad[] = e.classTimes.map((time, index) => ({
+            date: e.classDate,
+            time: time.time,
+        }));
+
+        if (!schedules.some(e => classInfo.some(info => info === e)))
+            schedules.push(...classInfo);
     });
 
-    const schoolDaysElements = schoolDays.map(day => {
+    const eadSchoolDays: EadSchoolDays[] = getSchoolDaysList(schedules)
+
+    const schoolDaysElements = eadSchoolDays.map(day => {
         const dayElements = day.schedules.map(sch => {
             return (
                 <tr>
-                    <td>{sch.date}</td>
-                    <td>{sch.time}º</td>
-                    <td>{sch.description}</td>
+                    <td className="ead--pointsheet">{sch.date}</td>
+                    <td className="ead--pointsheet">{sch.time}º</td>
+                    <td className="ead--pointsheet"></td>
                 </tr>
             )
         });
 
         const classElements = (
             <>
-                <caption><strong>{day.month}</strong></caption> 
+                <caption><strong>{day.month}</strong></caption>
                 {dayElements}
             </>
         );
 
         return classElements;
-    })
+    });
 
     return (
         <div className="sheet--container">
@@ -69,16 +77,16 @@ function NormalPointsheet(props: Props) {
 
             <table className="pointsheet-table">
                 <thead>
-                    <tr><th>DATA</th></tr>
-                    <tr><th>AULA</th></tr>
-                    <tr><th>ASSINATURA</th></tr>
+                    <tr className="ead--pointsheet"><th>DATA</th></tr>
+                    <tr className="ead--pointsheet"><th>AULA/EAD</th></tr>
+                    <tr className="ead--pointsheet"><th>ASSINATURA</th></tr>
                 </thead>
                 <tbody>
-                    {schoolDaysElements} 
+                    {schoolDaysElements}
                 </tbody>
             </table>
         </div>
     )
 }
 
-export default NormalPointsheet
+export default EadPointsheet

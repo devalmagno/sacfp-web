@@ -2,9 +2,9 @@ import { BiMenu, BiMenuAltRight, BiRightArrowAlt, BiSpreadsheet, BiTrashAlt } fr
 import { ReplacementDate } from "../ui"
 
 import '../styles/PointSheetInfo.scss';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ReplacementInfo, TeacherPointSheet } from "../types/DataTypes";
-import { useDataContext } from "../contexts";
+import { useDataContext, useRenderReplacementContext } from "../contexts";
 import { generateReplacementDocument } from "../utils";
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
 function PointsheetModels({ sheet, type }: Props) {
     const { config, semester } = useDataContext();
 
-    const [replacementInfo, setReplacementInfo] = useState<ReplacementInfo[]>([]);
+    const { replacementInfo, setReplacementInfo, setType, type: contextType } = useRenderReplacementContext();
 
     const [showContent, setShowContent] = useState(false);
 
@@ -63,10 +63,6 @@ function PointsheetModels({ sheet, type }: Props) {
     }
 
     const generatePointsheet = () => {
-        // const formatedClassTimes = classTimes.filter(e => e.isSelected)
-        //     .map(e => e.time);
-        // const formatedReplacementTimes = replacementTimes.filter(e => e.isSelected)
-        //     .map(e => e.time);
         const formatedReplacementInfo = replacementInfo.map(replacement => {
             const classTimes = replacement.classTimes.filter(e => e.isSelected);
             const replacementTimes = replacement.replacementTimes.filter(e => e.isSelected);
@@ -86,6 +82,25 @@ function PointsheetModels({ sheet, type }: Props) {
             semester
         });
     }
+
+    useEffect(() => {
+        const changeType = () => {
+            if (showContent)
+                setType(type);
+
+            setReplacementInfo([])
+        }
+
+        changeType()
+    }, [showContent]);
+
+    useEffect(() => {
+        const handlerShowContent = () => {
+            if (type !== contextType) setShowContent(false);
+        }
+
+        handlerShowContent();
+    }, [contextType])
 
     return (
         <div className="models--box">
