@@ -12,7 +12,7 @@ type Props = {
 }
 
 function PointsheetModels({ sheet }: Props) {
-    const { eadInfo, setEadInfo, setType, type } = useRenderReplacementContext();
+    const { eadInfo, setEadInfo, setType, type, setIsPointsheetOpen } = useRenderReplacementContext();
 
     const [showContent, setShowContent] = useState(false);
 

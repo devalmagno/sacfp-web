@@ -11,6 +11,7 @@
         width: 24rem;
         position: relative;
         overflow-y: scroll;
+        overflow-x: hidden;
 
         position: relative;
 
@@ -115,6 +116,21 @@
             border-radius: 6px 0 6px 0;
         }
     }
+
+    .show--menu {
+        height: 48px;
+        width: 48px;
+        background: $primary-color;
+        border-radius: 48px;
+
+        display: none;
+        align-items: center;
+        justify-content: center;
+
+        position: fixed;
+        bottom: 1.5rem;
+        right: 1.5rem;
+    }
 }
 
 @media (max-width: $layout-breakpoint-medium) {
@@ -125,12 +141,29 @@
 
             .pointsheet--search {
                 width: 92%;
+
+                position: absolute;
             }
+
+            &.closed {
+                display: none;
+            }
+        }
+
+        .show--menu {
+            display: flex;
         }
 
         .pointsheet--render {
             width: 0;
             display: none;
+
+            &.open {
+                height: 100%;
+                width: 100%;
+                display: flex;
+                margin-top: 1rem;
+            }
         }
     }
 }

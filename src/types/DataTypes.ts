@@ -48,6 +48,24 @@ export type Config = {
   departament: string;
 }
 
+export type ScheduleReplacement = {
+    classDate: string;
+    classTime: number;
+    replacementDate: string;
+    replacementTime: number;
+}
+
+export type EadSchoolDays = {
+    month: string;
+    schedules: ScheduleEad[];
+}
+
+export type ScheduleEad = {
+    date: string;
+    time: number;
+    description?: string;
+}
+
 export type ReplacementInfo = {
     classDate: string;
     classTimes: ClassTimesProps[];

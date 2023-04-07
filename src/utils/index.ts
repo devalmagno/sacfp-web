@@ -5,7 +5,6 @@ import {
     convertStringToDate,
     convertDateToString,
     isValidDate,
-    getMonthName,
     getDayName,
     convertDayNameEnUSToPtBR
 } from "./handlerDate";
@@ -14,6 +13,7 @@ import generateDocument from "./generateDocument";
 import generateReplacementDocument from "./generateReplacementDocument";
 import generateEadDocument from "./generateEadDocument";
 import { getSchoolDaysList } from './getSchoolDaysList';
+import { getMonthName } from './getMonthName';
 
 export {
     toCapitalize,
@@ -23,7 +23,6 @@ export {
     convertStringToDate,
     convertDateToString,
     isValidDate,
-    getMonthName,
     getDates,
     generateDocument,
     getDayName,
@@ -31,5 +30,6 @@ export {
     generateReplacementDocument,
     convertDayNameEnUSToPtBR,
     getSchoolDaysList,
-    generateEadDocument
+    generateEadDocument,
+	getMonthName
 };

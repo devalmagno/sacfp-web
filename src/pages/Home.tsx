@@ -6,7 +6,7 @@ import { routes } from '../services/routes';
 import { ColumnBox, Footer, Header } from '../components';
 
 import {
-  DataContextComponent, useAuthContext
+  DataContextComponent, RenderReplacementContextComponent, useAuthContext
 } from '../contexts';
 
 
@@ -39,17 +39,19 @@ function Home() {
   return (
     <>
       <DataContextComponent>
-        <Header
-          pageTitle={pageTitle}
-          setPageTitle={setPageTitle}
-        />
-        {
-          isHome ?
-            <section>
-              <ColumnBox />
-            </section> :
-            <Outlet />
-        }
+        <RenderReplacementContextComponent>
+          <Header
+            pageTitle={pageTitle}
+            setPageTitle={setPageTitle}
+          />
+          {
+            isHome ?
+              <section>
+                <ColumnBox />
+              </section> :
+              <Outlet />
+          }
+        </RenderReplacementContextComponent>
       </DataContextComponent>
     </>
   );

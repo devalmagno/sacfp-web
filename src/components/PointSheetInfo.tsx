@@ -17,7 +17,7 @@ type Props = {
 
 function PointSheetInfo({ sheet, show }: Props) {
     const { calendar, semester } = useDataContext();
-    const { setType } = useRenderReplacementContext();
+    const { setType, setIsPointsheetOpen } = useRenderReplacementContext();
 
     const schedules = sheet.sheet.schedules!.map(sch => {
         const { day, times } = sch;
@@ -26,6 +26,11 @@ function PointSheetInfo({ sheet, show }: Props) {
         const formatedSchedule = `${day.toUpperCase().substring(0, 3)}: ${formatedTimes} `;
         return formatedSchedule.substring(0, formatedSchedule.length);
     }).toString();
+
+    const showNormalPointsheet = () => {
+        setType('');
+        setIsPointsheetOpen(true);
+    }
 
     return (
         <div className='pointsheet-info--container'>
@@ -57,7 +62,7 @@ function PointSheetInfo({ sheet, show }: Props) {
 
                 <div
                     className="models--button"
-                    onClick={() => setType('')}
+                    onClick={showNormalPointsheet}
                 >
                     <BiSpreadsheet fill="#333A56" size={16} />
                     <h3>Visualizar Folha de Ponto Normal</h3>

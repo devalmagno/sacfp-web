@@ -1,13 +1,13 @@
-import { BiSpreadsheet, BiDownload } from 'react-icons/bi';
+import { BiSpreadsheet, BiDownload, BiMenu } from 'react-icons/bi';
 
 import { Button, Search } from "../ui";
 
 import '../styles/PointSheets.scss';
-import { useDataContext } from '../contexts';
+import { useDataContext, useRenderReplacementContext } from '../contexts';
 import { TeacherPointSheet } from '../types/DataTypes';
 import { alphabeticalSort, generateDocument } from '../utils';
 import { useEffect, useState } from 'react';
-import { NormalPointsheet, PointSheetInfo } from '../components';
+import { EadPointsheet, NormalPointsheet, PointSheetInfo, ReplacementPointsheet } from '../components';
 
 function PointSheets() {
   const { teachers, calendar } = useDataContext();
@@ -15,7 +15,8 @@ function PointSheets() {
   const [filteredDisciplineList, setFilteredDisciplineList] = useState<TeacherPointSheet[]>([]);
   const [currentPointsheet, setCurrentPointsheet] = useState<TeacherPointSheet | undefined>(undefined);
   const [showCurrentPointsheet, setShowCurrentPointsheet] = useState(false);
-  const [showDocViewer, setShowDocViewer] = useState(false);
+
+  const { type, setType, isPointsheetOpen, setIsPointsheetOpen } = useRenderReplacementContext();
 
   const buttonStyle = {
     background: "#fff",
@@ -82,7 +83,7 @@ function PointSheets() {
 
   const handleShowPointsheetInfo = () => {
     setShowCurrentPointsheet(!showCurrentPointsheet);
-    setShowDocViewer(true);
+    setType('');
   }
 
   const handleSearch = (title: string, value: string) => {
@@ -183,7 +184,7 @@ function PointSheets() {
 
   return (
     <div className="pointsheets--container">
-      <div className="pointsheet--data">
+      <div className={isPointsheetOpen ? "pointsheet--data closed" : "pointsheet--data" }>
         <div className="pointsheet--search">
           <Search
             handleSearch={handleSearch}
@@ -207,13 +208,33 @@ function PointSheets() {
         </div>
       </div>
 
-      <div className="pointsheet--render">
+      {isPointsheetOpen && (
+        <div 
+          className="show--menu"
+          onClick={() => setIsPointsheetOpen(false)}
+        >
+          <BiMenu fill="#fff" size={24} />
+        </div>
+      )}
+
+      <div className={isPointsheetOpen ? 'pointsheet--render open' : 'pointsheet--render'}>
         {
-          disciplineList[0] && (
-            <NormalPointsheet
-              pointsheet={currentPointsheet ? currentPointsheet : disciplineList[0]}
-            />
-          )
+          type === '' ?
+            disciplineList[0] && (
+              <NormalPointsheet
+                pointsheet={currentPointsheet ? currentPointsheet : disciplineList[0]}
+              />
+            ) : type === 'EAD' ?
+              (
+                <EadPointsheet
+                  pointsheet={currentPointsheet ? currentPointsheet : disciplineList[0]}
+                />
+              ) :
+              (
+                <ReplacementPointsheet
+                  pointsheet={currentPointsheet ? currentPointsheet : disciplineList[0]}
+                />
+              )
         }
       </div>
     </div>

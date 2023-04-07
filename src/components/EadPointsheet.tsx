@@ -10,7 +10,7 @@ type Props = {
 
 function EadPointsheet(props: Props) {
     const { calendar } = useDataContext();
-    const { eadInfo, type } = useRenderReplacementContext();
+    const { eadInfo } = useRenderReplacementContext();
 
     const schedules: ScheduleEad[] = [];
     eadInfo.forEach(e => {
@@ -23,7 +23,10 @@ function EadPointsheet(props: Props) {
             schedules.push(...classInfo);
     });
 
-    const eadSchoolDays: EadSchoolDays[] = getSchoolDaysList(schedules)
+    const eadSchoolDays: EadSchoolDays[] = getSchoolDaysList({
+        calendar,
+        schoolDays: schedules
+    });
 
     const schoolDaysElements = eadSchoolDays.map(day => {
         const dayElements = day.schedules.map(sch => {
@@ -31,7 +34,7 @@ function EadPointsheet(props: Props) {
                 <tr>
                     <td className="ead--pointsheet">{sch.date}</td>
                     <td className="ead--pointsheet">{sch.time}º</td>
-                    <td className="ead--pointsheet"></td>
+                    <td className="ead--pointsheet">{sch.description}</td>
                 </tr>
             )
         });

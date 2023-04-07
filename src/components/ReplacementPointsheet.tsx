@@ -25,6 +25,10 @@ function ReplacementPointsheet(props: Props) {
     });
 
     const schoolDaysElements = schedules.map(day => {
+        const description = calendar.activity_dates.some(e => e.date === day.replacementDate) ?
+            calendar.activity_dates.find(e => e.date === day.replacementDate)?.description :
+            '';
+
         return (
             <tr
                 key={`${day.classDate}${day.classTime}${day.replacementTime}`}
@@ -33,7 +37,7 @@ function ReplacementPointsheet(props: Props) {
                 <td className="replacement--pointsheet">{day.classTime}º</td>
                 <td className="replacement--pointsheet">{day.replacementDate}</td>
                 <td className="replacement--pointsheet">{day.replacementTime}º</td>
-                <td className="replacement--pointsheet"></td>
+                <td className="replacement--pointsheet">{description}</td>
            </tr>
         );
     });

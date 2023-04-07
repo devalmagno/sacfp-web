@@ -42,6 +42,27 @@
     }
 
     .pointsheet-table {
+        .table--header {
+            display: flex;
+            background: $card-color;
+            border: 1px solid #00000099;
+            font-weight: 500;
+
+            div {
+                color: #000;
+                font-weight: 500;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &:nth-child(1),
+                &:nth-child(2) {
+                    width: 12.5rem;
+                }
+            }
+        }
+
         thead {
             display: flex;
             // column-gap: 0.5rem;
@@ -61,12 +82,59 @@
                 &:nth-child(3) {
                     width: 22.5rem;
                 }
+
+                &.replacement--pointsheet {
+                    &:nth-child(1) {
+                        width: 6.5rem;
+                    }
+
+                    &:nth-child(2) {
+                        width: 6rem;
+                    }
+
+                    &:nth-child(3) {
+                        width: 6.5rem;
+                    }
+
+                    &:nth-child(4) {
+                        width: 6rem;
+                    }
+
+                    &:nth-child(5) {
+                        width: 10rem;
+                    }
+                }
+
+                &.ead--pointsheet {
+                    &:nth-child(1) {
+                        width: 6.5rem;
+                    }
+
+                    &:nth-child(2) {
+                        width: 6.5rem;
+                    }
+
+                    &:nth-child(3) {
+                        width: 20rem;
+                    }
+                }
             }
         }
 
         tbody {
             display: flex;
             flex-direction: column;
+
+            caption {
+                background: $card-color;
+                border: 1px solid #00000099;
+                font-weight: 500;
+
+                strong {
+                    color: #000;
+                    font-weight: 500;
+                }
+            }
 
             tr {
                 display: flex;
@@ -88,9 +156,220 @@
                     &:nth-child(3) {
                         width: 22.5rem;
                     }
+
+                    &.replacement--pointsheet {
+                        &:nth-child(1) {
+                            width: 6.5rem;
+                        }
+
+                        &:nth-child(2) {
+                            width: 6rem;
+                        }
+
+                        &:nth-child(3) {
+                            width: 6.5rem;
+                        }
+
+                        &:nth-child(4) {
+                            width: 6rem;
+                            text-align: center;
+                        }
+
+                        &:nth-child(5) {
+                            width: 10rem;
+                        }
+                    }
+
+                    &.ead--pointsheet {
+                        &:nth-child(1) {
+                            width: 6.5rem;
+                        }
+
+                        &:nth-child(2) {
+                            width: 6.5rem;
+                        }
+
+                        &:nth-child(3) {
+                            width: 20rem;
+                        }
+                    }
+
                 }
 
             }
         }
     }
+}
+
+@media (max-width: $layout-breakpoint-midlow) {
+
+    .sheet--container {
+        width: 100%;
+        padding: 2rem 1rem;
+
+        .pointsheet--header {
+            .info {
+
+                &:nth-child(1),
+                &:nth-child(2),
+                &:nth-child(3) {
+                    width: auto;
+                }
+
+                width: auto;
+            }
+        }
+
+
+        .pointsheet-table {
+            .table--header {
+                div {
+
+                    font-size: 14px;
+
+                    &:nth-child(1),
+                    &:nth-child(2) {
+                        width: 8rem;
+                    }
+                }
+            }
+
+            thead {
+
+                tr {
+
+                    th {
+                        font-size: 12.8px;
+                    }
+
+                    &:nth-child(1) {
+                        width: 6.5rem;
+                    }
+
+                    &:nth-child(2) {
+                        width: 4rem;
+                    }
+
+                    &:nth-child(3) {
+                        width: 8rem;
+                    }
+
+                    &.replacement--pointsheet {
+                        &:nth-child(1) {
+                            width: 4.5rem;
+                        }
+
+                        &:nth-child(2) {
+                            width: 6rem;
+                        }
+
+                        &:nth-child(3) {
+                            width: 6.5rem;
+                        }
+
+                        &:nth-child(4) {
+                            width: 6rem;
+                        }
+
+                        &:nth-child(5) {
+                            width: auto;
+                        }
+                    }
+
+                    &.ead--pointsheet {
+                        &:nth-child(1) {
+                            width: 6.5rem;
+                        }
+
+                        &:nth-child(2) {
+                            width: 6.5rem;
+                        }
+
+                        &:nth-child(3) {
+                            width: 20rem;
+                        }
+                    }
+                }
+            }
+
+            tbody {
+                display: flex;
+                flex-direction: column;
+
+                caption {
+                    background: $card-color;
+                    border: 1px solid #00000099;
+                    font-weight: 500;
+
+                    strong {
+                        color: #000;
+                        font-weight: 500;
+                    }
+                }
+
+                tr {
+                    display: flex;
+
+                    td {
+                        border: 1px solid #00000099;
+                        padding: 0.2rem 0.5rem;
+
+                        &:nth-child(1) {
+                            width: 6.5rem;
+                        }
+
+                        &:nth-child(2) {
+                            width: 4rem;
+                            display: flex;
+                            justify-content: center;
+                        }
+
+                        &:nth-child(3) {
+                            width: 8rem;
+                        }
+
+                        &.replacement--pointsheet {
+                            &:nth-child(1) {
+                                width: 6.5rem;
+                            }
+
+                            &:nth-child(2) {
+                                width: 6rem;
+                            }
+
+                            &:nth-child(3) {
+                                width: 6.5rem;
+                            }
+
+                            &:nth-child(4) {
+                                width: 6rem;
+                                text-align: center;
+                            }
+
+                            &:nth-child(5) {
+                                width: 10rem;
+                            }
+                        }
+
+                        &.ead--pointsheet {
+                            &:nth-child(1) {
+                                width: 6.5rem;
+                            }
+
+                            &:nth-child(2) {
+                                width: 6.5rem;
+                            }
+
+                            &:nth-child(3) {
+                                width: 20rem;
+                            }
+                        }
+
+                    }
+
+                }
+            }
+        }
+    }
+
 }

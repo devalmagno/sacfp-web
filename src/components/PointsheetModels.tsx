@@ -15,7 +15,7 @@ type Props = {
 function PointsheetModels({ sheet, type }: Props) {
     const { config, semester } = useDataContext();
 
-    const { replacementInfo, setReplacementInfo, setType, type: contextType } = useRenderReplacementContext();
+    const { replacementInfo, setReplacementInfo, setType, type: contextType, setIsPointsheetOpen } = useRenderReplacementContext();
 
     const [showContent, setShowContent] = useState(false);
 
@@ -85,8 +85,9 @@ function PointsheetModels({ sheet, type }: Props) {
 
     useEffect(() => {
         const changeType = () => {
-            if (showContent)
+            if (showContent) 
                 setType(type);
+            
 
             setReplacementInfo([])
         }

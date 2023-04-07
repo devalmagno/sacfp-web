@@ -1,4 +1,4 @@
-import { ReplacementInfo, TeacherPointSheet } from "../types/DataTypes";
+import { ReplacementInfo, ScheduleReplacement, TeacherPointSheet } from "../types/DataTypes";
 import Docxtemplater from "docxtemplater";
 import PizZip from "pizzip";
 import PizZipUtils from 'pizzip/utils/index';
@@ -10,13 +10,6 @@ interface Props {
     pointsheetType: string;
     departament: string;
     semester: string;
-}
-
-interface ScheduleReplacementInterface {
-    classDate: string;
-    classTime: number;
-    replacementDate: string;
-    replacementTime: number;
 }
 
 const loadFile = (url: string, callback: (err: Error, data: string) => void) => {
@@ -35,9 +28,9 @@ const generateReplacementDocument = (props: Props) => {
 
     const pointsheetType = props.pointsheetType.toUpperCase();
 
-    const schedules: ScheduleReplacementInterface[] = [];
+    const schedules: ScheduleReplacement[] = [];
     props.replacementInfo.forEach(e => {
-        const classInfo = e.classTimes.map((time, index) => ({
+        const classInfo: ScheduleReplacement[] = e.classTimes.map((time, index) => ({
             classDate: e.classDate,
             classTime: time.time,
             replacementDate: e.replacementDate,
