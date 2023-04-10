@@ -11,8 +11,19 @@ function ReplacementPointsheet(props: Props) {
     const { calendar } = useDataContext();
     const { replacementInfo, type } = useRenderReplacementContext();
 
+    const filteredReplacementInfo = replacementInfo.map(e => {
+        const classTimes = e.classTimes.filter(time => time.isSelected);
+        const replacementTimes = e.replacementTimes.filter(time => time.isSelected);
+
+        return {
+            ...e,
+            classTimes,
+            replacementTimes,
+        };
+    });
+
     const schedules: ScheduleReplacement[] = [];
-    replacementInfo.forEach(e => {
+    filteredReplacementInfo.forEach(e => {
         const classInfo: ScheduleReplacement[] = e.classTimes.map((time, index) => ({
             classDate: e.classDate,
             classTime: time.time,

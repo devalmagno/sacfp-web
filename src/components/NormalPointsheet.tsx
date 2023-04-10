@@ -20,7 +20,7 @@ function NormalPointsheet(props: Props) {
     const schoolDaysElements = schoolDays.map(day => {
         const dayElements = day.schedules.map(sch => {
             return (
-                <tr>
+                <tr key={`${sch.date}${sch.time}`}>
                     <td>{sch.date}</td>
                     <td>{sch.time}º</td>
                     <td>{sch.description}</td>

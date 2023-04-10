@@ -12,12 +12,22 @@ function EadPointsheet(props: Props) {
     const { calendar } = useDataContext();
     const { eadInfo } = useRenderReplacementContext();
 
+    const filteredEadInfo = eadInfo.map(e => {
+        const classTimes = e.classTimes.filter(time => time.isSelected);
+
+        return {
+            ...e,
+            classTimes,
+        };
+    });
+
     const schedules: ScheduleEad[] = [];
-    eadInfo.forEach(e => {
-        const classInfo: ScheduleEad[] = e.classTimes.map((time, index) => ({
-            date: e.classDate,
-            time: time.time,
-        }));
+    filteredEadInfo.forEach(e => {
+        const classInfo: ScheduleEad[] = e.classTimes.filter(time => time.isSelected)
+            .map((time, index) => ({
+                date: e.classDate,
+                time: time.time,
+            }));
 
         if (!schedules.some(e => classInfo.some(info => info === e)))
             schedules.push(...classInfo);
@@ -31,7 +41,7 @@ function EadPointsheet(props: Props) {
     const schoolDaysElements = eadSchoolDays.map(day => {
         const dayElements = day.schedules.map(sch => {
             return (
-                <tr>
+                <tr key={`${sch.date}${sch.time}`}>
                     <td className="ead--pointsheet">{sch.date}</td>
                     <td className="ead--pointsheet">{sch.time}º</td>
                     <td className="ead--pointsheet">{sch.description}</td>

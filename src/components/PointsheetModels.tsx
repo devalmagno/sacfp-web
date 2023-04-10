@@ -13,7 +13,7 @@ type Props = {
 }
 
 function PointsheetModels({ sheet, type }: Props) {
-    const { config, semester } = useDataContext();
+    const { config, semester, calendar } = useDataContext();
 
     const { replacementInfo, setReplacementInfo, setType, type: contextType, setIsPointsheetOpen } = useRenderReplacementContext();
 
@@ -26,7 +26,10 @@ function PointsheetModels({ sheet, type }: Props) {
             .map(e => ` ${e.time}º`).toString().replaceAll(",", " ");
 
         return (
-            <div className="container--replacement flex-row">
+            <div
+                key={`${elem.classDate}${elem.classTimes}${elem.replacementDate}`}
+                className="container--replacement flex-row"
+            >
                 <BiSpreadsheet fill="#717171" size={20} />
                 <div className="flex-column">
                     <strong>
@@ -79,15 +82,16 @@ function PointsheetModels({ sheet, type }: Props) {
             pointsheet: sheet,
             pointsheetType: type,
             departament: config.departament,
-            semester
+            semester,
+            calendar
         });
     }
 
     useEffect(() => {
         const changeType = () => {
-            if (showContent) 
+            if (showContent)
                 setType(type);
-            
+
 
             setReplacementInfo([])
         }

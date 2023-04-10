@@ -53,6 +53,7 @@ export type ScheduleReplacement = {
     classTime: number;
     replacementDate: string;
     replacementTime: number;
+    description?: string;
 }
 
 export type EadSchoolDays = {

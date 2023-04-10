@@ -1,4 +1,4 @@
-import { EadInfo, TeacherPointSheet, ScheduleEad, EadSchoolDays } from "../types/DataTypes";
+import { EadInfo, TeacherPointSheet, ScheduleEad, EadSchoolDays, Calendar } from "../types/DataTypes";
 import Docxtemplater from "docxtemplater";
 import PizZip from "pizzip";
 import PizZipUtils from 'pizzip/utils/index';
@@ -10,6 +10,7 @@ interface Props {
     eadInfo: EadInfo[];
     departament: string;
     semester: string;
+    calendar: Calendar;
 }
 
 const loadFile = (url: string, callback: (err: Error, data: string) => void) => {
@@ -37,7 +38,10 @@ const generateReplacementDocument = (props: Props) => {
             schedules.push(...classInfo);
     });
 
-    const eadSchoolDays: EadSchoolDays[] = getSchoolDaysList(schedules)
+    const eadSchoolDays: EadSchoolDays[] = getSchoolDaysList({
+        calendar: props.calendar,
+        schoolDays: schedules,
+    });
 
     loadFile(
         '/pointsheets/pointsheet_ead_model.docx',

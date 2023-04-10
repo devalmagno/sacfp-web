@@ -16,7 +16,7 @@ function PointsheetModels({ sheet }: Props) {
 
     const [showContent, setShowContent] = useState(false);
 
-    const { config, semester } = useDataContext();
+    const { config, semester, calendar } = useDataContext();
 
     const eadElements = eadInfo.map(elem => {
         const classTimes = elem.classTimes.filter(e => e.isSelected)
@@ -66,7 +66,8 @@ function PointsheetModels({ sheet }: Props) {
             eadInfo,
             pointsheet: sheet,
             departament: config.departament,
-            semester
+            semester,
+            calendar
         });
     }
 
