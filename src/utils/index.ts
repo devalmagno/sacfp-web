@@ -12,6 +12,7 @@ import getDates from "./getDates";
 import generateDocument from "./generateDocument";
 import generateReplacementDocument from "./generateReplacementDocument";
 import generateEadDocument from "./generateEadDocument";
+import generateComplementDocument from "./generateComplementDocument";
 import { getSchoolDaysList } from './getSchoolDaysList';
 import { getMonthName } from './getMonthName';
 
@@ -31,5 +32,6 @@ export {
     convertDayNameEnUSToPtBR,
     getSchoolDaysList,
     generateEadDocument,
-	getMonthName
+    getMonthName,
+    generateComplementDocument
 };

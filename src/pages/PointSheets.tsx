@@ -8,6 +8,7 @@ import { TeacherPointSheet } from '../types/DataTypes';
 import { alphabeticalSort, generateDocument } from '../utils';
 import { useEffect, useState } from 'react';
 import { EadPointsheet, NormalPointsheet, PointSheetInfo, ReplacementPointsheet } from '../components';
+import ComplementPointsheet from '../components/ComplementPointsheet';
 
 function PointSheets() {
   const { teachers, calendar } = useDataContext();
@@ -229,8 +230,13 @@ function PointSheets() {
                 <EadPointsheet
                   pointsheet={currentPointsheet ? currentPointsheet : disciplineList[0]}
                 />
-              ) :
+              ) : type === "COMPLEMENT" ? 
               (
+                <ComplementPointsheet
+                  pointsheet={currentPointsheet ? currentPointsheet : disciplineList[0]}
+                />
+              )
+              : (
                 <ReplacementPointsheet
                   pointsheet={currentPointsheet ? currentPointsheet : disciplineList[0]}
                 />

@@ -13,6 +13,7 @@ import PointsheetEadModel from './PointsheetEadModel';
 import NormalPointsheet from './NormalPointsheet';
 import ReplacementPointsheet from './ReplacementPointsheet';
 import EadPointsheet from './EadPointsheet';
+import PointsheetComplementModel from './PointsheetComplementModel';
 
 export {
     Header,
@@ -29,5 +30,6 @@ export {
     NormalPointsheet,
     PointsheetEadModel,
     ReplacementPointsheet,
-    EadPointsheet
+    EadPointsheet,
+    PointsheetComplementModel
 };

@@ -8,7 +8,7 @@ import '../styles/PointSheetInfo.scss';
 
 import PointsheetModels from './PointsheetModels';
 import { useDataContext, useRenderReplacementContext } from '../contexts';
-import { PointsheetEadModel } from '.';
+import { PointsheetComplementModel, PointsheetEadModel } from '.';
 
 type Props = {
     sheet: TeacherPointSheet;
@@ -80,6 +80,10 @@ function PointSheetInfo({ sheet, show }: Props) {
                 />
 
                 <PointsheetEadModel
+                    sheet={sheet}
+                />
+
+                <PointsheetComplementModel
                     sheet={sheet}
                 />
             </div>
