@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+
 import { TeacherPointSheet } from "../types/DataTypes"
 
 import '../styles/NormalPointsheet.scss';
@@ -17,7 +19,7 @@ function NormalPointsheet(props: Props) {
         workload: props.pointsheet.sheet.workload,
     });
 
-    const schoolDaysElements = schoolDays.map(day => {
+    const schoolDaysElements = schoolDays.map((day, index) => {
         const dayElements = day.schedules.map(sch => {
             return (
                 <tr key={`${sch.date}${sch.time}`}>
@@ -29,10 +31,10 @@ function NormalPointsheet(props: Props) {
         });
 
         const classElements = (
-            <>
-                <caption><strong>{day.month}</strong></caption> 
+            <Fragment key={`${day.schedules[0].date}${index}`}>
+                <caption><strong>{day.month}</strong></caption>
                 {dayElements}
-            </>
+            </Fragment>
         );
 
         return classElements;
@@ -74,7 +76,7 @@ function NormalPointsheet(props: Props) {
                     <tr><th>ASSINATURA</th></tr>
                 </thead>
                 <tbody>
-                    {schoolDaysElements} 
+                    {schoolDaysElements}
                 </tbody>
             </table>
         </div>

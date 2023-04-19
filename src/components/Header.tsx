@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { BiDotsVerticalRounded, BiEdit, BiLogOut, BiX, BiArrowBack } from "react-icons/bi";
 
 import { Select } from '../ui/index';
@@ -7,7 +7,7 @@ import { Select } from '../ui/index';
 import { routes as navBar } from '../services/routes';
 
 import '../styles/Header.scss';
-import { useAuthContext, useDataContext } from '../contexts';
+import { useAuthContext, useDataContext, useRenderReplacementContext } from '../contexts';
 import { toCapitalizeFirstLetters } from '../utils';
 
 type HeaderProps = {
@@ -18,8 +18,10 @@ type HeaderProps = {
 function Header(props: HeaderProps) {
   const { config } = useDataContext();
   const { logout, authUser } = useAuthContext();
+  const { type, setType } = useRenderReplacementContext();
 
   const navigation = useNavigate();
+  const router = useLocation();
 
   const navBarElements = navBar.map(route => {
     if (!route.navbar) return;
@@ -49,8 +51,11 @@ function Header(props: HeaderProps) {
 
   function goBackNavigation() {
     navigation(-1);
-
   }
+
+  useEffect(() => {
+    if (type !== '') setType('');
+  }, [router.pathname]);
 
   return (
     <div id="under" className="container_header">

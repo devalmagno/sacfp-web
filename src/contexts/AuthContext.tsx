@@ -55,10 +55,15 @@ const AuthProvider = (props: Props) => {
     };
 
     useEffect(() => {
-        if (authToken) {
-            const credential = GoogleAuthProvider.credential(authToken);
 
-            signInWithCredential(auth, credential);
+        const signInWithGoogleCredential = async () => {
+            if (authToken) {
+                const credential = GoogleAuthProvider.credential(authToken);
+
+                signInWithCredential(auth, credential)
+                    .then(e => console.log('Succesful login'))
+                    .catch(err => console.log('Firebase Access Token Error'));
+            }
         }
 
         const listen = onAuthStateChanged(auth, user => {
@@ -75,6 +80,7 @@ const AuthProvider = (props: Props) => {
         });
 
         return () => {
+            signInWithGoogleCredential();
             listen();
         }
     }, []);

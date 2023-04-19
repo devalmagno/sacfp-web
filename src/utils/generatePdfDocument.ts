@@ -1,51 +1,38 @@
-import { EadInfo, TeacherPointSheet, ScheduleEad, EadSchoolDays, Calendar } from "../types/DataTypes";
 import Docxtemplater from "docxtemplater";
 import PizZip from "pizzip";
 import PizZipUtils from 'pizzip/utils/index';
 import { saveAs } from 'file-saver';
-import { getSchoolDaysList } from "./getSchoolDaysList";
+
+import { getDates } from "../utils";
+
+import { Calendar, TeacherPointSheet } from "../types/DataTypes";
 
 interface Props {
     pointsheet: TeacherPointSheet;
-    eadInfo: EadInfo[];
-    departament: string;
-    semester: string;
     calendar: Calendar;
-    observation: string;
+    semester: string;
+    save: boolean;
 }
 
 const loadFile = (url: string, callback: (err: Error, data: string) => void) => {
     PizZipUtils.getBinaryContent(url, callback);
 }
 
-const generateReplacementDocument = (props: Props) => {
+const generateDocument = (props: Props) => {
     if (!props.pointsheet.sheet.schedules) return;
-
-
+    const schoolDays = getDates({ calendar: props.calendar, schedules: props.pointsheet.sheet.schedules, workload: props.pointsheet.sheet.workload });
     const semesterNumber = props.semester.split('/')[0];
     const year = props.semester.split('/')[1];
+
+    let number = 0;
+
+    schoolDays.forEach(e => number += e.schedules.length);
 
     const workload = props.pointsheet.sheet.course === 'TUTORIA' ?
         '02' : `${props.pointsheet.sheet.workload}`;
 
-    const schedules: ScheduleEad[] = [];
-    props.eadInfo.forEach(e => {
-        const classInfo = e.classTimes.map((time) => ({
-            date: e.classDate,
-            time: time.time,
-        }));
-
-        if (!schedules.some(e => classInfo.some(info => info === e)))
-            schedules.push(...classInfo);
-    });
-
-    const eadSchoolDays: EadSchoolDays[] = getSchoolDaysList({
-        calendar: props.calendar,
-        schoolDays: schedules,
-    });
-
     loadFile(
-        '/pointsheets/pointsheet_complement_model.docx',
+        '/pointsheets/pointsheet_model.docx',
         (error, content) => {
             if (error) throw error;
 
@@ -64,9 +51,7 @@ const generateReplacementDocument = (props: Props) => {
                 discipline: props.pointsheet.sheet.discipline,
                 period: props.pointsheet.sheet.period,
                 workload,
-                schoolDays: eadSchoolDays,
-                departament: props.departament,
-                observation: props.observation,
+                schoolDays,
             });
 
             try {
@@ -79,9 +64,15 @@ const generateReplacementDocument = (props: Props) => {
                 type: 'blob',
                 MimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             });
-            saveAs(out, `COMPLEMENTO_${props.pointsheet.sheet.discipline}_${props.pointsheet.name}.docx`);
+
+            // if (props.save)
+            //     saveAs(pdf, `${props.pointsheet.sheet.discipline}_${props.pointsheet.name}.pdf`);
+            // // else {
+            // //     const storageRef = ref(storage, 'documents/pointsheet');
+            // //     uploadBytes(storageRef, out);
+            // // }
         }
     )
 }
 
-export default generateReplacementDocument;
+export default generateDocument;

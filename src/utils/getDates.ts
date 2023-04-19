@@ -37,10 +37,10 @@ const getDates = (props: GetDateProps) => {
 
     const formatedSchedules: FormatedSchedules[] = getFormatedSchedules(props.schedules);
 
-    let i = date.getMonth() - 1;
+    let i = date.getMonth();
 
     while (i <= endMonth) {
-        const numberOfDays = new Date(year, i, 0).getDate();
+        const numberOfDays = new Date(year, i + 1, 0).getDate();
         const range = arrayRange({
             start: date.getDate(),
             step: 1,
@@ -57,9 +57,8 @@ const getDates = (props: GetDateProps) => {
                 dates.push(...createDateList(date, formatedSchedules, props.calendar));
         }
 
-        date.setMonth(i + 1);
         date.setDate(1);
-
+        date.setMonth(i + 1);
         i++;
     }
 

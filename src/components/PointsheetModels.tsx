@@ -19,7 +19,7 @@ function PointsheetModels({ sheet, type }: Props) {
 
     const [showContent, setShowContent] = useState(false);
 
-    const replacementElements = replacementInfo.map(elem => {
+    const replacementElements = replacementInfo.map((elem, index) => {
         const classTimes = elem.classTimes.filter(e => e.isSelected)
             .map(e => ` ${e.time}º`).toString().replaceAll(",", " ");
         const replacementTimes = elem.replacementTimes.filter(e => e.isSelected)
@@ -27,7 +27,7 @@ function PointsheetModels({ sheet, type }: Props) {
 
         return (
             <div
-                key={`${elem.classDate}${elem.classTimes}${elem.replacementDate}`}
+                key={`${elem.classDate}${elem.replacementDate}${index}`}
                 className="container--replacement flex-row"
             >
                 <BiSpreadsheet fill="#717171" size={20} />

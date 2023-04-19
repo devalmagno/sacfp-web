@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+
 import { EadSchoolDays, ScheduleEad, ScheduleReplacement, TeacherPointSheet } from "../types/DataTypes"
 
 import '../styles/NormalPointsheet.scss';
@@ -10,7 +12,7 @@ type Props = {
 
 function ComplementPointsheet(props: Props) {
     const { calendar } = useDataContext();
-    const { eadInfo } = useRenderReplacementContext();
+    const { eadInfo, observation } = useRenderReplacementContext();
 
     const filteredEadInfo = eadInfo.map(e => {
         const classTimes = e.classTimes.filter(time => time.isSelected);
@@ -38,7 +40,7 @@ function ComplementPointsheet(props: Props) {
         schoolDays: schedules
     });
 
-    const schoolDaysElements = eadSchoolDays.map(day => {
+    const schoolDaysElements = eadSchoolDays.map((day, index) => {
         const dayElements = day.schedules.map(sch => {
             return (
                 <tr key={`${sch.date}${sch.time}`}>
@@ -50,10 +52,10 @@ function ComplementPointsheet(props: Props) {
         });
 
         const classElements = (
-            <>
+            <Fragment key={`${day.schedules[0].date}${index}`}>
                 <caption><strong>{day.month}</strong></caption>
                 {dayElements}
-            </>
+            </Fragment>
         );
 
         return classElements;
@@ -89,7 +91,7 @@ function ComplementPointsheet(props: Props) {
             </div>
 
             <div className="sheet--disclaimer">
-                Obs.: Complemento de carga horária.
+                Obs.: {observation}
             </div>
 
             <table className="pointsheet-table">

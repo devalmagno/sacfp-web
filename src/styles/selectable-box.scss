@@ -1,0 +1,33 @@
+@import '../App.scss';
+
+.container--box {
+    width: auto;
+    height: auto;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    .selectable-box {
+        padding: 4px 6px;
+        border-radius: 4px;
+
+        background: $line-row;
+
+        cursor: pointer;
+
+        &.selected {
+            background: $primary-color;
+            color: #fff;
+
+            span {
+                color: #fff;
+            }
+        }
+
+        span {
+            color: $subtitle-dark-color;
+        }
+    }
+}

@@ -180,12 +180,19 @@ function PointSheets() {
       setFilteredDisciplineList(disciplineArray)
     }
 
-    getDisciplineList();
+    const setTypeToNormalPointsheet = () => {
+      if (type !== '') setType('');
+    }
+
+    return () => {
+      getDisciplineList();
+      setTypeToNormalPointsheet();
+    }
   }, []);
 
   return (
     <div className="pointsheets--container">
-      <div className={isPointsheetOpen ? "pointsheet--data closed" : "pointsheet--data" }>
+      <div className={isPointsheetOpen ? "pointsheet--data closed" : "pointsheet--data"}>
         <div className="pointsheet--search">
           <Search
             handleSearch={handleSearch}
@@ -210,7 +217,7 @@ function PointSheets() {
       </div>
 
       {isPointsheetOpen && (
-        <div 
+        <div
           className="show--menu"
           onClick={() => setIsPointsheetOpen(false)}
         >
@@ -230,17 +237,17 @@ function PointSheets() {
                 <EadPointsheet
                   pointsheet={currentPointsheet ? currentPointsheet : disciplineList[0]}
                 />
-              ) : type === "COMPLEMENT" ? 
-              (
-                <ComplementPointsheet
-                  pointsheet={currentPointsheet ? currentPointsheet : disciplineList[0]}
-                />
-              )
-              : (
-                <ReplacementPointsheet
-                  pointsheet={currentPointsheet ? currentPointsheet : disciplineList[0]}
-                />
-              )
+              ) : type === "COMPLEMENT" ?
+                (
+                  <ComplementPointsheet
+                    pointsheet={currentPointsheet ? currentPointsheet : disciplineList[0]}
+                  />
+                )
+                : (
+                  <ReplacementPointsheet
+                    pointsheet={currentPointsheet ? currentPointsheet : disciplineList[0]}
+                  />
+                )
         }
       </div>
     </div>

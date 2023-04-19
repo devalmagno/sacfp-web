@@ -33,5 +33,5 @@ export {
     getSchoolDaysList,
     generateEadDocument,
     getMonthName,
-    generateComplementDocument
+    generateComplementDocument,
 };

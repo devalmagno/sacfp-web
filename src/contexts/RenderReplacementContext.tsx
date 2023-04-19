@@ -22,6 +22,9 @@ type RenderReplacementContextType = {
 
     isPointsheetOpen: boolean;
     setIsPointsheetOpen: Dispatch<SetStateAction<boolean>>;
+
+    observation: string;
+    setObservation: Dispatch<SetStateAction<string>>;
 }
 
 type Props = {
@@ -46,6 +49,9 @@ export function RenderReplacementContextComponent(props: Props) {
     const [eadInfo, setEadInfo] = useState<EadInfo[]>([]);
     const [type, setType] = useState('');
     const [isPointsheetOpen, setIsPointsheetOpen] = useState(false);
+    const [observation, setObservation] = useState(
+        "Complemento de carga horária."
+    );
 
     return (
         <RenderReplacementContext.Provider
@@ -58,6 +64,8 @@ export function RenderReplacementContextComponent(props: Props) {
                 setEadInfo,
                 isPointsheetOpen,
                 setIsPointsheetOpen,
+                observation,
+                setObservation
             }}
         >
             {props.children}

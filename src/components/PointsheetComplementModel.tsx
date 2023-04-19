@@ -12,11 +12,35 @@ type Props = {
 }
 
 function PointsheetComplementModel({ sheet }: Props) {
-    const { eadInfo, setEadInfo, setType, type, setIsPointsheetOpen } = useRenderReplacementContext();
+    const { eadInfo, setEadInfo, setType, type, observation, setObservation } = useRenderReplacementContext();
 
     const [showContent, setShowContent] = useState(false);
 
     const { config, semester, calendar } = useDataContext();
+
+    const observationList = [
+        "Complemento de carga horária.",
+        "O professor ministrou as aulas, mas não assinou o ponto, sendo necessária a abertura de uma nova folha."
+    ];
+
+    const observationElements = observationList.map(elem => {
+        const isSelected = observation === elem;
+
+        return (
+            <div
+                onClick={() => setObservation(elem)}
+                className={
+                    isSelected ?
+                        "selectable-box selected" :
+                        "selectable-box"
+                }
+                style={{ fontSize: '14px' }}
+                key={elem}
+            >
+                {elem}
+            </div>
+        );
+    })
 
     const eadElements = eadInfo.map(elem => {
         const classTimes = elem.classTimes.filter(e => e.isSelected)
@@ -67,7 +91,8 @@ function PointsheetComplementModel({ sheet }: Props) {
             pointsheet: sheet,
             departament: config.departament,
             semester,
-            calendar
+            calendar,
+            observation,
         });
     }
 
@@ -113,6 +138,15 @@ function PointsheetComplementModel({ sheet }: Props) {
                         type={'EAD'}
                     />
                     {eadElements}
+
+                    <div className="observation--container">
+                        <strong>Observação:</strong>
+
+                        <div className="container--box">
+                            {observationElements}
+                        </div>
+                    </div>
+
                     {eadInfo.length !== 0 ? (
                         <div className="models--button" onClick={generatePointsheet}>
                             <BiSpreadsheet fill="#333A56" size={16} />
