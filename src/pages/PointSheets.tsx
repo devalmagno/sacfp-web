@@ -205,7 +205,7 @@ function PointSheets() {
         </div>
         <div className="pointsheet--inner-content">
           {disciplineList.length === 0 ? (
-            <div><strong>Carregando....</strong></div>
+            <div><strong color="#fff">Carregando....</strong></div>
           ) : showCurrentPointsheet ?
             <PointSheetInfo
               sheet={currentPointsheet!}
@@ -227,7 +227,7 @@ function PointSheets() {
 
       <div className={isPointsheetOpen ? 'pointsheet--render open' : 'pointsheet--render'}>
         {
-          type === '' ?
+          currentPointsheet ? type === '' ?
             disciplineList[0] && (
               <NormalPointsheet
                 pointsheet={currentPointsheet ? currentPointsheet : disciplineList[0]}
@@ -247,6 +247,8 @@ function PointSheets() {
                   <ReplacementPointsheet
                     pointsheet={currentPointsheet ? currentPointsheet : disciplineList[0]}
                   />
+                ) : (
+                  <div></div>
                 )
         }
       </div>

@@ -53,10 +53,6 @@ function Header(props: HeaderProps) {
     navigation(-1);
   }
 
-  useEffect(() => {
-    if (type !== '') setType('');
-  }, [router.pathname]);
-
   return (
     <div id="under" className="container_header">
       <div className="header__info">
