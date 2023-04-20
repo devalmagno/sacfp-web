@@ -14,7 +14,10 @@ function PointSheets() {
   const { teachers, calendar } = useDataContext();
   const [disciplineList, setDisciplineList] = useState<TeacherPointSheet[]>([]);
   const [filteredDisciplineList, setFilteredDisciplineList] = useState<TeacherPointSheet[]>([]);
-  const [currentPointsheet, setCurrentPointsheet] = useState<TeacherPointSheet | undefined>(undefined);
+  const [currentPointsheet, setCurrentPointsheet] = useState<TeacherPointSheet | undefined>({
+    ...teachers[0],
+    sheet: teachers[0].pointsheets![0],
+  });
   const [showCurrentPointsheet, setShowCurrentPointsheet] = useState(false);
 
   const { type, setType, isPointsheetOpen, setIsPointsheetOpen } = useRenderReplacementContext();
@@ -180,14 +183,7 @@ function PointSheets() {
       setFilteredDisciplineList(disciplineArray)
     }
 
-    const setTypeToNormalPointsheet = () => {
-      if (type !== '') setType('');
-    }
-
-    return () => {
-      getDisciplineList();
-      setTypeToNormalPointsheet();
-    }
+    getDisciplineList();
   }, []);
 
   return (
@@ -227,7 +223,7 @@ function PointSheets() {
 
       <div className={isPointsheetOpen ? 'pointsheet--render open' : 'pointsheet--render'}>
         {
-          currentPointsheet ? type === '' ?
+          type === '' ?
             disciplineList[0] && (
               <NormalPointsheet
                 pointsheet={currentPointsheet ? currentPointsheet : disciplineList[0]}
@@ -247,8 +243,6 @@ function PointSheets() {
                   <ReplacementPointsheet
                     pointsheet={currentPointsheet ? currentPointsheet : disciplineList[0]}
                   />
-                ) : (
-                  <div></div>
                 )
         }
       </div>
