@@ -10,6 +10,7 @@ import SavedPopUp from './SavedPopUp';
 import ReplacementDate from './ReplacementDate';
 import EadDate from './EadDate';
 import DateInfo from './DateInfo';
+import CardEmail from './CardEmail';
 
 export {
     BoxButton,

@@ -20,7 +20,6 @@ const loadFile = (url: string, callback: (err: Error, data: string) => void) => 
 const generateReplacementDocument = (props: Props) => {
     if (!props.pointsheet.sheet.schedules) return;
 
-
     const semesterNumber = props.semester.split('/')[0];
     const year = props.semester.split('/')[1];
 
@@ -35,17 +34,20 @@ const generateReplacementDocument = (props: Props) => {
             props.calendar.activity_dates.find(date => date.date === e.replacementDate)?.description :
             '';
 
+        const finalDescription = description !== 'SÁBADO LETIVO' ?
+            description : '';
+
         const classInfo: ScheduleReplacement[] = e.classTimes.map((time, index) => ({
             classDate: e.classDate,
             classTime: time.time,
             replacementDate: e.replacementDate,
             replacementTime: e.replacementTimes[index].time,
-            description,
+            description: finalDescription,
         }));
 
         if (!schedules.some(e => classInfo.some(info => info === e)))
             schedules.push(...classInfo);
-    })
+    });
 
     loadFile(
         '/pointsheets/pointsheet_replacement_model.docx',

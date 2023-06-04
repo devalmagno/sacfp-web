@@ -1,0 +1,39 @@
+@import '../App.scss';
+
+.popup--container {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: #0007;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .popup--box {
+        max-width: 34rem;
+        background: #fff;
+        padding: 1.5rem 2rem;
+        border-radius: 8px;
+        box-shadow: $box-shadow;
+
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+
+        hr {
+            opacity: 0.3;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            
+        }
+    }
+}

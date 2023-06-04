@@ -12,7 +12,7 @@ type Props = {
 }
 
 function PointsheetComplementModel({ sheet }: Props) {
-    const { eadInfo, setEadInfo, setType, type, observation, setObservation } = useRenderReplacementContext();
+    const { eadInfo: complementInfo, setEadInfo: setComplementInfo, setType, type, observation, setObservation } = useRenderReplacementContext();
 
     const [showContent, setShowContent] = useState(false);
 
@@ -42,7 +42,7 @@ function PointsheetComplementModel({ sheet }: Props) {
         );
     })
 
-    const eadElements = eadInfo.map(elem => {
+    const eadElements = complementInfo.map(elem => {
         const classTimes = elem.classTimes.filter(e => e.isSelected)
             .map(e => ` ${e.time}º`).toString().replaceAll(",", " ");
 
@@ -78,16 +78,18 @@ function PointsheetComplementModel({ sheet }: Props) {
     }
 
     const removeEadItem = (elem: EadInfo) => {
-        const eadList = eadInfo.slice();
+        const eadList = complementInfo.slice();
         const index = eadList.indexOf(elem);
 
         eadList.splice(index, 1);
-        setEadInfo(eadList);
+        setComplementInfo(eadList);
     }
 
     const generatePointsheet = () => {
+        const formatedComplementInfo =         
+
         generateComplementDocument({
-            eadInfo,
+            info: complementInfo,
             pointsheet: sheet,
             departament: config.departament,
             semester,
@@ -101,7 +103,7 @@ function PointsheetComplementModel({ sheet }: Props) {
             if (showContent)
                 setType(type);
 
-            setEadInfo([])
+            setComplementInfo([])
         }
 
         changeType()
@@ -132,8 +134,8 @@ function PointsheetComplementModel({ sheet }: Props) {
             <div className="flex-column" style={!showContent ? { display: 'none' } : {}}>
                 <div className="flex-column">
                     <EadDate
-                        eadInfo={eadInfo}
-                        setEadInfo={setEadInfo}
+                        eadInfo={complementInfo}
+                        setEadInfo={setComplementInfo}
                         sheet={sheet}
                         type={'EAD'}
                     />
@@ -147,7 +149,7 @@ function PointsheetComplementModel({ sheet }: Props) {
                         </div>
                     </div>
 
-                    {eadInfo.length !== 0 ? (
+                    {complementInfo.length !== 0 ? (
                         <div className="models--button" onClick={generatePointsheet}>
                             <BiSpreadsheet fill="#333A56" size={16} />
                             <h3>Gerar Ponto Complemento</h3>

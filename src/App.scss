@@ -164,6 +164,10 @@ $warning-color: #ea1d2c;
     flex-wrap: wrap;
 }
 
+h4, h3, .no-select {
+    user-select: none;
+}
+
 input[type="range"]::-webkit-slider-thumb {
     background-color: $primary-color;
 }

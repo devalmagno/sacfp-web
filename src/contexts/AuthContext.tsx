@@ -29,11 +29,16 @@ export const useAuthContext = () => {
 const AuthProvider = (props: Props) => {
     const [authUser, setAuthUser] = useState<User | null>(null);
 
-    const enabledEmails: string[] = import.meta.env.VITE_ENABLED_EMAILS.split(',');
+    const adminEmails = import.meta.env.VITE_ADMIN_EMAILS.split(',');
+    const userEmails = import.meta.env.VITE_USER_EMAILS.split(',');
+
+    const enabledEmails: string[] = [
+        ...adminEmails,
+        ...userEmails
+    ];
     const authToken = localStorage.getItem('authToken');
 
     const login = async () => {
-        // lógica de autenticação
 
         try {
             const provider = new GoogleAuthProvider();

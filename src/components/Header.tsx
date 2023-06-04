@@ -23,27 +23,34 @@ function Header(props: HeaderProps) {
   const navigation = useNavigate();
   const router = useLocation();
 
-  const navBarElements = navBar.map(route => {
-    if (!route.navbar) return;
+  const navBarElements = navBar.filter(box => {
+    const adminUsers: string[] = import.meta.env.VITE_ADMIN_EMAILS.split(',');
+    const isAdmin = adminUsers.some(e => e === authUser?.email);
+    if (!isAdmin && box.requireAdmin) return;
 
-    return (
-      <li
-        key={route.path}
-        onClick={() => handlePageNavigation(route.title)}
-        className={props.pageTitle == route.title ? 'selected' : ''}
-      >
-        {props.pageTitle == route.title ?
-          <strong>{route.title.toUpperCase()}</strong> :
-          <Link to={route.path}>
-            <span>
-              {route.title.toUpperCase()}
-            </span>
-          </Link>
-        }
-        <div className='highlight'></div>
-      </li>
-    );
+    return box;
   })
+    .map(route => {
+      if (!route.navbar) return;
+
+      return (
+        <li
+          key={route.path}
+          onClick={() => handlePageNavigation(route.title)}
+          className={props.pageTitle == route.title ? 'selected' : ''}
+        >
+          {props.pageTitle == route.title ?
+            <strong>{route.title.toUpperCase()}</strong> :
+            <Link to={route.path}>
+              <span>
+                {route.title.toUpperCase()}
+              </span>
+            </Link>
+          }
+          <div className='highlight'></div>
+        </li>
+      );
+    })
 
   function handlePageNavigation(pageTitle: string) {
     props.setPageTitle(pageTitle);

@@ -3,8 +3,11 @@ import { Button, Input, InputSemester } from '../ui';
 import { useDataContext } from '../contexts';
 
 import '../styles/Settings.scss';
-import { addDoc, collection, doc, updateDoc } from '@firebase/firestore';
+import { addDoc, collection, doc, getDocs, updateDoc } from '@firebase/firestore';
 import { db } from '../services/firebaseConfig';
+import CardEmail from '../ui/CardEmail';
+import CardInput from '../ui/CardInput';
+import { User } from '../types/DataTypes';
 
 function Settings() {
   const { semester, config, setConfig, calendar, setCalendarList } = useDataContext();
@@ -13,7 +16,10 @@ function Settings() {
   const [newSemester, setNewSemester] = useState('');
   const [acronym, setAcronym] = useState('');
 
+  const [users, setUsers] = useState<User[]>([]);
+
   const calendarCollectionRef = collection(db, "semesters");
+  const usersCollectionRef = collection(db, "users");
 
   const showConfigSaveNameButton =
     config.departament.toUpperCase() !== departamentName &&
@@ -25,6 +31,15 @@ function Settings() {
     justifyContent: 'center',
     width: '128px'
   }
+
+  const usersElements = users.map(e => (
+    <CardEmail 
+      key={e.id}
+      email={e.email}  
+      name={e.name}
+      userType={e.type}
+    />
+  ));
 
   const updateConfig = async () => {
     const configDoc = doc(db, "config", config.id);
@@ -67,51 +82,77 @@ function Settings() {
     document.title = 'SGCFP - Configurações'
   }, [])
 
+  useEffect(() => {
+    const getUsers = async () => {
+      const data = await getDocs(usersCollectionRef);
+      const userList = data.docs.map(doc => ({ ...doc.data(), id: doc.id } as User));
+      setUsers(userList);
+    }
+
+    getUsers();
+  }, []);
+
   return (
     <section>
       <div className="settings--container column">
         <h4>Configurações</h4>
 
-        <div className="column">
-          <strong>Sobre o departamento</strong>
-          <Input
-            value={departamentName}
-            setValue={setDepartamentName}
-            label='Departamento'
-            isDisabled={false}
-          />
-          {showConfigSaveNameButton && (
-            <Button
-              title='Salvar'
-              style={buttonStyle}
-              onClick={updateConfig}
+        <div className="settings--content">
+          <div className="column">
+            <strong>Sobre o departamento</strong>
+            <Input
+              value={departamentName}
+              setValue={setDepartamentName}
+              label='Departamento'
+              isDisabled={false}
             />
-          )}
-        </div>
-
-        <div className="semester column">
-          <strong>Semestre letivo</strong>
-
-          <div className="current-semester">
-            <strong className='subtext'>Atual</strong>
-            <span className='subtext'>{semester}{calendar?.acronym}</span>
+            {showConfigSaveNameButton && (
+              <Button
+                title='Salvar'
+                style={buttonStyle}
+                onClick={updateConfig}
+              />
+            )}
           </div>
 
-          <form className="column" onSubmit={createNewCalendar}>
-            <strong className='subtext'>Adicionar novo calendário</strong>
-            <Input
-              label='Sigla'
-              value={acronym}
-              setValue={setAcronym}
-              isDisabled={false}
-              maxLength={3}
-            />
-            <Button
-              title='Adicionar'
-              style={buttonStyle}
-              submit={true}
-            />
-          </form>
+          <div className="semester column">
+            <strong>Semestre letivo</strong>
+
+            <div className="current-semester">
+              <strong className='subtext'>Atual</strong>
+              <span className='subtext'>{semester}{calendar?.acronym}</span>
+            </div>
+
+            <form className="column" onSubmit={createNewCalendar}>
+              <strong className='subtext'>Adicionar novo calendário</strong>
+              <Input
+                label='Sigla'
+                value={acronym}
+                setValue={setAcronym}
+                isDisabled={false}
+                maxLength={3}
+              />
+              <Button
+                title='Adicionar'
+                style={buttonStyle}
+                submit={true}
+              />
+            </form>
+          </div>
+
+          <div className="user--settings column">
+            <strong className='no-select'>Usuários</strong>
+
+            <div className="users-input column">
+              <CardInput
+                setUsers={setUsers}
+              />
+            </div>
+
+            <div className="users--container column">
+              {usersElements}
+            </div>
+          </div>
         </div>
       </div>
     </section>

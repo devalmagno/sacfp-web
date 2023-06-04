@@ -20,7 +20,6 @@ const loadFile = (url: string, callback: (err: Error, data: string) => void) => 
 const generateReplacementDocument = (props: Props) => {
     if (!props.pointsheet.sheet.schedules) return;
 
-
     const semesterNumber = props.semester.split('/')[0];
     const year = props.semester.split('/')[1];
 
@@ -41,6 +40,21 @@ const generateReplacementDocument = (props: Props) => {
     const eadSchoolDays: EadSchoolDays[] = getSchoolDaysList({
         calendar: props.calendar,
         schoolDays: schedules,
+    }).map(e => {
+        const schedules = e.schedules.map(sch => {
+            const description = sch.description !== 'SÁBADO LETIVO' ? 
+                sch.description : '';
+
+            return {
+                ...sch,
+                description,
+            }                
+        });
+
+        return {
+            ...e,
+            schedules,
+        }
     });
 
     loadFile(

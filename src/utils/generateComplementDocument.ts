@@ -7,7 +7,7 @@ import { getSchoolDaysList } from "./getSchoolDaysList";
 
 interface Props {
     pointsheet: TeacherPointSheet;
-    eadInfo: EadInfo[];
+    info: EadInfo[];
     departament: string;
     semester: string;
     calendar: Calendar;
@@ -21,7 +21,6 @@ const loadFile = (url: string, callback: (err: Error, data: string) => void) => 
 const generateReplacementDocument = (props: Props) => {
     if (!props.pointsheet.sheet.schedules) return;
 
-
     const semesterNumber = props.semester.split('/')[0];
     const year = props.semester.split('/')[1];
 
@@ -29,7 +28,7 @@ const generateReplacementDocument = (props: Props) => {
         '02' : `${props.pointsheet.sheet.workload}`;
 
     const schedules: ScheduleEad[] = [];
-    props.eadInfo.forEach(e => {
+    props.info.forEach(e => {
         const classInfo = e.classTimes.map((time) => ({
             date: e.classDate,
             time: time.time,

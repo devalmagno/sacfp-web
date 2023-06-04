@@ -62,8 +62,17 @@ function PointsheetModels({ sheet }: Props) {
     }
 
     const generatePointsheet = () => {
+        const formatedEadInfo = eadInfo.map(info => {
+            const classTimes = info.classTimes.filter(e => e.isSelected)
+
+            return {
+                ...info,
+                classTimes
+            }
+        });
+
         generateEadDocument({
-            eadInfo,
+            eadInfo: formatedEadInfo,
             pointsheet: sheet,
             departament: config.departament,
             semester,

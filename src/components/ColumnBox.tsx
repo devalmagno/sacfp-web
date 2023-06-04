@@ -1,29 +1,43 @@
+import { useAuthContext } from '../contexts';
+
 import { BoxButton } from '../ui';
 
 import { routes as boxRoutes } from '../services/routes';
-
-import '../styles/ColumnBox.scss';
 import { toCapitalize } from '../utils';
 
-function ColumnBox() {
-  const boxRoutesElements = boxRoutes.map((box) => {
-    if (!box.boxButton) return;
-    const randomNumber = Math.floor(Math.random() * 10);
-    const background = randomNumber % 2 == 0 ? '#333A56' : '#ffffff';
-    const color = randomNumber % 2 != 0 ? '#333A56' : '#ffffff';
-    const title = toCapitalize(box.title);
+import { Routes as RouteType } from '../types/DataTypes';
 
-    return (
-      <BoxButton
-        key={box.path}
-        title={title}
-        icon={box.icon}
-        background={background}
-        color={color}
-        path={box.path}
-      />
-    );
-  });
+import '../styles/ColumnBox.scss';
+
+function ColumnBox() {
+  const { authUser } = useAuthContext();
+
+  const boxRoutesElements = boxRoutes.filter(box => {
+    const adminUsers: string[] = import.meta.env.VITE_ADMIN_EMAILS.split(',');
+    const isAdmin = adminUsers.some(e => e === authUser?.email);
+    if (!isAdmin && box.requireAdmin) return;
+
+    return box;
+  })
+    .map((box) => {
+      if (!box.boxButton) return;
+      const randomNumber = Math.floor(Math.random() * 10);
+      const background = randomNumber % 2 == 0 ? '#333A56' : '#ffffff';
+      const color = randomNumber % 2 != 0 ? '#333A56' : '#ffffff';
+      const title = toCapitalize(box.title);
+      console.log(box)
+
+      return (
+        <BoxButton
+          key={box.path}
+          title={title}
+          icon={box.icon}
+          background={background}
+          color={color}
+          path={box.path}
+        />
+      );
+    });
 
   return (
     <div className='container'>

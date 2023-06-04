@@ -1,0 +1,27 @@
+@import '../App.scss';
+
+.card-email--container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: $card-background;
+    border: 1px solid $card-border;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+
+    width: 20rem;
+
+    .user--info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 16rem;
+        padding-left: 1rem;
+
+        strong, span {
+            font-size: 14px;
+            color: $card-color;
+            user-select: none;
+        }
+    }
+}

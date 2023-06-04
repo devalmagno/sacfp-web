@@ -1,0 +1,37 @@
+@import '../App.scss';
+
+.card-input--container {
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .user-type--container {
+            display: flex;
+            gap: 1rem;
+
+            .user-type {
+                background: $card-background;
+                border: 1px solid $card-border;
+                color: $card-color;
+                padding: 0.5rem 1rem;
+                font-size: .9rem;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: .3s ease;
+
+                &.selected {
+                    background: $primary-color;
+                    color: #fff;
+                }
+            }
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+            column-gap: 1rem;
+        }
+    }
+
+}
