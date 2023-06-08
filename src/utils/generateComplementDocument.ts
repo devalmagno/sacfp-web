@@ -41,6 +41,9 @@ const generateReplacementDocument = (props: Props) => {
     const eadSchoolDays: EadSchoolDays[] = getSchoolDaysList({
         calendar: props.calendar,
         schoolDays: schedules,
+    }).map(e => {
+        const sch = e.schedules.map(schedule => ({ ...schedule, description: '' }));
+        return { ...e, schedules: sch };
     });
 
     loadFile(
@@ -77,6 +80,7 @@ const generateReplacementDocument = (props: Props) => {
             const out = doc.getZip().generate({
                 type: 'blob',
                 MimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                compression: "DEFLATE",
             });
             saveAs(out, `COMPLEMENTO_${props.pointsheet.sheet.discipline}_${props.pointsheet.name}.docx`);
         }

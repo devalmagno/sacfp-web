@@ -41,20 +41,8 @@ const generateReplacementDocument = (props: Props) => {
         calendar: props.calendar,
         schoolDays: schedules,
     }).map(e => {
-        const schedules = e.schedules.map(sch => {
-            const description = sch.description !== 'SÁBADO LETIVO' ? 
-                sch.description : '';
-
-            return {
-                ...sch,
-                description,
-            }                
-        });
-
-        return {
-            ...e,
-            schedules,
-        }
+        const sch = e.schedules.map(schedule => ({ ...schedule, description: '' }));
+        return { ...e, schedules: sch };
     });
 
     loadFile(
@@ -90,6 +78,7 @@ const generateReplacementDocument = (props: Props) => {
             const out = doc.getZip().generate({
                 type: 'blob',
                 MimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                compression: "DEFLATE",
             });
             saveAs(out, `EAD_${props.pointsheet.sheet.discipline}_${props.pointsheet.name}.docx`);
         }

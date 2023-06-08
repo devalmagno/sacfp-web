@@ -3,7 +3,7 @@ import { Button, Input, InputSemester } from '../ui';
 import { useDataContext } from '../contexts';
 
 import '../styles/Settings.scss';
-import { addDoc, collection, doc, getDocs, updateDoc } from '@firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from '@firebase/firestore';
 import { db } from '../services/firebaseConfig';
 import CardEmail from '../ui/CardEmail';
 import CardInput from '../ui/CardInput';
@@ -32,12 +32,28 @@ function Settings() {
     width: '128px'
   }
 
+  const deleteUser = async (id: string) => {
+    const answer = window.confirm(`Tem certeza que deseja remover o usuário?`);
+    if (!answer) return;
+    const userDoc = doc(db, "users", id);
+    await deleteDoc(userDoc);
+
+    const user = users.find(e => e.id === id);
+
+    const userList = users;
+    const index = userList.indexOf(user!);
+    userList.splice(index, 1);
+    setUsers([...userList]);
+  }
+
   const usersElements = users.map(e => (
-    <CardEmail 
+    <CardEmail
       key={e.id}
-      email={e.email}  
+      id={e.id!}
+      email={e.email}
       name={e.name}
       userType={e.type}
+      deleteUser={deleteUser}
     />
   ));
 
@@ -145,6 +161,7 @@ function Settings() {
 
             <div className="users-input column">
               <CardInput
+                users={users}
                 setUsers={setUsers}
               />
             </div>

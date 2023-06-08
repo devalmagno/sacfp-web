@@ -25,7 +25,6 @@ function ColumnBox() {
       const background = randomNumber % 2 == 0 ? '#333A56' : '#ffffff';
       const color = randomNumber % 2 != 0 ? '#333A56' : '#ffffff';
       const title = toCapitalize(box.title);
-      console.log(box)
 
       return (
         <BoxButton

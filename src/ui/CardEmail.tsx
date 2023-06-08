@@ -4,9 +4,12 @@ import { IoMdTrash } from 'react-icons/io';
 import '../styles/CardEmail.scss';
 
 type CardEmailProps = {
+  id: string;
   name: string;
   userType: string;
   email: string;
+
+  deleteUser: (id: string) => void;
 }
 
 function CardEmail(props: CardEmailProps) {
@@ -16,7 +19,7 @@ function CardEmail(props: CardEmailProps) {
     { type: "admin", shows: "admin", name: "Administrador" },
     { type: "external", shows: "admin", name: "Usuário Externo" },
   ];
-  const type =  userTypeList.find(e => e.type === props.userType)?.name;
+  const type = userTypeList.find(e => e.type === props.userType)?.name;
 
   function capitalize(value: string) {
     return value.toLowerCase().split(' ').map(e => `${e[0].toUpperCase()}${e.substring(1, e.length)}`).toString().replaceAll(',', ' ');
@@ -34,6 +37,7 @@ function CardEmail(props: CardEmailProps) {
         fill="#717171"
         size={20}
         style={{ cursor: 'pointer', }}
+        onClick={() => { props.deleteUser(props.id) }}
       />
     </div>
   )

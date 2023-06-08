@@ -11,6 +11,7 @@ import { db } from '../services/firebaseConfig';
 import { User } from '../types/DataTypes';
 
 type CardInputProps = {
+    users: User[];
     setUsers: Dispatch<SetStateAction<User[]>>;
 }
 
@@ -72,17 +73,15 @@ function CardInput(props: CardInputProps) {
             type,
         });
 
-        props.setUsers(_prevState => {
-            const usersList = _prevState;
-            usersList.push({
-                id, 
-                name: '', 
-                email: email.toLowerCase(),
-                type
-            })
-
-            return usersList;
+        const userList = props.users;
+        userList.push({
+            id,
+            name: '',
+            email: email.toLowerCase(),
+            type
         });
+
+        props.setUsers([...userList]);
 
         setIsAddingUser(false)
     }
