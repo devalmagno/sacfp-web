@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button, Input, InputSemester } from '../ui';
-import { useDataContext } from '../contexts';
+import { useAuthContext, useDataContext } from '../contexts';
 
 import '../styles/Settings.scss';
 import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from '@firebase/firestore';
@@ -9,21 +9,30 @@ import CardEmail from '../ui/CardEmail';
 import CardInput from '../ui/CardInput';
 import { User } from '../types/DataTypes';
 
+type selectedSemester = {
+  semester: number;
+  year: number;
+}
+
 function Settings() {
-  const { semester, config, setConfig, calendar, setCalendarList } = useDataContext();
+  const { semester, setSemester, config, setConfig, calendar, setCalendarList, calendarList } = useDataContext();
 
-  const [departamentName, setDepartamentName] = useState(config.departament.toUpperCase());
-  const [newSemester, setNewSemester] = useState('');
+  const [departamentName, setDepartamentName] = useState(config ? config.departament.toUpperCase() : '');
   const [acronym, setAcronym] = useState('');
+  const [selectedSemester, setSelectedSemester] = useState<selectedSemester>({
+    semester: 1,
+    year: new Date().getFullYear(),
+  });
 
-  const [users, setUsers] = useState<User[]>([]);
+  const { userList: users, setUserList: setUsers } = useAuthContext();
 
   const calendarCollectionRef = collection(db, "semesters");
   const usersCollectionRef = collection(db, "users");
+  const configCollectionRef = collection(db, "config");
 
   const showConfigSaveNameButton =
-    config.departament.toUpperCase() !== departamentName &&
-    departamentName !== '';
+    config ? config.departament.toUpperCase() !== departamentName &&
+      departamentName !== '' : departamentName.length > 3;
 
   const buttonStyle = {
     alignSelf: 'flex-end',
@@ -31,6 +40,45 @@ function Settings() {
     justifyContent: 'center',
     width: '128px'
   }
+
+  const semesterElements = [1, 2].map(e => {
+    const isSelected = e === selectedSemester.semester;
+
+    return (
+      <div
+        className={isSelected ?
+          "box select" :
+          "box"
+        }
+        key={e}
+        onClick={() => { setSelectedSemester({ ...selectedSemester, semester: e }) }}
+      >
+        {e}
+      </div>
+    )
+  });
+
+  const yearElements = [
+    new Date().getFullYear() - 1,
+    new Date().getFullYear(),
+    new Date().getFullYear() + 1
+  ]
+    .map(e => {
+      const isSelected = e === selectedSemester.year;
+
+      return (
+        <div
+          className={isSelected ?
+            "box select" :
+            "box"
+          }
+          key={e}
+          onClick={() => { setSelectedSemester({ ...selectedSemester, year: e }) }}
+        >
+          {e}
+        </div>
+      )
+    });
 
   const deleteUser = async (id: string) => {
     const answer = window.confirm(`Tem certeza que deseja remover o usuário?`);
@@ -71,27 +119,68 @@ function Settings() {
     }));
   }
 
+  const addNewConfig = async () => {
+    const { id } = await addDoc(configCollectionRef, {
+      departament: departamentName,
+    });
+
+    setConfig({ id, departament: departamentName });
+  }
+
+  const addNewSemester = async () => {
+    const formatedSemester = `0${selectedSemester.semester}/${selectedSemester.year}`;
+
+    if (calendarList.some(e => e.semester === formatedSemester)) return;
+
+
+    const { id } = await addDoc(calendarCollectionRef, {
+      end_date: '',
+      start_date: '',
+      activity_dates: [],
+      semester: formatedSemester,
+      acronym,
+    });
+
+    const newCalendar = {
+      id,
+      end_date: '',
+      start_date: '',
+      activity_dates: [],
+      semester: formatedSemester,
+      acronym: '',
+    };
+
+    const newCalendarList = [...calendarList, newCalendar];
+
+    setCalendarList(newCalendarList);
+    setSemester(formatedSemester);
+  }
+
   const createNewCalendar = async () => {
     event!.preventDefault();
 
     const { id } = await addDoc(calendarCollectionRef, {
       end_date: calendar.end_date,
       start_date: calendar.start_date,
-      activity_dates: [],
+      activity_dates: calendar.activity_dates,
       semester,
       acronym,
     });
 
-    setCalendarList(prevState => [
-      ...prevState,
-      {
-        ...calendar,
-        acronym,
-        activity_dates: [],
-        semester,
-        id
-      }
-    ]);
+    const newCalendar = {
+      id,
+      end_date: calendar.end_date,
+      start_date: calendar.start_date,
+      activity_dates: calendar.activity_dates,
+      semester,
+      acronym,
+    };
+
+    const newCalendarList = [...calendarList, newCalendar];
+
+    setCalendarList(newCalendarList);
+
+    setAcronym('');
   }
 
   useEffect(() => {
@@ -122,21 +211,47 @@ function Settings() {
               label='Departamento'
               isDisabled={false}
             />
-            {showConfigSaveNameButton && (
-              <Button
-                title='Salvar'
-                style={buttonStyle}
-                onClick={updateConfig}
-              />
-            )}
+            {showConfigSaveNameButton ?
+              config ?
+                <Button
+                  title='Salvar'
+                  style={buttonStyle}
+                  onClick={updateConfig}
+                />
+                :
+                <Button
+                  title='Adicionar'
+                  style={buttonStyle}
+                  onClick={addNewConfig}
+                /> : ''
+            }
           </div>
 
           <div className="semester column">
             <strong>Semestre letivo</strong>
 
-            <div className="current-semester">
-              <strong className='subtext'>Atual</strong>
-              <span className='subtext'>{semester}{calendar?.acronym}</span>
+            {semester !== '' && (
+              <div className="current-semester">
+                <strong className='subtext'>Atual</strong>
+                <span className='subtext'>{semester}{calendar?.acronym}</span>
+              </div>
+            )}
+
+            <div className="add-semester">
+              <strong className='subtext'>Adicionar Semestre</strong>
+              <span className='subtext'>Selecione o semestre</span>
+              <div className="box--container">
+                {semesterElements}
+              </div>
+              <span className='subtext'>Selecione o ano</span>
+              <div className="box--container">
+                {yearElements}
+              </div>
+
+              <Button
+                title='Adicionar novo semestre'
+                onClick={addNewSemester}
+              />
             </div>
 
             <form className="column" onSubmit={createNewCalendar}>

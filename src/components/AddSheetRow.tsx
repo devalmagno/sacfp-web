@@ -48,8 +48,6 @@ function AddSheetRow(props: AddSheetRow) {
             discipline,
             workload,
             schedules,
-            course_code: '',
-            semester,
         };
 
         if (props.teacher.id === '' || !props.teacher.pointsheets) return;

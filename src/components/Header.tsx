@@ -1,14 +1,15 @@
-import { useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { BiDotsVerticalRounded, BiEdit, BiLogOut, BiX, BiArrowBack } from "react-icons/bi";
+import { Link, useNavigate } from 'react-router-dom';
+import { BiLogOut, BiArrowBack } from "react-icons/bi";
 
 import { Select } from '../ui/index';
+
+import { useAuthContext, useDataContext, useRenderReplacementContext } from '../contexts';
+import { toCapitalizeFirstLetters } from '../utils';
 
 import { routes as navBar } from '../services/routes';
 
 import '../styles/Header.scss';
-import { useAuthContext, useDataContext, useRenderReplacementContext } from '../contexts';
-import { toCapitalizeFirstLetters } from '../utils';
+import { useEffect } from 'react';
 
 type HeaderProps = {
   pageTitle: string;
@@ -17,14 +18,12 @@ type HeaderProps = {
 
 function Header(props: HeaderProps) {
   const { config } = useDataContext();
-  const { logout, authUser } = useAuthContext();
-  const { type, setType } = useRenderReplacementContext();
+  const { logout, authUser, userList } = useAuthContext();
 
   const navigation = useNavigate();
-  const router = useLocation();
 
   const navBarElements = navBar.filter(box => {
-    const adminUsers: string[] = import.meta.env.VITE_ADMIN_EMAILS.split(',');
+    const adminUsers: string[] = userList.filter(e => e.type === 'admin').map(e => e.email);
     const isAdmin = adminUsers.some(e => e === authUser?.email);
     if (!isAdmin && box.requireAdmin) return;
 
@@ -60,17 +59,22 @@ function Header(props: HeaderProps) {
     navigation(-1);
   }
 
+  function handleLogout() {
+    navigation('/');
+    logout();
+  }
+
   return (
     <div id="under" className="container_header">
       <div className="header__info">
         <div className="header--title">
           <h3>Sistema de Gestão e Criação de Folhas de Ponto</h3>
-          <span>Departamento de {toCapitalizeFirstLetters(config.departament)}</span>
+          <span>Departamento de {config ? toCapitalizeFirstLetters(config.departament) : ''}</span>
         </div>
         <div className="header__menu">
           <span>Conectado como <strong>{authUser?.displayName?.split(' ')[0]}</strong></span>
           <Select />
-          <div className="container__menu" onClick={logout}>
+          <div className="container__menu" onClick={handleLogout}>
             <BiLogOut size={20} />
           </div>
         </div>

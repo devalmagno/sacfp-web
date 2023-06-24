@@ -32,8 +32,8 @@ function NormalPointsheet(props: Props) {
 
         const classElements = (
             <Fragment key={`${day.schedules[0].date}${index}`}>
-                <caption><strong>{day.month}</strong></caption>
-                {dayElements}
+                    <caption><strong>{day.month}</strong></caption>
+                    {dayElements}
             </Fragment>
         );
 

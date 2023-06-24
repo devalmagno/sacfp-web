@@ -67,7 +67,7 @@ function CalendarContainer(props: Props) {
   });
 
   const getCalendarList = () => {
-   const calendarList = arrayRange({
+    const calendarList = arrayRange({
       start: 1,
       step: 1,
       stop: 12
@@ -117,8 +117,13 @@ function CalendarContainer(props: Props) {
 
   const removeDate = async () => {
     const activityDateList = props.calendar.activity_dates.slice();
-    const index = activityDateList.indexOf(selectedDate!);
+    let index = -1;
+    activityDateList.forEach((e, i) => {
+      if (e.date === selectedDate!.date) index = i;
+    });
     activityDateList.splice(index, 1);
+
+    console.log(index, selectedDate, activityDateList);
 
     const calendar: Calendar = {
       ...props.calendar,

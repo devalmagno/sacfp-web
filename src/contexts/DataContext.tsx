@@ -46,7 +46,7 @@ export function DataContextComponent(props: Props) {
     const [teachers, setTeachers] = useState<Teacher[]>([]);
     const [calendarList, setCalendarList] = useState<Calendar[]>([]);
 
-    const [semester, setSemester] = useState("01/2023");
+    const [semester, setSemester] = useState("");
     const [calendar, setCalendar] = useState<Calendar>(calendarList[0]);
 
     const [config, setConfig] = useState<Config>({
@@ -71,6 +71,9 @@ export function DataContextComponent(props: Props) {
             const data = await getDocs(calendarCollectionRef);
             const calendarsArray = data.docs.map(doc => ({ ...doc.data(), id: doc.id } as Calendar));
             setCalendarList(calendarsArray);
+            if (calendarsArray.length !== 0) {
+                setSemester(calendarsArray[0].semester);
+            }
         }
 
         const getConfig = async () => {

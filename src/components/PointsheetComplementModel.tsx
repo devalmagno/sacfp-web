@@ -86,10 +86,19 @@ function PointsheetComplementModel({ sheet }: Props) {
     }
 
     const generatePointsheet = () => {
-        const formatedComplementInfo =         
+        const info = complementInfo.map(e => {
+            const classTimes = e.classTimes.filter(time => time.isSelected);
+
+            console.log(classTimes);
+
+            return {
+                ...e,
+                classTimes    
+            }
+        });
 
         generateComplementDocument({
-            info: complementInfo,
+            info,
             pointsheet: sheet,
             departament: config.departament,
             semester,

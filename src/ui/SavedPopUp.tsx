@@ -11,7 +11,7 @@ type Props = {
 function SavedPopUp({ setShow, show }: Props) {
   setTimeout(() => {
     setShow(false);
-  }, 3500);
+  }, 1500);
 
   if (!show) return <></>;
 

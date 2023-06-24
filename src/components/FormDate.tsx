@@ -81,6 +81,7 @@ function FormDate({ calendar, setCalendar, semester }: Props) {
     if (!isValidDate(date, semester)) return;
     if (selectedDateType.type === "school_saturday" && referenceDay === '')
       return;
+    if (calendar.activity_dates.some(e => e.date === date)) return;
 
     const calendarDoc = doc(db, "semesters", calendar.id);
 

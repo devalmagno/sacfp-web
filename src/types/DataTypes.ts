@@ -14,12 +14,10 @@ export type TeacherPointSheet = {
 
 export type Pointsheet = {
   course: string;
-  course_code: string;
   period: string;
   discipline: string;
   workload: number;
   schedules?: Schedules[];
-  semester?: string;
 }
 
 export type Schedules = {

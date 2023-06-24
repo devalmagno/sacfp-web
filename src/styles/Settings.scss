@@ -21,6 +21,14 @@
             display: flex;
             justify-content: space-between;
         }
+
+        .semester {
+            .add-semester {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
     }
 
     .user--settings {

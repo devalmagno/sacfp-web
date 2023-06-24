@@ -1,10 +1,16 @@
+import { Dispatch, ReactNode, SetStateAction, createContext, useContext, useEffect, useState } from 'react';
 import { GoogleAuthProvider, User, onAuthStateChanged, signInWithCredential, signInWithPopup, signOut } from 'firebase/auth';
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { collection, doc, getDocs, updateDoc } from '@firebase/firestore';
 
-import { auth } from '../services/firebaseConfig';
+import { auth, db } from '../services/firebaseConfig';
+
+import { User as UserType } from '../types/DataTypes';
 
 interface AuthContextType {
     authUser: User | null;
+    userIsEnabled: boolean;
+    userList: UserType[];
+    setUserList: Dispatch<SetStateAction<UserType[]>>;
     login: () => void;
     logout: () => void;
 }
@@ -28,6 +34,10 @@ export const useAuthContext = () => {
 
 const AuthProvider = (props: Props) => {
     const [authUser, setAuthUser] = useState<User | null>(null);
+    const [userIsEnabled, setUserIsEnabled] = useState(false);
+    const [userList, setUserList] = useState<UserType[]>([]);
+
+    const usersCollectionRef = collection(db, "users");
 
     const adminEmails = import.meta.env.VITE_ADMIN_EMAILS.split(',');
     const userEmails = import.meta.env.VITE_USER_EMAILS.split(',');
@@ -36,7 +46,6 @@ const AuthProvider = (props: Props) => {
         ...adminEmails,
         ...userEmails
     ];
-    const authToken = localStorage.getItem('authToken');
 
     const login = async () => {
 
@@ -44,9 +53,24 @@ const AuthProvider = (props: Props) => {
             const provider = new GoogleAuthProvider();
             const result = await signInWithPopup(auth, provider);
 
-            if (enabledEmails.some(e => e === result.user.email))
-                setAuthUser(result.user);
-            // else logout();
+            setAuthUser(result.user);
+
+            if (userList.length > 0 && userList.some(e => e.email === result.user.email)) {
+                setUserIsEnabled(true);
+
+                const user = userList.find(e => e.email === result.user.email);
+                if (user?.name === '') {
+                    const userDoc = doc(db, "users", user!.id);
+
+                    const updatedUser = {
+                        ...user,
+                        name: result.user.displayName,
+                    };
+
+                    await updateDoc(userDoc, updatedUser);
+                }
+            }
+            else logout();
         } catch (error) {
             console.log(error);
         }
@@ -57,41 +81,32 @@ const AuthProvider = (props: Props) => {
         signOut(auth).then(() => {
             console.log('sign out sucessful');
         }).catch(err => console.log)
+
+        setUserIsEnabled(false);
     };
 
     useEffect(() => {
 
-        const signInWithGoogleCredential = async () => {
-            if (authToken) {
-                const credential = GoogleAuthProvider.credential(authToken);
-
-                signInWithCredential(auth, credential)
-                    .then(e => console.log('Succesful login'))
-                    .catch(err => console.log('Firebase Access Token Error'));
-            }
+        const getUserList = async () => {
+            const data = await getDocs(usersCollectionRef);
+            const usersArray = data.docs.map(doc => ({ ...doc.data(), id: doc.id } as UserType));
+            setUserList(usersArray);
         }
 
         const listen = onAuthStateChanged(auth, user => {
             if (user) {
-                if (enabledEmails.some(e => e === user.email)) {
                     setAuthUser(user);
-                    user.getIdToken()
-                        .then(idToken => {
-                            localStorage.setItem('authToken', idToken);
-                        });
-                } else user.delete();
+                    setUserIsEnabled(true);
             }
             else setAuthUser(null);
         });
 
-        return () => {
-            signInWithGoogleCredential();
-            listen();
-        }
+        getUserList();
+        listen();
     }, []);
 
     return (
-        <AuthContext.Provider value={{ authUser, login, logout }}>
+        <AuthContext.Provider value={{ authUser, userIsEnabled, userList, setUserList, login, logout }}>
             {props.children}
         </AuthContext.Provider>
     );

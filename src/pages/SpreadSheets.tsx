@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
-import { addDoc, collection, deleteDoc, doc } from '@firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs } from '@firebase/firestore';
 import { BiData, BiSpreadsheet, BiPlus, BiTrash } from 'react-icons/bi';
+import { useNavigate } from 'react-router-dom';
 
 import { BoxButton, Button, Search } from '../ui';
 
@@ -18,9 +19,12 @@ import { Link, Outlet } from 'react-router-dom';
 function SpreadSheets() {
   const [sgd3Info, setSGD3Info] = useState<Teacher[]>([]);
   const [isDataUplouded, setIsDataUplouded] = useState(false);
+  const [error, setError] = useState(false);
   const inputElement = useRef<HTMLInputElement | null>(null);
   const { teachers, setTeachers, semester } = useDataContext();
   const [teachersList, setTeachersList] = useState<Teacher[]>(teachers.sort((a, b) => alphabeticalSort(a.name, b.name)));
+
+  const navigate = useNavigate();
 
   const teachersCollectionRef = collection(db, "teachers");
 
@@ -154,16 +158,16 @@ function SpreadSheets() {
         const teachers = JSON.parse(result);
         let isValidTeacher = false;
 
-        Object.keys(teachers[0]).forEach((teacherKey, index) => {
-          const keys = ['name', 'masp', 'pointsheets'];
+        Object.keys(teachers[0]).sort().forEach((teacherKey, index) => {
+          const keys = ['id', 'name', 'masp', 'pointsheets'].sort();
 
           console.log(teacherKey, keys[index])
           isValidTeacher = teacherKey === keys[index];
         });
 
         if (isValidTeacher) {
-          setSGD3Info(teachers);
-          uploudSGD3Info();
+          setSGD3Info([...teachers]);
+          uploudSGD3Info(teachers);
         }
         else console.log('Wrong File.');
       }
@@ -172,13 +176,11 @@ function SpreadSheets() {
     fileReader.onerror = error => console.log(error);
   }
 
-  const uploudSGD3Info = async () => {
-    const teachers = sgd3Info.map(info => {
+  const uploudSGD3Info = async (data: Teacher[]) => {
+    const teachers = data.map(info => {
       const pointsheets = info.pointsheets!.map(sheet => {
         return {
           ...sheet,
-          schedules: [],
-          semester,
         };
       });
 
@@ -188,15 +190,35 @@ function SpreadSheets() {
       };
     });
 
-    for (const teacher of teachers) {
-      if (teacher.pointsheets.length !== 0)
+    const filteredTeachers: Teacher[] = [];
+
+    teachers.forEach(e => {
+      if (!filteredTeachers.some(teach => teach.name === e.name)) filteredTeachers.push(e);
+      else {
+        const teacher = filteredTeachers.find((teach, index) => teach.name === e.name);
+        const index = filteredTeachers.indexOf(teacher!);
+        const sheets = e.pointsheets;
+
+        sheets.forEach(sheet => {
+          if (!teacher?.pointsheets?.some(p => p === sheet))
+            filteredTeachers[index].pointsheets?.push(sheet);
+        });
+      }
+    });
+
+    for (const teacher of filteredTeachers) {
+      if (teacher.pointsheets!.length !== 0)
         try {
           await addDoc(teachersCollectionRef, teacher);
-          setIsDataUplouded(true);
         } catch (e) {
+          setError(true);
           console.log(e);
         }
     }
+
+    if (!error)
+      setIsDataUplouded(true);
+
   }
 
   const boxButtons = [
@@ -234,11 +256,15 @@ function SpreadSheets() {
       title={title!}
       func={button.func}
       path={button.path}
-      disabled={teachers.length > 0 && title === 'Inserir dados'}
+      disabled={teachers.length > 0 && title === 'Inserir dados' || teachers.length === 0 && title === 'Folhas de ponto'}
     />
   });
 
   const deleteTeacher = async (id: string) => {
+    const answer = window.confirm(`Tem certeza que deseja remover o usuário?`);
+
+    if (!answer) return;
+
     const teacherDoc = doc(db, "teachers", id);
     await deleteDoc(teacherDoc);
 
@@ -253,7 +279,27 @@ function SpreadSheets() {
 
   useEffect(() => {
     document.title = 'SGCFP - Dados';
+
+    const formatedTeachers = teachers.map(teacher => {
+      const pointsheets = teacher.pointsheets!.map(e => ({
+        period: e.period,
+        workload: e.workload,
+        course: e.course,
+        discipline: e.discipline,
+        schedules: e.schedules,
+      }));
+
+      return {
+        ...teacher,
+        pointsheets,
+      }
+    });
   }, []);
+
+  const reloadPage = () => {
+    navigate('/');
+    window.location.reload();
+  }
 
   return (
     <section>
@@ -275,27 +321,32 @@ function SpreadSheets() {
         <Button
           title="Atualizar"
           style={buttonStyle}
+          onClick={reloadPage}
         />
       </div>
 
-      <div className="search--box">
-        <Search
-          handleSearch={handleSearch}
-        />
-      </div>
+      {teachers.length > 0 && (
+        <>
+          <div className="search--box">
+            <Search
+              handleSearch={handleSearch}
+            />
+          </div>
 
-      <table className='data-table'>
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Masp</th>
-            <th>Ficha</th>
-          </tr>
-        </thead>
-        <tbody>
-          {teachersElements}
-        </tbody>
-      </table>
+          <table className='data-table'>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Masp</th>
+                <th>Ficha</th>
+              </tr>
+            </thead>
+            <tbody>
+              {teachersElements}
+            </tbody>
+          </table>
+        </>
+      )}
     </section >
   )
 }

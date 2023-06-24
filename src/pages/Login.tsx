@@ -1,6 +1,3 @@
-import { useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-
 import { useAuthContext } from '../contexts';
 
 import { FcGoogle } from 'react-icons/fc';
@@ -8,25 +5,12 @@ import { FcGoogle } from 'react-icons/fc';
 import '../styles/Login.scss';
 
 function Login() {
-    const { authUser, login } = useAuthContext();
+    const { login } = useAuthContext();
 
-    const navigate = useNavigate();
 
     const handleGoogleLogin = () => {
         login();
     }
-
-    useEffect(() => {
-
-        if (authUser !== null) navigate('/');
-
-        document.title = 'SGCFP - Fazer Acesso';
-    }, []);
-
-    useEffect(() => {
-
-        if (authUser !== null) navigate('/');
-    }, [authUser]);
 
     return (
         <div className="container--login">

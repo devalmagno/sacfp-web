@@ -48,8 +48,6 @@ function TutoringSheetRow(props: TutoringSheetRowType) {
             discipline,
             workload,
             schedules,
-            course_code: '',
-            semester,
         };
 
         if (props.teacher.id === '' || !props.teacher.pointsheets) return;

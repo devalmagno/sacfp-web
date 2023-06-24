@@ -3,6 +3,7 @@ import { EadSchoolDays, ScheduleEad, ScheduleReplacement, TeacherPointSheet } fr
 import '../styles/NormalPointsheet.scss';
 import { useDataContext, useRenderReplacementContext } from "../contexts";
 import { getSchoolDaysList } from "../utils";
+import { Fragment } from "react";
 
 type Props = {
     pointsheet: TeacherPointSheet;
@@ -50,10 +51,10 @@ function EadPointsheet(props: Props) {
         });
 
         const classElements = (
-            <>
+            <Fragment key={`${day.month}`}>
                 <caption><strong>{day.month}</strong></caption>
                 {dayElements}
-            </>
+            </Fragment>
         );
 
         return classElements;

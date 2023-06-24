@@ -6,6 +6,7 @@ import Settings from './Settings';
 import AddTeacher from './AddTeacher';
 import Login from './Login';
 import ErrorPage from './ErrorPage';
+import FirstAcess from './FirstAcess';
 
 export {
     Home,
@@ -15,5 +16,6 @@ export {
     SpreadSheets,
     AddTeacher,
     Login,
-    ErrorPage
+    ErrorPage,
+    FirstAcess
 };

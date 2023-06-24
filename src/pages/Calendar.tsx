@@ -37,8 +37,8 @@ function Calendar() {
   const createNewCalendar = async () => {
     const { id } = await addDoc(calendarCollectionRef, {
       semester,
-      startDate,
-      endDate
+      start_date: startDate,
+      end_date: endDate
     });
 
     setCalendar({
@@ -56,16 +56,15 @@ function Calendar() {
 
     const newCalendar = {
       ...calendar,
-      startDate,
-      endDate,
+      start_date: startDate,
+      end_date: endDate,
     };
 
+    if (!calendar.id) return;
+    const calendarDoc = doc(db, "semesters", newCalendar.id);
+    await updateDoc(calendarDoc, newCalendar);
     setCalendar(newCalendar);
 
-    if (!calendar.id) return;
-    const calendarDoc = doc(db, "semesters", calendar.id);
-
-    await updateDoc(calendarDoc, calendar);
     toggleIsDisabled();
   }
 
