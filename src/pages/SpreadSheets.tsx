@@ -159,7 +159,7 @@ function SpreadSheets() {
         let isValidTeacher = false;
 
         Object.keys(teachers[0]).sort().forEach((teacherKey, index) => {
-          const keys = ['id', 'name', 'masp', 'pointsheets'].sort();
+          const keys = ['name', 'masp', 'pointsheets'].sort();
 
           console.log(teacherKey, keys[index])
           isValidTeacher = teacherKey === keys[index];
