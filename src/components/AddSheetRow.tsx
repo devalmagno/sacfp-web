@@ -75,7 +75,7 @@ function AddSheetRow(props: AddSheetRow) {
 
         setTimeout(() => {
             props.setShow();
-        }, 2500);
+        }, 1000);
     }
 
     useEffect(() => {

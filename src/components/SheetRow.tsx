@@ -104,13 +104,13 @@ function SheetRow(props: SheetRowProps) {
         if (!props.teacher.id) return;
         const teacherDoc = doc(db, "teachers", props.teacher.id);
         const sheetIndex = props.teacher.pointsheets!.indexOf(props.sheet);
-        let updatedSheets = props.teacher.pointsheets;
+        let updatedSheets = props.teacher.pointsheets ? [...props.teacher.pointsheets] : [];
         updatedSheets!.splice(sheetIndex, 1);
+
         const updatedTeacher: Teacher = {
             ...props.teacher,
             pointsheets: updatedSheets,
         };
-        console.log(updatedTeacher);
 
         await updateDoc(teacherDoc, updatedTeacher);
         props.setTeacher(updatedTeacher);
@@ -120,10 +120,9 @@ function SheetRow(props: SheetRowProps) {
         teachersList.splice(indexTeacher, 1);
         teachersList.push(updatedTeacher);
 
-        setTeachers(teachersList);
+        setTeachers([...teachersList]);
 
-        // toggleIsDisabled();
-        // setShowSucessPopUp(true);
+        setShowSucessPopUp(true);
     }
 
     return (
