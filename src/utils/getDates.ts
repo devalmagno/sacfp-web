@@ -67,6 +67,7 @@ const getDates = (props: GetDateProps) => {
 
     const schoolDays = createSchoolDaysList(classDatesByWorkload);
 
+    console.log(schoolDays);
     return schoolDays;
 }
 

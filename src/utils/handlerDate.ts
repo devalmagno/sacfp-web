@@ -10,21 +10,22 @@ export const convertStringToDate = (value: string) => {
 }
 
 export const convertDateToString = (value: Date) => {
-    const date = value.getDate();
-    const month = value.getMonth();
-    const year = value.getFullYear();
+    // const date = value.getDate();
+    // const month = value.getMonth();
+    // const year = value.getFullYear();
 
-    let string = '';
+    // let string = '';
 
-    if (date < 10) string += `0${date}/`;
-    else string += `${date}/`;
+    // if (date < 10) string += `0${date}/`;
+    // else string += `${date}/`;
 
-    if (month < 10) string += `0${month + 1}/`;
-    else string += `${month}/`;
+    // if (month < 10) string += `0${month + 1}/`;
+    // else string += `${month}/`;
 
-    string += year;
+    // string += year;
 
-    return string.toString();
+    // return string.toString();
+    return value.toLocaleDateString();
 }
 
 export const isValidDate = (value: string, semester: string) => {
