@@ -67,7 +67,6 @@ const getDates = (props: GetDateProps) => {
 
     const schoolDays = createSchoolDaysList(classDatesByWorkload);
 
-    console.log(schoolDays);
     return schoolDays;
 }
 
@@ -86,7 +85,7 @@ const checkIfHasClassInThisDate = (date: Date, schedules: FormatedSchedules[], c
             })[0];
 
         if (isSchoolSaturday)
-            has = schedules.some(sch => sch.dayName === isSchoolSaturday.reference_day)
+            has = schedules.some(sch => sch.dayName === isSchoolSaturday.reference_day);
     }
     return has;
 }
@@ -123,7 +122,7 @@ const getFormatedSchedules = (schedules: Schedules[]) => {
                 break;
             case 'quarta':
                 day = 3;
-                dayName = 'wedsnesday';
+                dayName = 'wednesday';
                 break;
             case 'quinta':
                 day = 4;
@@ -151,6 +150,7 @@ const getFormatedSchedules = (schedules: Schedules[]) => {
 
 const createDateList = (date: Date, schedules: FormatedSchedules[], calendar: Calendar) => {
     const dayNumber = date.getDay() === 6 ? getSaturdayClassesNumber(date, calendar) : date.getDay();
+    if (date.getDay() === 6) console.log(dayNumber);
 
     const schedule = schedules.find(sch => sch.day === dayNumber);
 
@@ -293,7 +293,7 @@ const getReferenceDayNumber = (dayName: string) => {
         case 'tuesday':
             day = 2;
             break;
-        case 'wedsnesday':
+        case 'wednesday':
             day = 3;
             break;
         case 'thursday':
