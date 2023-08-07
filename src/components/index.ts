@@ -14,6 +14,7 @@ import NormalPointsheet from './NormalPointsheet';
 import ReplacementPointsheet from './ReplacementPointsheet';
 import EadPointsheet from './EadPointsheet';
 import PointsheetComplementModel from './PointsheetComplementModel';
+import SelectCurrentSemester from './SelectCurrentSemester';
 
 export {
     Header,
@@ -31,5 +32,6 @@ export {
     PointsheetEadModel,
     ReplacementPointsheet,
     EadPointsheet,
-    PointsheetComplementModel
+    PointsheetComplementModel,
+    SelectCurrentSemester,
 };

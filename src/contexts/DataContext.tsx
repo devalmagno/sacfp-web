@@ -52,6 +52,7 @@ export function DataContextComponent(props: Props) {
     const [config, setConfig] = useState<Config>({
         id: '',
         departament: '',
+        semester: '',
     });
 
     const [courseList, setCourseList] = useState<string[]>([]);
@@ -105,8 +106,9 @@ export function DataContextComponent(props: Props) {
     }, [teachers])
 
     useEffect(() => {
-        const currentCalendar = calendarList.filter(calendar => calendar.semester === semester);
+        const currentCalendar = calendarList.filter(calendar => calendar.semester === config.semester);
         setCalendar(currentCalendar[0])
+        setSemester(config.semester)
     }, [calendarList, semester]);
 
     return (

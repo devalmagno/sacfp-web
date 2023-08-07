@@ -11,6 +11,7 @@ import ReplacementDate from './ReplacementDate';
 import EadDate from './EadDate';
 import DateInfo from './DateInfo';
 import CardEmail from './CardEmail';
+import Details from './Details';
 
 export {
     BoxButton,
@@ -24,5 +25,6 @@ export {
     InputSemester,
     ReplacementDate,
     DateInfo,
-    EadDate
+    EadDate,
+    Details
 };

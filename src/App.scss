@@ -171,3 +171,7 @@ h4, h3, .no-select {
 input[type="range"]::-webkit-slider-thumb {
     background-color: $primary-color;
 }
+
+summary {
+    font-weight: 600;
+}

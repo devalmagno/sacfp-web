@@ -1,0 +1,14 @@
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 20rem;
+
+    .summary {
+        display: flex;
+        gap: .5rem;
+        align-items: center;
+
+        cursor: pointer;
+    }
+}

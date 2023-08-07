@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Input, InputSemester } from '../ui';
+import { Button, Details, Input, InputSemester } from '../ui';
 import { useAuthContext, useDataContext } from '../contexts';
 
 import '../styles/Settings.scss';
@@ -8,6 +8,7 @@ import { db } from '../services/firebaseConfig';
 import CardEmail from '../ui/CardEmail';
 import CardInput from '../ui/CardInput';
 import { User } from '../types/DataTypes';
+import { SelectCurrentSemester } from '../components';
 
 type selectedSemester = {
   semester: number;
@@ -124,7 +125,7 @@ function Settings() {
       departament: departamentName,
     });
 
-    setConfig({ id, departament: departamentName });
+    setConfig({ id, departament: departamentName, semester });
   }
 
   const addNewSemester = async () => {
@@ -203,8 +204,7 @@ function Settings() {
         <h4>Configurações</h4>
 
         <div className="settings--content">
-          <div className="column">
-            <strong>Sobre o departamento</strong>
+          <Details title='Sobre o departamento'>
             <Input
               value={departamentName}
               setValue={setDepartamentName}
@@ -225,66 +225,72 @@ function Settings() {
                   onClick={addNewConfig}
                 /> : ''
             }
-          </div>
+          </Details>
 
-          <div className="semester column">
-            <strong>Semestre letivo</strong>
+          <Details title='Semestre letivo' isOpen={true}>
+            <div className="semester column">
+              {semester !== '' && (
+                <div className="current-semester">
+                  <strong className='subtext'>Atual</strong>
+                  <span className='subtext'>{semester}{calendar?.acronym}</span>
+                </div>
+              )}
 
-            {semester !== '' && (
-              <div className="current-semester">
-                <strong className='subtext'>Atual</strong>
-                <span className='subtext'>{semester}{calendar?.acronym}</span>
+              <div className="add-semester">
+                <strong className='subtext'>Adicionar Semestre</strong>
+                <span className='subtext'>Selecione o semestre</span>
+                <div className="box--container">
+                  {semesterElements}
+                </div>
+                <span className='subtext'>Selecione o ano</span>
+                <div className="box--container">
+                  {yearElements}
+                </div>
+
+                <Button
+                  title='Adicionar novo semestre'
+                  onClick={addNewSemester}
+                />
               </div>
-            )}
 
-            <div className="add-semester">
-              <strong className='subtext'>Adicionar Semestre</strong>
-              <span className='subtext'>Selecione o semestre</span>
-              <div className="box--container">
-                {semesterElements}
+              <form className="column" onSubmit={createNewCalendar}>
+                <strong className='subtext'>Adicionar novo calendário</strong>
+                <Input
+                  label='Sigla'
+                  value={acronym}
+                  setValue={setAcronym}
+                  isDisabled={false}
+                  maxLength={3}
+                />
+                <Button
+                  title='Adicionar'
+                  style={buttonStyle}
+                  submit={true}
+                />
+              </form>
+            </div>
+          </Details>
+
+          <Details title="Semestre letivo padrão">
+                <SelectCurrentSemester />
+          </Details>
+
+          <Details title='Usuários'>
+            <div className="user--settings column">
+              <strong className='no-select'>Usuários</strong>
+
+              <div className="users-input column">
+                <CardInput
+                  users={users}
+                  setUsers={setUsers}
+                />
               </div>
-              <span className='subtext'>Selecione o ano</span>
-              <div className="box--container">
-                {yearElements}
+
+              <div className="users--container column">
+                {usersElements}
               </div>
-
-              <Button
-                title='Adicionar novo semestre'
-                onClick={addNewSemester}
-              />
             </div>
-
-            <form className="column" onSubmit={createNewCalendar}>
-              <strong className='subtext'>Adicionar novo calendário</strong>
-              <Input
-                label='Sigla'
-                value={acronym}
-                setValue={setAcronym}
-                isDisabled={false}
-                maxLength={3}
-              />
-              <Button
-                title='Adicionar'
-                style={buttonStyle}
-                submit={true}
-              />
-            </form>
-          </div>
-
-          <div className="user--settings column">
-            <strong className='no-select'>Usuários</strong>
-
-            <div className="users-input column">
-              <CardInput
-                users={users}
-                setUsers={setUsers}
-              />
-            </div>
-
-            <div className="users--container column">
-              {usersElements}
-            </div>
-          </div>
+          </Details>
         </div>
       </div>
     </section>

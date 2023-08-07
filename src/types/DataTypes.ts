@@ -44,6 +44,7 @@ export type Activity_dates = {
 export type Config = {
   id: string;
   departament: string;
+  semester: string;
 }
 
 export type ScheduleReplacement = {
