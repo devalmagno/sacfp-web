@@ -82,6 +82,7 @@ const checkIfHasClassInThisDate = (date: Date, schedules: FormatedSchedules[], c
             .filter(e => {
                 if (e.type === 'school_saturday' && e.date === convertDateToString(date))
                     return e;
+                if (e.type === 'fepeg') return e;
             })[0];
 
         if (isSchoolSaturday)

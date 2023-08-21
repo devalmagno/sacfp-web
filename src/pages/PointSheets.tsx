@@ -102,7 +102,26 @@ function PointSheets() {
       case 'Curso':
         handleSearchByCourse(value);
         break;
+      case 'Dia':
+        handleSearchByDay(value);
     }
+  }
+
+  const handleSearchByDay = (value: string) => {
+    const searchDisciplineList = disciplineList.filter(elem => {
+      const search = value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").substring(0, 3);
+      const name = elem.sheet != undefined && elem.sheet.schedules ? elem.sheet.schedules.map(e => e.day).toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") : '';
+
+      return name.includes(search);
+    });
+
+    let filteredList: TeacherPointSheet[] = [];
+
+    searchDisciplineList.forEach(elem => {
+      if (!filteredList.includes(elem)) filteredList.push(elem);
+    })
+
+    setFilteredDisciplineList(filteredList);
   }
 
   const handleSearchByTeacher = (value: string) => {
@@ -157,6 +176,17 @@ function PointSheets() {
 
   }
 
+  function downloadAllPointsheetsByFilter() {
+    filteredDisciplineList.forEach(e => {
+      generateDocument({
+        calendar,
+        pointsheet: e,
+        save: true,
+        semester: calendar.semester,
+      })
+    });
+  }
+
   useEffect(() => {
     document.title = 'SGCFP - Folhas de Ponto';
 
@@ -207,7 +237,15 @@ function PointSheets() {
               sheet={currentPointsheet!}
               show={handleShowPointsheetInfo}
             /> :
-            disciplineElements
+            (
+              <>
+                <div className="download-all" onClick={downloadAllPointsheetsByFilter}>
+                  <BiDownload fill="#333A56" size={16} />
+                  <strong>Baixar todas as folhas de ponto filtradas</strong>
+                </div>
+                {disciplineElements}
+              </>
+            )
           }
         </div>
       </div>

@@ -13,7 +13,7 @@ function Search(props: SearchProps) {
   const [title, setTitle] = useState("Professor");
   const [showSearchOptions, setShowSearchOptions] = useState(false);
 
-  const titleList = ["Professor", "Disciplina", "Curso"];
+  const titleList = ["Professor", "Disciplina", "Curso", "Dia"];
 
   const inputElement = useRef<HTMLInputElement | null>(null);
 
