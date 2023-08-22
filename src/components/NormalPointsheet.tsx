@@ -1,4 +1,5 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
+import { IoAnalyticsOutline } from 'react-icons/io5';
 
 import { TeacherPointSheet } from "../types/DataTypes"
 
@@ -12,6 +13,9 @@ type Props = {
 
 function NormalPointsheet(props: Props) {
     const { calendar } = useDataContext();
+    const [showClassCount, setShowClassCount] = useState(false);
+
+    let classCount = 0;
 
     const schoolDays = getDates({
         calendar,
@@ -20,20 +24,31 @@ function NormalPointsheet(props: Props) {
     });
 
     const schoolDaysElements = schoolDays.map((day, index) => {
+
         const dayElements = day.schedules.map(sch => {
-            return (
-                <tr key={`${sch.date}${sch.time}`}>
-                    <td>{sch.date}</td>
-                    <td>{sch.time}º</td>
-                    <td>{sch.description}</td>
-                </tr>
-            )
+            if (showClassCount && sch.description === '' || sch.description === 'FEPEG') {
+                classCount++;
+                return (
+                    <tr key={`${sch.date}${sch.time}`}>
+                        <td>{sch.date}</td>
+                        <td>{sch.time}º</td>
+                        <td>{sch.description !== '' ? `${sch.description} - Aula ${classCount}` : `Aula ${classCount}`}</td>
+                    </tr>
+                )
+            } else
+                return (
+                    <tr key={`${sch.date}${sch.time}`}>
+                        <td>{sch.date}</td>
+                        <td>{sch.time}º</td>
+                        <td>{sch.description}</td>
+                    </tr>
+                )
         });
 
         const classElements = (
             <Fragment key={`${day.schedules[0].date}${index}`}>
-                    <caption><strong>{day.month}</strong></caption>
-                    {dayElements}
+                <caption><strong>{day.month}</strong></caption>
+                {dayElements}
             </Fragment>
         );
 
@@ -46,6 +61,11 @@ function NormalPointsheet(props: Props) {
                 Folha de Frequência - {' '}
                 {props.pointsheet.sheet.course}
             </strong>
+            <div className="count-classes" onClick={() => { setShowClassCount(state => !state) }}>
+                <IoAnalyticsOutline fill="#333A56" size={16} />
+                <strong>Contar Aulas</strong>
+            </div>
+
             <div className="pointsheet--header">
                 <div className="info">
                     <strong>Professor</strong>

@@ -11,6 +11,26 @@
     box-shadow: $box-shadow-hover;
     border-radius: 4px;
 
+    .count-classes {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        align-self: flex-start;
+        box-shadow: $box-shadow-input;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all .3s ease;
+
+        strong {
+            font-size: 14px;
+        }
+
+        &:hover {
+            box-shadow: $box-shadow-hover;
+        }
+    }
+
     .pointsheet--header {
         display: flex;
         flex-wrap: wrap;

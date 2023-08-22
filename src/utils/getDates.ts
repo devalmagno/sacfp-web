@@ -82,7 +82,6 @@ const checkIfHasClassInThisDate = (date: Date, schedules: FormatedSchedules[], c
             .filter(e => {
                 if (e.type === 'school_saturday' && e.date === convertDateToString(date))
                     return e;
-                if (e.type === 'fepeg') return e;
             })[0];
 
         if (isSchoolSaturday)
@@ -151,8 +150,6 @@ const getFormatedSchedules = (schedules: Schedules[]) => {
 
 const createDateList = (date: Date, schedules: FormatedSchedules[], calendar: Calendar) => {
     const dayNumber = date.getDay() === 6 ? getSaturdayClassesNumber(date, calendar) : date.getDay();
-    if (date.getDay() === 6) console.log(dayNumber);
-
     const schedule = schedules.find(sch => sch.day === dayNumber);
 
     let dates: DateProps[] = [];
@@ -321,6 +318,7 @@ const getClassDatesByWorkloadAsLength = (list: DateProps[], workload: number, ca
             })?.type;
 
             if (type === 'school_saturday') return e;
+            if (type === 'fepeg') return e;
             else noClassesDates.push(e);
         } else return e;
     });
