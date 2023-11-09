@@ -62,7 +62,7 @@ const generateDocument = (props: Props) => {
 
             const out = doc.getZip().generate({
                 type: 'blob',
-                MimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                // MimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                 compression: "DEFLATE",
             });
 

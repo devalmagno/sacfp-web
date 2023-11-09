@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { EadInfo, TeacherPointSheet } from "../types/DataTypes";
 import { useDataContext, useRenderReplacementContext } from "../contexts";
 import { generateComplementDocument, generateEadDocument } from "../utils";
+import DynamicTextarea from "./DynamicTextArea";
 
 type Props = {
     sheet: TeacherPointSheet;
@@ -15,20 +16,22 @@ function PointsheetComplementModel({ sheet }: Props) {
     const { eadInfo: complementInfo, setEadInfo: setComplementInfo, setType, type, observation, setObservation } = useRenderReplacementContext();
 
     const [showContent, setShowContent] = useState(false);
+    const [option, setOption] = useState('');
 
     const { config, semester, calendar } = useDataContext();
 
     const observationList = [
         "Complemento de carga horária.",
-        "O professor ministrou as aulas, mas não assinou o ponto, sendo necessária a abertura de uma nova folha."
+        "O professor ministrou as aulas, mas não assinou o ponto, sendo necessária a abertura de uma nova folha.",
+        "Outra"
     ];
 
     const observationElements = observationList.map(elem => {
-        const isSelected = observation === elem;
+        const isSelected = option === elem;
 
         return (
             <div
-                onClick={() => setObservation(elem)}
+                onClick={() => handlerObservation(elem)}
                 className={
                     isSelected ?
                         "selectable-box selected" :
@@ -40,7 +43,14 @@ function PointsheetComplementModel({ sheet }: Props) {
                 {elem}
             </div>
         );
-    })
+    });
+
+    const customObservationElement =
+        <DynamicTextarea
+            value={observation}
+            setValue={setObservation}
+        />;
+
 
     const eadElements = complementInfo.map(elem => {
         const classTimes = elem.classTimes.filter(e => e.isSelected)
@@ -72,6 +82,12 @@ function PointsheetComplementModel({ sheet }: Props) {
         );
     });
 
+    const handlerObservation = (value: string) => {
+        setOption(value);
+        if (value !== 'Outra') setObservation(value);
+        else setObservation('');
+    }
+
     const handlerShowContent = () => {
         setShowContent(prevState => !prevState);
         setType('COMPLEMENT');
@@ -93,7 +109,7 @@ function PointsheetComplementModel({ sheet }: Props) {
 
             return {
                 ...e,
-                classTimes    
+                classTimes
             }
         });
 
@@ -156,6 +172,8 @@ function PointsheetComplementModel({ sheet }: Props) {
                         <div className="container--box">
                             {observationElements}
                         </div>
+
+                        {option === 'Outra' && customObservationElement}
                     </div>
 
                     {complementInfo.length !== 0 ? (

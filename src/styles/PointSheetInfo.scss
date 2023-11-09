@@ -1,5 +1,6 @@
 @import '../App.scss';
 @import './selectable-box.scss';
+@import './TextArea.scss';
 
 .pointsheet-info--container {
     display: flex;
@@ -78,6 +79,7 @@
             .observation--container {
                 display: flex;
                 flex-direction: column;
+                row-gap: 10px;
             }
         }
 

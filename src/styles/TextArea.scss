@@ -1,0 +1,9 @@
+@import '../App.scss';
+
+.textarea {
+    border: $disabled-border;
+    border-radius: 4px;
+    outline: none;
+    padding: 10px;
+    font-size: 13.5px;
+}

@@ -39,14 +39,6 @@ const AuthProvider = (props: Props) => {
 
     const usersCollectionRef = collection(db, "users");
 
-    const adminEmails = import.meta.env.VITE_ADMIN_EMAILS.split(',');
-    const userEmails = import.meta.env.VITE_USER_EMAILS.split(',');
-
-    const enabledEmails: string[] = [
-        ...adminEmails,
-        ...userEmails
-    ];
-
     const login = async () => {
 
         try {

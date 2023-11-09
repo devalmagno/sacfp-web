@@ -82,7 +82,7 @@ const generateReplacementDocument = (props: Props) => {
 
             const out = doc.getZip().generate({
                 type: 'blob',
-                MimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                // MimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                 compression: "DEFLATE",
             });
             saveAs(out, `${pointsheetType}_${props.pointsheet.sheet.discipline}_${props.pointsheet.name}.docx`);
