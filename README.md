@@ -1,4 +1,6 @@
 ### Timesheet Management and Creation System
+This project automates the creation of timesheets for recording teacher attendance using React for the front-end and Firebase for authentication and database management.
+You can see more about the project [here](https://www.luciomagno.com/projects/4Yp1YtRWOH6umRIUR6eg).
 
 SGCFP, or "Timesheet Management and Creation System" is a comprehensive system developed to streamline the creation and management of attendance records. Created for the Universidade Estadual de Montes Claros, SGCFP automates the generation of '.docx' files, adhering to the university's attendance standards. This system encompasses a robust database housing detailed information on professors, ensuring efficient and precise management. Its implementation has notably enhanced the ease, speed, and accuracy of daily departmental tasks, providing a valuable tool for academic administration.
 
