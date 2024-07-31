@@ -45,6 +45,7 @@ export type Config = {
   id: string;
   departament: string;
   semester: string;
+  limitPointGeneration: boolean;
 }
 
 export type ScheduleReplacement = {

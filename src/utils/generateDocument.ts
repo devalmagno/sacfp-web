@@ -12,6 +12,7 @@ interface Props {
     calendar: Calendar;
     semester: string;
     save: boolean;
+    limitPointGeneration: boolean;
 }
 
 const loadFile = (url: string, callback: (err: Error, data: string) => void) => {
@@ -20,7 +21,7 @@ const loadFile = (url: string, callback: (err: Error, data: string) => void) => 
 
 const generateDocument = (props: Props) => {
     if (!props.pointsheet.sheet.schedules) return;
-    const schoolDays = getDates({ calendar: props.calendar, schedules: props.pointsheet.sheet.schedules, workload: props.pointsheet.sheet.workload });
+    const schoolDays = getDates({ calendar: props.calendar, schedules: props.pointsheet.sheet.schedules, workload: props.pointsheet.sheet.workload, limitPointGeneration: props.limitPointGeneration });
     const semesterNumber = props.semester.split('/')[0];
     const year = props.semester.split('/')[1];
 

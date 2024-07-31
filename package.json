@@ -9,11 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@firebase/firestore": "^3.8.0",
     "axios": "^1.2.3",
     "docxtemplater": "^3.34.0",
     "file-saver": "^2.0.5",
-    "firebase": "^9.15.0",
+    "firebase": "^10.12.4",
     "pizzip": "^3.1.4",
     "react": "^18.2.0",
     "react-doc-viewer": "^0.1.5",

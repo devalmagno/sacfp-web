@@ -53,6 +53,7 @@ export function DataContextComponent(props: Props) {
         id: '',
         departament: '',
         semester: '',
+        limitPointGeneration: false,
     });
 
     const [courseList, setCourseList] = useState<string[]>([]);

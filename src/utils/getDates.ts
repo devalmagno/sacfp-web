@@ -7,6 +7,7 @@ interface GetDateProps {
     calendar: Calendar;
     schedules: Schedules[];
     workload: number;
+    limitPointGeneration: boolean;
 }
 
 interface FormatedSchedules {
@@ -63,7 +64,13 @@ const getDates = (props: GetDateProps) => {
     }
 
     const ascDates = dates.sort((a, b) => ascDateSort(a.date, b.date)).sort((a, b) => ascTimeSort(a.time, b.time, a.date, b.date));
-    const classDatesByWorkload = getClassDatesByWorkloadAsLength(ascDates, props.workload, props.calendar)
+    let classDatesByWorkload: DateProps[];
+
+    if (props.limitPointGeneration) {
+        classDatesByWorkload = getClassDatesByWorkloadAsLength(ascDates, props.workload, props.calendar)
+    } else {
+        classDatesByWorkload = getClassDatesByWorkloadAsLength(ascDates, 999, props.calendar)
+    }
 
     const schoolDays = createSchoolDaysList(classDatesByWorkload);
 
